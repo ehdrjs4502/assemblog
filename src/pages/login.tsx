@@ -9,6 +9,7 @@ export default function login() {
 
     const handleLogin = (e: FormEvent) => { // 로그인 버튼 클릭했을 때
         e.preventDefault();
+        console.log(id, pw);
         axios.post("", {
             id: id,
             pw: pw,
