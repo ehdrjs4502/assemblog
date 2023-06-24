@@ -56,7 +56,7 @@ export default function signup() {
         } catch (error:any) {
             alert(error.response.data); // 인풋창 헬퍼 텍스트로 나오게끔 바꿔야함!!
             console.error(error.response.data); // 요청 실패 또는 응답을 받지 못했을 때 에러 출력
-        }
+        }[]
     };
 
     return (

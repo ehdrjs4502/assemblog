@@ -60,6 +60,9 @@ export default function login() {
                 <Link href="/signup">
                     <span>회원가입 하러가기</span>
                 </Link>
+                <Link href="/">
+                    <span>메인화면으로 이동</span>
+                </Link>
             </Stack>
         </div>
     )

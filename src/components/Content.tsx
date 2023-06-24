@@ -3,7 +3,6 @@ export default function Content() {
       <div className="content">
         <h3>글 목록</h3>
 
-
         <style jsx>{`
 
         .container {

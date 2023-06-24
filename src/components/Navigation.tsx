@@ -7,8 +7,6 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import MoreIcon from '@mui/icons-material/MoreVert';
-
 
 export default function Navigation( { contentRef }: any ) {
     const [scrollPosition, setScrollPosition] = useState(0);
@@ -16,13 +14,13 @@ export default function Navigation( { contentRef }: any ) {
     const originalStyle = {
         position: "absolute", 
         backgroundColor: "white", 
-        opacity: 0.8,
+        opacity: 0.9,
     }
 
     const changeStyle = {
         position: "fixed", 
         backgroundColor: "white", 
-        opacity: 0.8,
+        opacity: 0.9,
     }
 
     const updateScroll = () => {
