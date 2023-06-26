@@ -15,7 +15,7 @@ export default function login() {
     const title = 'Login';
     const [email, setEmail] = useState<string>('');
     const [pw, setPW] = useState<string>(''); 
-    const [idCheck, setIDCheck] = useState<Boolean>(true);
+    const [emailCheck, setEmailCheck] = useState<Boolean>(true);
     const [pwCheck, setPWCheck] = useState<Boolean>(true);
 
     const cookie = new Cookies(); // 로그인 refreshToken 담을 겁니당
@@ -25,10 +25,10 @@ export default function login() {
 
     const handleLogin = (e: FormEvent) => { // 로그인 버튼 클릭했을 때 함수
         e.preventDefault();
-        if(email === '') {
-            setIDCheck(false);
+        if(email === '') { // 이메일 인풋 비어있으면
+            setEmailCheck(false);
             idRef.current?.focus();
-        } else if(pw === '') {
+        } else if(pw === '') { // 패스워드 인풋 비어있으면
             setPWCheck(false);
             pwRef.current?.focus();
         } else {
@@ -43,13 +43,19 @@ export default function login() {
             const response = await axios.post('/users/login', inputData); // 로그인 응답 값
             console.log(response);
             if(response.statusText === 'OK') { // 로그인이 성공하면
-                const accessToken = response.headers;
-                const refreshToken = response.headers;
+                const accessToken = response.headers['access-token']; // jwt 액세스 토큰
+                const refreshToken = response.headers['refresh-token']; // jwt 리프레쉬 토큰
                 cookie.set("refreshToken", refreshToken, {
                     path: "/", // 모든 경로에서 쿠키 사용하겠다는 뜻
                     secure: true,
                 })
-                router.push("/");
+                cookie.set("accessToken", accessToken, {
+                    path: "/", // 모든 경로에서 쿠키 사용하겠다는 뜻
+                    secure: true,
+                })
+                router.push({
+                    pathname: '/', 
+                },'/');
             }
         } catch (error) {
           console.error(error); // 요청 실패 또는 응답을 받지 못했e을 때 에러 출력
@@ -69,7 +75,7 @@ export default function login() {
                 noValidate
                 autoComplete="off"
                 onSubmit={handleLogin}>
-                <TextField id="outlined-basic" label="Email" variant="outlined" type="text" size="small" error={!idCheck} helperText={idCheck ? "" : "아이디를 입력해주세요"} onChange={(e) => {setEmail(e.target.value); setIDCheck(true)}} inputRef={idRef}/>
+                <TextField id="outlined-basic" label="Email" variant="outlined" type="text" size="small" error={!emailCheck} helperText={emailCheck ? "" : "아이디를 입력해주세요"} onChange={(e) => {setEmail(e.target.value); setEmailCheck(true)}} inputRef={idRef}/>
                 <TextField id="outlined-basic" label="Password" variant="outlined" type="password" size="small" error={!pwCheck} helperText={pwCheck ? "" : "비밀번호를 입력해주세요"} onChange={(e) => {setPW(e.target.value); setPWCheck(true)}} inputRef={pwRef}/>
                 <Button type="submit" variant="contained">로그인</Button>
                 <Link href="/signup">

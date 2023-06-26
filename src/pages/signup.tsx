@@ -48,7 +48,7 @@ export default function signup() {
         try {
             console.log(inputData);
             const response = await axios.post('/users/signup', inputData); // 회원가입 응답 값
-            console.log("res : ", response.statusText);
+            console.log("res : ", response);
             if(response.statusText === 'OK') {
                 alert("회원가입 성공!");
                 router.push("/login");

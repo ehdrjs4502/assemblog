@@ -1,19 +1,22 @@
 import HeadTitle from "@/components/HeadTitle"
-import Header from "@/components/Header";
+import Introduction from "@/components/Introduction";
 import Navigation from "@/components/Navigation";
 import Content from "@/components/Content";
-import { useRef } from "react";
-
+import { useRef, useState, useEffect } from "react";
+import { useRouter } from "next/router";
 
 export default function Home() {
   const title = 'Main';
   const contentRef = useRef(null);
+  const router = useRouter();
+
+
 
   return (
     <div>
       <HeadTitle title={title}/>
-      <Navigation contentRef={contentRef}/>
-      <Header/>
+      <Navigation contentRef={contentRef} />
+      <Introduction/>
       <div ref={contentRef}>
         <Content/>
       </div>
