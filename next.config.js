@@ -5,7 +5,7 @@ const nextConfig = {
     return [
       {
         source: "/:path*",
-        destination: "https://ac9f-211-226-166-75.ngrok-free.app/:path*",
+        destination: "https://bacd-211-226-166-75.ngrok-free.app/:path*",
       },
     ];
   },

@@ -46,16 +46,13 @@ export default function signup() {
 
     const register = async (inputData: inputData) => { // 회원가입 api 요청 함수
         try {
-            console.log(inputData);
             const response = await axios.post('/users/signup', inputData); // 회원가입 응답 값
-            console.log("res : ", response);
-            if(response.statusText === 'OK') {
+            if(response.status === 200) {
                 alert("회원가입 성공!");
                 router.push("/login");
             }
         } catch (error:any) {
             alert(error.response.data); // 인풋창 헬퍼 텍스트로 나오게끔 바꿔야함!!
-            console.error(error.response.data); // 요청 실패 또는 응답을 받지 못했을 때 에러 출력
         }[]
     };
 

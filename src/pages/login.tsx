@@ -38,13 +38,11 @@ export default function login() {
     }
 
     const login = async (inputData: inputData) => { // 로그인 api 요청 함수
-        console.log("인풋 데이타 : ",inputData)
         try {
             const response = await axios.post('/users/login', inputData); // 로그인 응답 값
-            console.log(response);
-            if(response.statusText === 'OK') { // 로그인이 성공하면
-                const accessToken = response.headers['access-token']; // jwt 액세스 토큰
-                const refreshToken = response.headers['refresh-token']; // jwt 리프레쉬 토큰
+            if(response.status === 200) { // 로그인이 성공하면
+                const accessToken = response.headers.accesstoken; // jwt 액세스 토큰
+                const refreshToken = response.headers.refreshtoken; // jwt 리프레쉬 토큰
                 cookie.set("refreshToken", refreshToken, {
                     path: "/", // 모든 경로에서 쿠키 사용하겠다는 뜻
                     secure: true,
@@ -53,12 +51,16 @@ export default function login() {
                     path: "/", // 모든 경로에서 쿠키 사용하겠다는 뜻
                     secure: true,
                 })
+                cookie.set("email", response.data, {
+                    path: "/",
+                    secure: true,
+                })
                 router.push({
                     pathname: '/', 
                 },'/');
             }
-        } catch (error) {
-          console.error(error); // 요청 실패 또는 응답을 받지 못했e을 때 에러 출력
+        } catch (error: any) {
+            alert(error.response.data);
         }
     };
 
