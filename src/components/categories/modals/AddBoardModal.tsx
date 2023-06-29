@@ -1,22 +1,26 @@
-import { Box, Button, Modal, TextField, Typography } from '@mui/material'
-import axios from 'axios'
-import { useRef, useState } from 'react'
-import { Cookies } from 'react-cookie'
+import { Box, Button, Modal, TextField, Typography } from "@mui/material"
+import axios from "axios"
+import { useRef, useState } from "react"
+import { Cookies } from "react-cookie"
 
 interface Props {
-    onClose: () => void
-    isOpen: boolean
+    onClose: () => void,
+    isOpen: boolean,
+    categoyID: string,
+    categoryTitle: string,
     cookie: {
         email: string
         refToken: string
         accToken: string
-    }
+    },
+
+    getCategories: () => void
 }
 
-export default function AddCategoryModal({ onClose, isOpen, cookie: cookie }: Props) {
-    const [title, setTitle] = useState<string>('') // 카테고리명
-    const titleRef = useRef() // 카테고리명 인풋창
-    const newCookie = new Cookies()
+export default function AddBoardModal({ onClose, isOpen, categoyID, categoryTitle, cookie: cookie, getCategories }:Props) {
+    const [title, setTitle] = useState<string>('') // 게시판명
+    const titleRef = useRef() // 게시판명 인풋창
+    const newCookie = new Cookies();
 
     const style = {
         // 모달 창 스타일
@@ -32,11 +36,13 @@ export default function AddCategoryModal({ onClose, isOpen, cookie: cookie }: Pr
         p: 4,
     }
 
-    const addCategory = async () => {
+    const addBoard = async () => {
+        console.log(categoyID, title);
         try {
             const responce = await axios.post(
-                '/categories',
+                'api/boards',
                 {
+                    parentId: categoyID,
                     title: title,
                 },
                 {
@@ -54,14 +60,16 @@ export default function AddCategoryModal({ onClose, isOpen, cookie: cookie }: Pr
                     path: '/',
                     secure: true,
                 })
+
             }
 
-            console.log(responce)
+            console.log(responce);
 
             if (responce.data === 'Duplicate category title') {
-                alert('이미 추가된 카테고리입니다.')
+                alert('이미 추가된 게시판입니다.')
             } else {
-                onClose()
+                getCategories();
+                onClose();
             }
         } catch (error: any) {
             alert(error.response.data.message)
@@ -76,9 +84,9 @@ export default function AddCategoryModal({ onClose, isOpen, cookie: cookie }: Pr
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description">
                 <Box sx={style}>
-                    <Typography sx={{ marginBottom: 3 }}>카테고리 추가</Typography>
+                    <Typography sx={{ marginBottom: 3, fontSize: 20 }}>{categoryTitle} 게시판 추가</Typography>
                     <TextField
-                        label="카테고리명"
+                        label="게시판명"
                         id="standard-size-small"
                         size="small"
                         variant="standard"
@@ -90,29 +98,26 @@ export default function AddCategoryModal({ onClose, isOpen, cookie: cookie }: Pr
                         }}
                     />
                     <div className="modal-button-container">
-                        <Button sx={{ marginRight: 2 }} onClick={() => onClose()} variant="outlined" size="small">
+                        <Button
+                            sx={{ marginRight: 2 }}
+                            onClick={() => onClose()}
+                            variant="outlined"
+                            size="small">
                             취소
                         </Button>
-                        <Button
-                            onClick={() => {
-                                addCategory()
-                            }}
-                            variant="contained"
-                            size="small">
+                        <Button onClick={() => {addBoard()}} variant="contained" size="small">
                             추가
                         </Button>
                     </div>
                 </Box>
             </Modal>
 
-            <style jsx>
-                {`
-                    .modal-button-container {
-                        margin-top: 20px;
-                        float: right;
-                    }
-                `}
-            </style>
+            <style jsx>{`
+                .modal-button-container {
+                    margin-top: 20px;
+                    float: right;
+                }
+            `}</style>
         </>
     )
 }

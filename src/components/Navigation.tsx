@@ -8,10 +8,11 @@ import Typography from '@mui/material/Typography'
 import MenuIcon from '@mui/icons-material/Menu'
 import SearchIcon from '@mui/icons-material/Search'
 import { Drawer } from '@mui/material'
-import Category from './Category'
+import Category from './categories/Category'
 import DrawerHeader from './DrawerHeader'
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 
-export default function Navigation({ contentRef }: any, { accessToken }: any) {
+export default function Navigation({ contentRef }: any) {
     const [scrollPosition, setScrollPosition] = useState<number>(0) // 현재 스크롤 위치
     const [isDrawerOpen, setIsDrawerOpen] = useState(false) // 사이드바 열지말지 상태
 
@@ -67,7 +68,7 @@ export default function Navigation({ contentRef }: any, { accessToken }: any) {
                 onClose={() => setIsDrawerOpen(false)}
                 PaperProps={{ sx: { width: '250px' } }}>
                 <DrawerHeader />
-                <Category />
+                <Category/>
             </Drawer>
         </>
     )

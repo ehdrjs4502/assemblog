@@ -1,11 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   async rewrites() {
     return [
       {
         source: "/:path*",
-        destination: "https://1800-211-226-166-75.ngrok-free.app/:path*",
+        destination: "https://7846-211-226-166-75.ngrok-free.app/:path*",
       },
     ];
   },

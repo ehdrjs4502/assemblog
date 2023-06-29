@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import CategoryHeader from './CategoryHeader'
 import CategoryContents from './CategoryContents'
 import { Cookies } from 'react-cookie'
 
@@ -19,10 +18,6 @@ export default function Category() {
 
     return (
         <>
-            <CategoryHeader
-                isLogin={isLogin}
-                cookie={{ email: email, refToken: refreshToken, accToken: accessToken }}
-            />
             <CategoryContents
                 isLogin={isLogin}
                 cookie={{ email: email, refToken: refreshToken, accToken: accessToken }}
