@@ -26,10 +26,11 @@ interface Props {
         accToken: string
     }
     getCategories: () => void
+    isView: boolean
 }
 
 
-export default function CategoryList({ list, isLogin, cookie, getCategories}: Props) {
+export default function CategoryList({ list, isLogin, cookie, getCategories, isView}: Props) {
     const [open, setOpen] = useState<{ [key: string]: boolean }>({}) // 상세 카테고리 열기
     const [addBoardModalOpen, setAddBoardModalOpen] = useState(false) // 게시판 생성 모달 상태
     const [settingCategoryModalOpen, setSettingCategoryModalOpen] = useState(false) // 카테고리 설정 모달 상태
@@ -51,7 +52,7 @@ export default function CategoryList({ list, isLogin, cookie, getCategories}: Pr
                     const isOpen = open[id] || false
                     return (
                         <div key={id}>
-                            {useState && (
+                            {useState === isView && (
                                 <ListItemButton onClick={handleClick(id)}>
                                     <ListItemText primary={title} />
                                     {isLogin && (

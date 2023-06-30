@@ -1,16 +1,11 @@
-import SettingsIcon from '@mui/icons-material/Settings'
 import IconButton from '@mui/material/IconButton'
 import AddIcon from '@mui/icons-material/Add'
-import ExpandLess from '@mui/icons-material/ExpandLess'
-import ExpandMore from '@mui/icons-material/ExpandMore'
-import { Collapse, List, ListItem, ListItemButton, ListItemText } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
-import AddBoardModal from './modals/AddBoardModal'
-import SettingCategoryModal from './modals/SettingCategoryModal'
 import axios from 'axios'
 import AddCategoryModal from './modals/AddCategoryModal'
 import CategoryList from './CategoryList'
-import HideCategoryList from './HideCategoryList'
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 interface CategoryItem {
     id: string
@@ -32,13 +27,14 @@ interface Props {
 export default function CategoryContents({ isLogin, cookie: cookie }: Props) {
     const [addCategoryModalOpen, setAddCategoryModalOpen] = useState<boolean>(false) // 모달 상태
     const [list, setList] = useState<CategoryItem[]>([])
+    const [onHide, setOnHide] = useState<boolean>(false);
 
     // const testList: CategoryItem = [
     //     {
     //         id: '1',
     //         title: 'test1',
     //         orderNum: 1,
-    //         useState: true,
+    //         useState: false,
     //         boards: [
     //             {
     //                 id: 1,
@@ -97,6 +93,8 @@ export default function CategoryContents({ isLogin, cookie: cookie }: Props) {
         // setList(testList);
     }
 
+    console.log("숨김 : ",onHide)
+
     useEffect(() => {
         getCategories();
     }, [])
@@ -107,6 +105,9 @@ export default function CategoryContents({ isLogin, cookie: cookie }: Props) {
                 <span>Category</span>
                 {isLogin ? (
                     <div className="admin-settings">
+                        <IconButton onClick={() => setOnHide(!onHide)}>
+                            {onHide ? <VisibilityOffIcon/> : <VisibilityIcon/>}
+                        </IconButton>
                         <IconButton
                             onClick={() => {
                                 setAddCategoryModalOpen(true)
@@ -127,11 +128,15 @@ export default function CategoryContents({ isLogin, cookie: cookie }: Props) {
                 )}
             </div>
 
-            <CategoryList list={list} isLogin={isLogin} cookie={cookie} getCategories={getCategories} />
+            <CategoryList list={list} isLogin={isLogin} cookie={cookie} getCategories={getCategories} isView={true} />
 
-            <h4>숨겨진 카테고리</h4>
-
-            <HideCategoryList list={list} isLogin={isLogin} cookie={cookie} getCategories={getCategories} />
+            {onHide && (
+                <>
+                    <h4>숨겨진 카테고리</h4>
+                    <CategoryList list={list} isLogin={isLogin} cookie={cookie} getCategories={getCategories} isView={false} />
+                </>
+            )}
+            
 
             <AddCategoryModal
                 onClose={() => {
