@@ -20,17 +20,17 @@ interface CategoryItem {
 interface Props {
     list: CategoryItem[]
     isLogin: boolean
-    cookie: {
+    userInfo: {
         email: string
-        refToken: string
-        accToken: string
+        accessToken: string
+        refreshToken: string
     }
     getCategories: () => void
     isView: boolean
 }
 
 
-export default function CategoryList({ list, isLogin, cookie, getCategories, isView}: Props) {
+export default function CategoryList({ list, isLogin, userInfo, getCategories, isView}: Props) {
     const [open, setOpen] = useState<{ [key: string]: boolean }>({}) // 상세 카테고리 열기
     const [addBoardModalOpen, setAddBoardModalOpen] = useState(false) // 게시판 생성 모달 상태
     const [settingCategoryModalOpen, setSettingCategoryModalOpen] = useState(false) // 카테고리 설정 모달 상태
@@ -140,7 +140,7 @@ export default function CategoryList({ list, isLogin, cookie, getCategories, isV
                 categoryID={categoyID}
                 categoryTitle={categoyTitle}
                 categoryOrderNum={categoryOrderNum}
-                cookie={cookie}
+                userInfo={userInfo}
                 getCategories={getCategories}
             />
 
@@ -149,7 +149,7 @@ export default function CategoryList({ list, isLogin, cookie, getCategories, isV
                 isOpen={addBoardModalOpen}
                 categoyID={categoyID}
                 categoryTitle={categoyTitle}
-                cookie={cookie}
+                userInfo={userInfo}
                 getCategories={getCategories}
             />
         </>

@@ -8,16 +8,16 @@ interface Props {
     isOpen: boolean,
     categoyID: string,
     categoryTitle: string,
-    cookie: {
+    userInfo: {
         email: string
-        refToken: string
-        accToken: string
+        accessToken: string
+        refreshToken: string
     },
 
     getCategories: () => void
 }
 
-export default function AddBoardModal({ onClose, isOpen, categoyID, categoryTitle, cookie: cookie, getCategories }:Props) {
+export default function AddBoardModal({ onClose, isOpen, categoyID, categoryTitle, userInfo, getCategories }:Props) {
     const [title, setTitle] = useState<string>('') // 게시판명
     const titleRef = useRef() // 게시판명 인풋창
     const newCookie = new Cookies();
@@ -47,9 +47,9 @@ export default function AddBoardModal({ onClose, isOpen, categoyID, categoryTitl
                 },
                 {
                     headers: {
-                        email: cookie['email'],
-                        RefreshToken: cookie['refToken'],
-                        AccessToken: cookie['accToken'],
+                        email: userInfo.email,
+                        RefreshToken: userInfo.refreshToken,
+                        AccessToken: userInfo.accessToken,
                     },
                 }
             )

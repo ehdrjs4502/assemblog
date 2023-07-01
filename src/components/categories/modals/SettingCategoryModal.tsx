@@ -10,15 +10,15 @@ interface Props {
     categoryID: string
     categoryTitle: string
     categoryOrderNum: number
-    cookie: {
+    userInfo: {
         email: string
-        refToken: string
-        accToken: string
+        accessToken: string
+        refreshToken: string
     }
     getCategories: () => void
 }
 
-export default function SettingCategoryModal({ onClose, isOpen, categoryID, categoryTitle, categoryOrderNum, cookie: cookie, getCategories }: Props) {
+export default function SettingCategoryModal({ onClose, isOpen, categoryID, categoryTitle, categoryOrderNum, userInfo, getCategories }: Props) {
     const [title, setTitle] = useState<string>(''); // 카테고리명
     const titleRef = useRef(); // 카테고리명 인풋창
     const newCookie = new Cookies();
@@ -58,9 +58,9 @@ export default function SettingCategoryModal({ onClose, isOpen, categoryID, cate
                 },
                 {
                     headers: {
-                        email: cookie['email'],
-                        RefreshToken: cookie['refToken'],
-                        AccessToken: cookie['accToken'],
+                        email: userInfo['email'],
+                        RefreshToken: userInfo['refreshToken'],
+                        AccessToken: userInfo['accessToken'],
                     },
                 }
             )
@@ -90,9 +90,9 @@ export default function SettingCategoryModal({ onClose, isOpen, categoryID, cate
                 `/api/categories/${categoryID}`,
                 {
                     headers: {
-                        email: cookie['email'],
-                        RefreshToken: cookie['refToken'],
-                        AccessToken: cookie['accToken'],
+                        email: userInfo.email,
+                        RefreshToken: userInfo.refreshToken,
+                        AccessToken: userInfo.accessToken,
                     },
                 }
             )

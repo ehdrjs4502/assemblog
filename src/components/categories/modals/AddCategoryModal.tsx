@@ -7,15 +7,15 @@ import * as reissuance from "../../../function/reissuance";
 interface Props {
     onClose: () => void
     isOpen: boolean
-    cookie: {
+    userInfo: {
         email: string
-        refToken: string
-        accToken: string
+        accessToken: string
+        refreshToken: string
     }
     getCategories: () => void
 }
 
-export default function AddCategoryModal({ onClose, isOpen, cookie: cookie, getCategories }: Props) {
+export default function AddCategoryModal({ onClose, isOpen, userInfo, getCategories }: Props) {
     const [title, setTitle] = useState<string>('') // 카테고리명
     const titleRef = useRef() // 카테고리명 인풋창
     const newCookie = new Cookies()
@@ -42,9 +42,9 @@ export default function AddCategoryModal({ onClose, isOpen, cookie: cookie, getC
                 },
                 {
                     headers: {
-                        email: cookie['email'],
-                        RefreshToken: cookie['refToken'],
-                        AccessToken: cookie['accToken'],
+                        email: userInfo.email,
+                        RefreshToken: userInfo.refreshToken,
+                        AccessToken: userInfo.accessToken,
                     },
                 }
             )
