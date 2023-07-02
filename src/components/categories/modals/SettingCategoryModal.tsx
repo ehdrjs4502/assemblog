@@ -7,7 +7,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 interface Props {
     onClose: () => void
     isOpen: boolean
-    categoryID: string
+    categoryID: number
     categoryTitle: string
     categoryOrderNum: number
     userInfo: {
@@ -46,7 +46,6 @@ export default function SettingCategoryModal({ onClose, isOpen, categoryID, cate
 
     //카테고리 수정하는 함수
     const modifyCategory = async () => {
-        console.log(title, categoryID, isChecked);
         try {
             const responce = await axios.patch(
                 `/server/api/categories`,

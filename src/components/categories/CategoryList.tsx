@@ -7,9 +7,10 @@ import ExpandMore from '@mui/icons-material/ExpandMore'
 import { useState } from 'react'
 import AddBoardModal from './modals/AddBoardModal'
 import SettingCategoryModal from './modals/SettingCategoryModal'
+import { useRouter } from 'next/router'
 
 interface CategoryItem {
-    id: string
+    id: number
     title: string
     orderNum: number
     useState: boolean
@@ -31,18 +32,34 @@ interface Props {
 
 
 export default function CategoryList({ list, isLogin, userInfo, getCategories, isView}: Props) {
-    const [open, setOpen] = useState<{ [key: string]: boolean }>({}) // 상세 카테고리 열기
-    const [addBoardModalOpen, setAddBoardModalOpen] = useState(false) // 게시판 생성 모달 상태
-    const [settingCategoryModalOpen, setSettingCategoryModalOpen] = useState(false) // 카테고리 설정 모달 상태
-    const [categoyID, setCategoryID] = useState<string>('')
-    const [categoyTitle, setCategoryTitle] = useState<string>('')
-    const [categoryOrderNum, setCategoryOrderNum] = useState<number>(0)
+    const [open, setOpen] = useState<{ [key: number]: boolean }>({}); // 상세 카테고리 열기
+    const [addBoardModalOpen, setAddBoardModalOpen] = useState(false); // 게시판 생성 모달 상태
+    const [settingCategoryModalOpen, setSettingCategoryModalOpen] = useState(false); // 카테고리 설정 모달 상태
+    const [categoyID, setCategoryID] = useState<number>(0);
+    const [categoyTitle, setCategoryTitle] = useState<string>('');
+    const [categoryOrderNum, setCategoryOrderNum] = useState<number>(0);
 
-    const handleClick = (id: string) => () => {
+    const router = useRouter();
+
+    const onNestedClick = (id: number) => { // 하위 카테고라 열기 
         setOpen((prevOpen) => ({
             ...prevOpen,
             [id]: !prevOpen[id],
         }))
+    }
+
+    const onClick = (id: number, title: string, childTitle: string) => { // 해당 카테고리 포스트 보러가기
+        if(childTitle === '') {
+            router.push({
+                pathname: `/category/${title}/${id}`,
+                query: {id: id, title: title},
+            },`/category/${title}`);
+        } else {
+            router.push({
+                pathname: `/category/${title}/${id}/${childTitle}`,
+                query: {id: id, title: childTitle},
+            },`/category/${title}/${childTitle}`);
+        }
     }
 
     return (
@@ -53,7 +70,7 @@ export default function CategoryList({ list, isLogin, userInfo, getCategories, i
                     return (
                         <div key={id}>
                             {useState === isView && (
-                                <ListItemButton onClick={handleClick(id)}>
+                                <ListItemButton onClick={boards.length !== 0 ? () => onNestedClick(id) : () => onClick(id, title, '')}>
                                     <ListItemText primary={title} />
                                     {isLogin && (
                                         <div className="admin-settings">
@@ -119,7 +136,7 @@ export default function CategoryList({ list, isLogin, userInfo, getCategories, i
                                                     </>
                                                 }>
                                                 <ListItemButton
-                                                    onClick={() => alert(childTitle)}
+                                                    onClick={() => onClick(childID, title, childTitle)}
                                                     key={childID}
                                                     sx={{ pl: 4 }}>
                                                     <ListItemText primary={childTitle} />

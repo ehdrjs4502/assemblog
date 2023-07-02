@@ -6,7 +6,7 @@ import { Cookies } from "react-cookie"
 interface Props {
     onClose: () => void,
     isOpen: boolean,
-    categoyID: string,
+    categoyID: number,
     categoryTitle: string,
     userInfo: {
         email: string

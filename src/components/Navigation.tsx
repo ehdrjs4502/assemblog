@@ -11,7 +11,7 @@ import DrawerHeader from './DrawerHeader'
 import axios from 'axios'
 
 interface CategoryItem {
-    id: string
+    id: number
     title: string
     orderNum: number
     useState: boolean
@@ -23,55 +23,59 @@ export default function Navigation({ contentRef }: any) {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false) // 사이드바 열지말지 상태
     const [list, setList] = useState<CategoryItem[]>([])
 
-    let contentTop = contentRef.current?.offsetTop // 콘텐츠 영역 top 위치
+    let contentTop;
 
-    // const testList: CategoryItem = [
-    //     {
-    //         id: '1',
-    //         title: 'test1',
-    //         orderNum: 1,
-    //         useState: false,
-    //         boards: [
-    //             {
-    //                 id: 1,
-    //                 title: 'board1',
-    //                 orderNum: 1,
-    //                 useState: true,
-    //             },
-    //         ],
-    //     },
+    if(contentRef !== '') {
+        contentTop = contentRef.current?.offsetTop // 콘텐츠 영역 top 위치
+    }
 
-    //     {
-    //         id: '2',
-    //         title: 'test2',
-    //         orderNum: 2,
-    //         useState: true,
-    //         boards: [
-    //             {
-    //                 id: 1,
-    //                 title: 'board2',
-    //                 orderNum: 1,
-    //                 useState: true,
-    //             },
-    //         ],
-    //     },
+    const testList: CategoryItem = [
+        {
+            id: '1',
+            title: 'test1',
+            orderNum: 1,
+            useState: false,
+            boards: [
+                {
+                    id: 1,
+                    title: 'board1',
+                    orderNum: 1,
+                    useState: true,
+                },
+            ],
+        },
 
-    //     {
-    //         id: '3',
-    //         title: 'test3',
-    //         orderNum: 3,
-    //         useState: true,
-    //         boards: [],
-    //     },
+        {
+            id: '2',
+            title: 'test2',
+            orderNum: 2,
+            useState: true,
+            boards: [
+                {
+                    id: 1,
+                    title: 'board2',
+                    orderNum: 1,
+                    useState: true,
+                },
+            ],
+        },
 
-    //     {
-    //         id: 4,
-    //         title: 'test4',
-    //         orderNum: 4,
-    //         useState: false,
-    //         boards: [],
-    //     },
-    // ]
+        {
+            id: '3',
+            title: 'test3',
+            orderNum: 3,
+            useState: true,
+            boards: [],
+        },
+
+        {
+            id: 4,
+            title: 'test4',
+            orderNum: 4,
+            useState: false,
+            boards: [],
+        },
+    ]
     
     const originalStyle = {
         // 원래 네비게이션 바 스타일
@@ -89,19 +93,19 @@ export default function Navigation({ contentRef }: any) {
 
     // 카테고리 가져오는 함수
     const getCategories = async () => {
-        try {
-            const responce = await axios.get('/server/categories', {
-                headers: {
-                    'ngrok-skip-browser-warning': '1234',
-                },
-            })
-            setList(responce.data);
-            console.log(responce);
-        } catch (e) {
-            alert(e);
-        }
+        // try {
+        //     const responce = await axios.get('/server/categories', {
+        //         headers: {
+        //             'ngrok-skip-browser-warning': '1234',
+        //         },
+        //     })
+        //     setList(responce.data);
+        //     console.log(responce);
+        // } catch (e) {
+        //     alert(e);
+        // }
 
-        // setList(testList);
+        setList(testList);
     }
 
     const updateScroll = () => {

@@ -9,7 +9,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { Cookies } from 'react-cookie'
 
 interface CategoryItem {
-    id: string
+    id: number
     title: string
     orderNum: number
     useState: boolean
