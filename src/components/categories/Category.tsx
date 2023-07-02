@@ -7,6 +7,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 import { Cookies } from 'react-cookie'
+import { useRouter } from 'next/router'
 
 interface CategoryItem {
     id: number
@@ -28,10 +29,11 @@ type userInfo = {
 }
 
 export default function Category({list, getCategories}: Props) {
-    const [isLogin, setIsLogin] = useState<boolean>(false) // 로그인 되어있는지 확인
-    const [addCategoryModalOpen, setAddCategoryModalOpen] = useState<boolean>(false) // 모달 상태
+    const [isLogin, setIsLogin] = useState<boolean>(false); // 로그인 되어있는지 확인
+    const [addCategoryModalOpen, setAddCategoryModalOpen] = useState<boolean>(false); // 모달 상태
     const [onHide, setOnHide] = useState<boolean>(false); // 숨김 카테고리 상태
-    const cookie = new Cookies()
+    const cookie = new Cookies();
+    const router = useRouter();
     const userInfo: userInfo = {
         email: cookie.get('email'),
         accessToken: cookie.get('accessToken'), // 액세스 토큰 저장
@@ -48,7 +50,7 @@ export default function Category({list, getCategories}: Props) {
     return (
         <>
             <div className="category-header">
-                <span>Category</span>
+                <span onClick={() => router.push('/category')}>Category</span>
                 {isLogin ? (
                     <div className="admin-settings">
                         <IconButton onClick={() => setOnHide(!onHide)}>
@@ -105,6 +107,10 @@ export default function Category({list, getCategories}: Props) {
                         align-items: center;
                         display: flex;
                         font-weight: bold;
+                    }
+
+                    .category-header span:hover {
+                        cursor: pointer;
                     }
 
                     .admin-settings {

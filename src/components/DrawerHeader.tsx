@@ -1,8 +1,12 @@
+import Link from "next/link"
+
 export default function DrawerHeader() {
     return (
         <>
             <div className="drawer-header">
-                <h3>Assemblog</h3>
+                <Link href='/' style={{color:'black', textDecoration:"none"}}>
+                    <h3>Assemblog</h3>
+                </Link>
             </div>
 
             <style jsx>

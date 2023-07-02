@@ -51,12 +51,12 @@ export default function CategoryList({ list, isLogin, userInfo, getCategories, i
     const onClick = (id: number, title: string, childTitle: string) => { // 해당 카테고리 포스트 보러가기
         if(childTitle === '') {
             router.push({
-                pathname: `/category/${title}/${id}`,
+                pathname: `/category/${title}`,
                 query: {id: id, title: title},
             },`/category/${title}`);
         } else {
             router.push({
-                pathname: `/category/${title}/${id}/${childTitle}`,
+                pathname: `/category/${title}/${childTitle}`,
                 query: {id: id, title: childTitle},
             },`/category/${title}/${childTitle}`);
         }

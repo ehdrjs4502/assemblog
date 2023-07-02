@@ -8,7 +8,8 @@ import SearchIcon from '@mui/icons-material/Search'
 import { Drawer } from '@mui/material'
 import Category from './categories/Category'
 import DrawerHeader from './DrawerHeader'
-import axios from 'axios'
+import PostAddIcon from '@mui/icons-material/PostAdd';
+import { useRouter } from 'next/router'
 
 interface CategoryItem {
     id: number
@@ -19,11 +20,12 @@ interface CategoryItem {
 }
 
 export default function Navigation({ contentRef }: any) {
-    const [scrollPosition, setScrollPosition] = useState<number>(0) // 현재 스크롤 위치
-    const [isDrawerOpen, setIsDrawerOpen] = useState(false) // 사이드바 열지말지 상태
-    const [list, setList] = useState<CategoryItem[]>([])
+    const [scrollPosition, setScrollPosition] = useState<number>(0); // 현재 스크롤 위치
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false); // 사이드바 열지말지 상태
+    const [list, setList] = useState<CategoryItem[]>([]);
+    const router = useRouter();
 
-    let contentTop;
+    let contentTop!: number;
 
     if(contentRef !== '') {
         contentTop = contentRef.current?.offsetTop // 콘텐츠 영역 top 위치
@@ -115,11 +117,16 @@ export default function Navigation({ contentRef }: any) {
 
     useEffect(() => {
         window.addEventListener('scroll', updateScroll)
-    })
+    });
 
     useEffect(() => {
         getCategories();
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        setIsDrawerOpen(false);
+        console.log(isDrawerOpen);
+    },[router.asPath]);
 
     return (
         <>
@@ -133,8 +140,11 @@ export default function Navigation({ contentRef }: any) {
                         sx={{ mr: 2 }}>
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}></Typography>
-                    <IconButton size="large" aria-label="search" color="primary">
+                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>ㅎㅇ</Typography>
+                    <IconButton color='primary' onClick={() => router.push('/post/new')}>
+                        <PostAddIcon />
+                    </IconButton>
+                    <IconButton aria-label="search" color="primary">
                         <SearchIcon />
                     </IconButton>
                 </Toolbar>
