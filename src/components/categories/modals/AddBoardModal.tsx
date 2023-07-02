@@ -40,7 +40,7 @@ export default function AddBoardModal({ onClose, isOpen, categoyID, categoryTitl
         console.log(categoyID, title);
         try {
             const responce = await axios.post(
-                'api/boards',
+                '/server/api/boards',
                 {
                     parentId: categoyID,
                     title: title,

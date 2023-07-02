@@ -43,7 +43,7 @@ export default function login() {
     const login = async (inputData: inputData) => {
         // 로그인 api 요청 함수
         try {
-            const response = await axios.post('/users/login', inputData) // 로그인 응답 값
+            const response = await axios.post('/server/users/login', inputData) // 로그인 응답 값
             console.log(response)
             if (response.status === 200) {
                 // 로그인이 성공하면

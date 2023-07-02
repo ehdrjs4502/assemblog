@@ -90,7 +90,7 @@ export default function Navigation({ contentRef }: any) {
     // 카테고리 가져오는 함수
     const getCategories = async () => {
         try {
-            const responce = await axios.get('/categories', {
+            const responce = await axios.get('/server/categories', {
                 headers: {
                     'ngrok-skip-browser-warning': '1234',
                 },

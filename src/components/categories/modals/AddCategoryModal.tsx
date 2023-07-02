@@ -36,7 +36,7 @@ export default function AddCategoryModal({ onClose, isOpen, userInfo, getCategor
     const addCategory = async () => {
         try {
             const responce = await axios.post(
-                '/api/categories',
+                '/server/api/categories',
                 {
                     title: title,
                 },

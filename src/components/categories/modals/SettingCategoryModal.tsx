@@ -49,7 +49,7 @@ export default function SettingCategoryModal({ onClose, isOpen, categoryID, cate
         console.log(title, categoryID, isChecked);
         try {
             const responce = await axios.patch(
-                `/api/categories`,
+                `/server/api/categories`,
                 {
                     id: categoryID,
                     title: title,
@@ -87,7 +87,7 @@ export default function SettingCategoryModal({ onClose, isOpen, categoryID, cate
     const delCategory = async () => {
         try {
             const responce = await axios.delete(
-                `/api/categories/${categoryID}`,
+                `/server/api/categories/${categoryID}`,
                 {
                     headers: {
                         email: userInfo.email,

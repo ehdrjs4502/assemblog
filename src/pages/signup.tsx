@@ -51,7 +51,7 @@ export default function signup() {
     const register = async (inputData: inputData) => {
         // 회원가입 api 요청 함수
         try {
-            const response = await axios.post('/users/signup', inputData) // 회원가입 응답 값
+            const response = await axios.post('/server/users/signup', inputData) // 회원가입 응답 값
             if (response.status === 200) {
                 alert('회원가입 성공!')
                 router.push('/login')
