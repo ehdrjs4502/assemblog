@@ -1,7 +1,10 @@
 /** @type {import('next').NextConfig} */
+
+const removeImports = require("next-remove-imports")();
+
 const nextConfig = {
   reactStrictMode: false,
-  async rewrites() {
+  async rewrites() { // URL 마스킹
     return [
       {
         source: "/server/:path*", // 사용할 주소  /:path* 뒤에 붙는 것을 다 포함한다는 의미
@@ -11,4 +14,6 @@ const nextConfig = {
   },
 }
 
-module.exports = nextConfig
+module.exports = removeImports({
+  ...nextConfig,
+});

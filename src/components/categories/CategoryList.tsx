@@ -17,7 +17,6 @@ interface CategoryItem {
     boards: CategoryItem[]
 }
 
-
 interface Props {
     list: CategoryItem[]
     isLogin: boolean
@@ -30,35 +29,42 @@ interface Props {
     isView: boolean
 }
 
+export default function CategoryList({ list, isLogin, userInfo, getCategories, isView }: Props) {
+    const [open, setOpen] = useState<{ [key: number]: boolean }>({}) // 상세 카테고리 열기
+    const [addBoardModalOpen, setAddBoardModalOpen] = useState(false) // 게시판 생성 모달 상태
+    const [settingCategoryModalOpen, setSettingCategoryModalOpen] = useState(false) // 카테고리 설정 모달 상태
+    const [categoyID, setCategoryID] = useState<number>(0)
+    const [categoyTitle, setCategoryTitle] = useState<string>('')
+    const [categoryOrderNum, setCategoryOrderNum] = useState<number>(0)
 
-export default function CategoryList({ list, isLogin, userInfo, getCategories, isView}: Props) {
-    const [open, setOpen] = useState<{ [key: number]: boolean }>({}); // 상세 카테고리 열기
-    const [addBoardModalOpen, setAddBoardModalOpen] = useState(false); // 게시판 생성 모달 상태
-    const [settingCategoryModalOpen, setSettingCategoryModalOpen] = useState(false); // 카테고리 설정 모달 상태
-    const [categoyID, setCategoryID] = useState<number>(0);
-    const [categoyTitle, setCategoryTitle] = useState<string>('');
-    const [categoryOrderNum, setCategoryOrderNum] = useState<number>(0);
+    const router = useRouter()
 
-    const router = useRouter();
-
-    const onNestedClick = (id: number) => { // 하위 카테고라 열기 
+    const onNestedClick = (id: number) => {
+        // 하위 카테고라 열기
         setOpen((prevOpen) => ({
             ...prevOpen,
             [id]: !prevOpen[id],
         }))
     }
 
-    const onClick = (id: number, title: string, childTitle: string) => { // 해당 카테고리 포스트 보러가기
-        if(childTitle === '') {
-            router.push({
-                pathname: `/category/${title}`,
-                query: {id: id, title: title},
-            },`/category/${title}`);
+    const onClick = (id: number, title: string, childTitle: string) => {
+        // 해당 카테고리 포스트 보러가기
+        if (childTitle === '') {
+            router.push(
+                {
+                    pathname: `/category/${title}`,
+                    query: { id: id, title: title },
+                },
+                `/category/${title}`
+            )
         } else {
-            router.push({
-                pathname: `/category/${title}/${childTitle}`,
-                query: {id: id, title: childTitle},
-            },`/category/${title}/${childTitle}`);
+            router.push(
+                {
+                    pathname: `/category/${title}/${childTitle}`,
+                    query: { id: id, title: childTitle },
+                },
+                `/category/${title}/${childTitle}`
+            )
         }
     }
 
@@ -70,43 +76,62 @@ export default function CategoryList({ list, isLogin, userInfo, getCategories, i
                     return (
                         <div key={id}>
                             {useState === isView && (
-                                <ListItemButton onClick={boards.length !== 0 ? () => onNestedClick(id) : () => onClick(id, title, '')}>
-                                    <ListItemText primary={title} />
-                                    {isLogin && (
-                                        <div className="admin-settings">
-                                            <IconButton
-                                                onClick={() => {
-                                                    setSettingCategoryModalOpen(true)
-                                                    setCategoryID(id)
-                                                    setCategoryTitle(title)
-                                                    setCategoryOrderNum(orderNum)
-                                                }}
-                                                color="primary"
-                                                aria-label="menu"
-                                                sx={{
-                                                    color: 'gray',
-                                                    '&:hover': { color: 'black' },
-                                                }}>
-                                                <SettingsIcon />
-                                            </IconButton>
-                                            <IconButton
-                                                onClick={() => {
-                                                    setAddBoardModalOpen(true)
-                                                    setCategoryID(id)
-                                                    setCategoryTitle(title)
-                                                }}
-                                                color="primary"
-                                                aria-label="menu"
-                                                sx={{
-                                                    color: 'gray',
-                                                    '&:hover': { color: 'black' },
-                                                }}>
-                                                <AddIcon />
-                                            </IconButton>
-                                        </div>
-                                    )}
-                                    {boards.length === 0 ? '' : isOpen ? <ExpandLess /> : <ExpandMore />}
-                                </ListItemButton>
+                                <ListItem
+                                    key={id}
+                                    disablePadding
+                                    secondaryAction={
+                                        <>
+                                            {isLogin && (
+                                                <div className="admin-settings">
+                                                    <IconButton
+                                                        onClick={() => {
+                                                            setSettingCategoryModalOpen(true)
+                                                            setCategoryID(id)
+                                                            setCategoryTitle(title)
+                                                            setCategoryOrderNum(orderNum)
+                                                        }}
+                                                        color="primary"
+                                                        aria-label="menu"
+                                                        sx={{
+                                                            color: 'gray',
+                                                            '&:hover': { color: 'black' },
+                                                        }}>
+                                                        <SettingsIcon />
+                                                    </IconButton>
+                                                    <IconButton
+                                                        onClick={() => {
+                                                            setAddBoardModalOpen(true)
+                                                            setCategoryID(id)
+                                                            setCategoryTitle(title)
+                                                        }}
+                                                        color="primary"
+                                                        aria-label="menu"
+                                                        sx={{
+                                                            color: 'gray',
+                                                            '&:hover': { color: 'black' },
+                                                        }}>
+                                                        <AddIcon />
+                                                    </IconButton>
+                                                </div>
+                                            )}
+                                        </>
+                                    }>
+                                    <ListItemButton
+                                        key={id}
+                                        sx={{ pl: 4 }}
+                                        onClick={
+                                            boards.length !== 0 ? () => onNestedClick(id) : () => onClick(id, title, '')
+                                        }>
+                                        <ListItemText primary={title} />
+                                        {boards.length === 0 ? (
+                                            ''
+                                        ) : isOpen ? (
+                                            <ExpandLess sx={{ marginRight: -4 }} />
+                                        ) : (
+                                            <ExpandMore sx={{ marginRight: -4 }} />
+                                        )}
+                                    </ListItemButton>
+                                </ListItem>
                             )}
                             {boards.length !== 0 && (
                                 <Collapse in={isOpen} timeout="auto" unmountOnExit>
@@ -169,6 +194,13 @@ export default function CategoryList({ list, isLogin, userInfo, getCategories, i
                 userInfo={userInfo}
                 getCategories={getCategories}
             />
+
+            <style jsx>{`
+                .admin-settings {
+                    margin-left: auto;
+                    margin-right: 18px;
+                }
+            `}</style>
         </>
     )
 }
