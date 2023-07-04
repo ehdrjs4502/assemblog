@@ -34,16 +34,16 @@ type userInfo = {
 }
 
 export default function EditPost() {
-    const [category, setCategory] = useState<string>('') // 선택한 카테고리
-    const [categoryList, setCategoryList] = useState<CategoryItem[]>([]) // 카테고리 리스트
-    const [title, setTitle] = useState<string>('') // 제목
-    const [content, setContent] = useState<any>('') // 내용
+    const [category, setCategory] = useState<string>(''); // 선택한 카테고리
+    const [categoryList, setCategoryList] = useState<CategoryItem[]>([]); // 카테고리 리스트
+    const [title, setTitle] = useState<string>(''); // 제목
+    const [content, setContent] = useState<any>(''); // 내용
     const [commentIsChecked, setCommentIsChecked] = useState<boolean>(false); // 댓글 달기 여부
     const [hidePostIsChecked, setHidePostIsChecked] = useState<boolean>(false); // 포스트 숨기기 여부
-    const custumCommands = commands.getCommands().filter((e) => e.name !== 'image') // 기존 이미지 버튼 삭제
-    const fileInputRef = useRef<HTMLInputElement>(null) // 파일 인풋창 ref
-    const cookie = new Cookies()
-    const router = useRouter()
+    const custumCommands = commands.getCommands().filter((e) => e.name !== 'image'); // 기존 이미지 버튼 삭제
+    const fileInputRef = useRef<HTMLInputElement>(null); // 파일 인풋창 ref
+    const cookie = new Cookies();
+    const router = useRouter();
     const userInfo: userInfo = {
         email: cookie.get('email'),
         accessToken: cookie.get('accessToken'), // 액세스 토큰 저장
@@ -116,8 +116,7 @@ export default function EditPost() {
                 console.log(key, ':', formData.get(key))
             }
 
-            axios
-                .patch('/server/api/uploads/images', formData, {
+            axios.post('/server/api/uploads/images', formData, {
                     headers: {
                         email: userInfo.email,
                         RefreshToken: userInfo.refreshToken,
@@ -126,7 +125,9 @@ export default function EditPost() {
                 })
                 .then((response) => {
                     // 업로드 완료 후 처리할 작업
-                    console.log('파일 업로드 성공:', response)
+                    console.log('파일 업로드 성공:', response.data);
+                    const imageURL = `![](${response.data})`
+                    setContent(prevContent => prevContent + imageURL);
                 })
                 .catch((error) => {
                     // 업로드 오류 처리
@@ -153,8 +154,8 @@ export default function EditPost() {
                     title: title, // 제목
                     content: content, // 내용
                     tag: '', // 태그
-                    postUseState: true, // 숨김 여부
-                    commentUseState: true, // 댓글 가능 여부
+                    postUseState: hidePostIsChecked, // 숨김 여부
+                    commentUseState: commentIsChecked, // 댓글 가능 여부
                     preview: '', // 게시글 목록에 보일 내용 프리뷰
                 },
                 {
@@ -231,6 +232,7 @@ export default function EditPost() {
             {/* 태그 입력 요소 */}
             <TextField id="standard-basic" variant="standard" placeholder="태그 입력" sx={{ width: '100%' }} />
 
+            {/* 댓글, 숨기기 체크 요소 */}
             <FormControlLabel
                 value="comment"
                 control={<Switch color="primary" onChange={(e) => {
@@ -239,7 +241,6 @@ export default function EditPost() {
                 label="댓글 가능"
                 labelPlacement="start"
             />
-
             <FormControlLabel
                 value="comment"
                 control={<Switch color="primary" onChange={(e) => {
@@ -249,6 +250,7 @@ export default function EditPost() {
                 labelPlacement="start"
             />
             <br/>
+
             {/* 버튼 요소 */}
             <Button size="small" variant="outlined" color="error" onClick={handleCancle}>
                 취소
