@@ -51,7 +51,7 @@ export default function AddCategoryModal({ onClose, isOpen, userInfo, getCategor
 
             reissuance.accToken(responce.headers['accesstoken']);
 
-            getCategories();
+            getCategories(); // 추가된 카테고리 다시 불러오기
             onClose();
 
         } catch (error: any) {

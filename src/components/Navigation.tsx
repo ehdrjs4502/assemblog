@@ -10,19 +10,27 @@ import Category from './categories/Category'
 import DrawerHeader from './DrawerHeader'
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import { useRouter } from 'next/router'
+import axios from 'axios'
 
-interface CategoryItem {
+type CategoryItem = {
     id: number
     title: string
     orderNum: number
     useState: boolean
-    boards: CategoryItem[]
+    boards: BoardItem[]
+}
+
+type BoardItem = {
+    id: number;
+    title: string;
+    orderNum: number;
+    useState: boolean;
 }
 
 export default function Navigation({ contentRef }: any) {
     const [scrollPosition, setScrollPosition] = useState<number>(0); // 현재 스크롤 위치
     const [isDrawerOpen, setIsDrawerOpen] = useState(false); // 사이드바 열지말지 상태
-    const [list, setList] = useState<CategoryItem[]>([]);
+    const [categoryList, setCategoryList] = useState<CategoryItem[]>([]);
     const router = useRouter();
 
     let contentTop!: number;
@@ -31,53 +39,53 @@ export default function Navigation({ contentRef }: any) {
         contentTop = contentRef.current?.offsetTop // 콘텐츠 영역 top 위치
     }
 
-    const testList: CategoryItem = [
-        {
-            id: '1',
-            title: 'test1',
-            orderNum: 1,
-            useState: false,
-            boards: [
-                {
-                    id: 1,
-                    title: 'board1',
-                    orderNum: 1,
-                    useState: true,
-                },
-            ],
-        },
+    // const testList: CategoryItem[] = [
+    //     {
+    //         id: '1',
+    //         title: 'test1',
+    //         orderNum: 1,
+    //         useState: false,
+    //         boards: [
+    //             {
+    //                 id: 1,
+    //                 title: 'board1',
+    //                 orderNum: 1,
+    //                 useState: true,
+    //             },
+    //         ],
+    //     },
 
-        {
-            id: '2',
-            title: 'test2',
-            orderNum: 2,
-            useState: true,
-            boards: [
-                {
-                    id: 1,
-                    title: 'board2',
-                    orderNum: 1,
-                    useState: true,
-                },
-            ],
-        },
+    //     {
+    //         id: '2',
+    //         title: 'test2',
+    //         orderNum: 2,
+    //         useState: true,
+    //         boards: [
+    //             {
+    //                 id: 1,
+    //                 title: 'board2',
+    //                 orderNum: 1,
+    //                 useState: true,
+    //             },
+    //         ],
+    //     },
 
-        {
-            id: '3',
-            title: 'test3',
-            orderNum: 3,
-            useState: true,
-            boards: [],
-        },
+    //     {
+    //         id: '3',
+    //         title: 'test3',
+    //         orderNum: 3,
+    //         useState: true,
+    //         boards: [],
+    //     },
 
-        {
-            id: 4,
-            title: 'test4',
-            orderNum: 4,
-            useState: false,
-            boards: [],
-        },
-    ]
+    //     {
+    //         id: 4,
+    //         title: 'test4',
+    //         orderNum: 4,
+    //         useState: false,
+    //         boards: [],
+    //     },
+    // ]
     
     const originalStyle = {
         // 원래 네비게이션 바 스타일
@@ -94,20 +102,20 @@ export default function Navigation({ contentRef }: any) {
     }
 
     // 카테고리 가져오는 함수
-    const getCategories = async () => {
-        // try {
-        //     const responce = await axios.get('/server/categories', {
-        //         headers: {
-        //             'ngrok-skip-browser-warning': '1234',
-        //         },
-        //     })
-        //     setList(responce.data);
-        //     console.log(responce);
-        // } catch (e) {
-        //     alert(e);
-        // }
+    const getCategoryList = async () => {
+        try {
+            const responce = await axios.get('/server/categories', {
+                headers: {
+                    'ngrok-skip-browser-warning': '1234',
+                },
+            })
+            setCategoryList(responce.data);
+            console.log(responce);
+        } catch (e) {
+            console.log(e);
+        }
 
-        setList(testList);
+        // setCategoryList(testList);
     }
 
     const updateScroll = () => {
@@ -120,12 +128,11 @@ export default function Navigation({ contentRef }: any) {
     });
 
     useEffect(() => {
-        getCategories();
+        getCategoryList();
     }, []);
 
     useEffect(() => {
         setIsDrawerOpen(false);
-        console.log(isDrawerOpen);
     },[router.asPath]);
 
     return (
@@ -154,9 +161,10 @@ export default function Navigation({ contentRef }: any) {
                 anchor="left"
                 open={isDrawerOpen}
                 onClose={() => setIsDrawerOpen(false)}
-                PaperProps={{ sx: { width: '250px' } }}>
+                PaperProps={{ sx: { width: '250px', '::-webkit-scrollbar': {display: 'none'}, }}}
+                >
                 <DrawerHeader />
-                <Category list={list} getCategories={getCategories}/>
+                <Category list={categoryList} getCategories={getCategoryList}/>
             </Drawer>
         </>
     )

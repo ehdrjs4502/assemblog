@@ -22,7 +22,7 @@ export default function SettingCategoryModal({ onClose, isOpen, categoryID, cate
     const [title, setTitle] = useState<string>(''); // 카테고리명
     const titleRef = useRef(); // 카테고리명 인풋창
     const newCookie = new Cookies();
-    const [isChecked, setIsChecked] = useState<boolean>(true);
+    const [isChecked, setIsChecked] = useState<boolean>(true); // 숨기기 여부
 
     useEffect(() => { // 모달창 열렸을 때 초기값 설정
         setTitle(categoryTitle);

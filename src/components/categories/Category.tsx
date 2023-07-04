@@ -9,12 +9,19 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { Cookies } from 'react-cookie'
 import { useRouter } from 'next/router'
 
-interface CategoryItem {
+type CategoryItem = {
     id: number
     title: string
     orderNum: number
     useState: boolean
-    boards: CategoryItem[]
+    boards: BoardItem[]
+}
+
+type BoardItem = {
+    id: number;
+    title: string;
+    orderNum: number;
+    useState: boolean;
 }
 
 interface Props {

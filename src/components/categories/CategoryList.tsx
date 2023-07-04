@@ -9,13 +9,21 @@ import AddBoardModal from './modals/AddBoardModal'
 import SettingCategoryModal from './modals/SettingCategoryModal'
 import { useRouter } from 'next/router'
 
-interface CategoryItem {
+type CategoryItem = {
     id: number
     title: string
     orderNum: number
     useState: boolean
-    boards: CategoryItem[]
+    boards: BoardItem[]
 }
+
+type BoardItem = {
+    id: number;
+    title: string;
+    orderNum: number;
+    useState: boolean;
+}
+
 
 interface Props {
     list: CategoryItem[]
