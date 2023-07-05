@@ -1,8 +1,8 @@
+import reissueAccToken from '@/function/reissueAccToken'
 import { Box, Button, Modal, TextField, Typography } from '@mui/material'
 import axios from 'axios'
 import { useRef, useState } from 'react'
 import { Cookies } from 'react-cookie'
-import * as reissuance from "../../../function/reissuance";
 
 interface Props {
     onClose: () => void
@@ -35,7 +35,7 @@ export default function AddCategoryModal({ onClose, isOpen, userInfo, getCategor
 
     const addCategory = async () => {
         try {
-            const responce = await axios.post(
+            const response = await axios.post(
                 '/server/api/categories',
                 {
                     title: title,
@@ -49,7 +49,7 @@ export default function AddCategoryModal({ onClose, isOpen, userInfo, getCategor
                 }
             )
 
-            reissuance.accToken(responce.headers['accesstoken']);
+            reissueAccToken(response.headers['accessToken']) // 액세스 토큰 만료되면 재발급하는 함수
 
             getCategories(); // 추가된 카테고리 다시 불러오기
             onClose();

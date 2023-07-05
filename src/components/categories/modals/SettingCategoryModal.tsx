@@ -3,6 +3,7 @@ import axios from 'axios'
 import { useRef, useState, useEffect } from 'react'
 import { Cookies } from 'react-cookie'
 import DeleteIcon from '@mui/icons-material/Delete'
+import reissueAccToken from '@/function/reissueAccToken'
 
 interface Props {
     onClose: () => void
@@ -47,7 +48,7 @@ export default function SettingCategoryModal({ onClose, isOpen, categoryID, cate
     //카테고리 수정하는 함수
     const modifyCategory = async () => {
         try {
-            const responce = await axios.patch(
+            const response = await axios.patch(
                 `/server/api/categories`,
                 {
                     id: categoryID,
@@ -64,15 +65,9 @@ export default function SettingCategoryModal({ onClose, isOpen, categoryID, cate
                 }
             )
 
-            if (responce.headers['accesstoken'] !== undefined) {
-                // 액세스 토큰 만료되면 재발급
-                newCookie.set('accessToken', responce.headers['accesstoken'], {
-                    path: '/',
-                    secure: true,
-                })
-            }
+            reissueAccToken(response.headers['accessToken']) // 액세스 토큰 만료되면 재발급하는 함수
 
-            console.log(responce);
+            console.log(response);
 
             getCategories();
             onClose();
@@ -85,7 +80,7 @@ export default function SettingCategoryModal({ onClose, isOpen, categoryID, cate
     //카테고리 삭제하는 함수
     const delCategory = async () => {
         try {
-            const responce = await axios.delete(
+            const response = await axios.delete(
                 `/server/api/categories/${categoryID}`,
                 {
                     headers: {
@@ -96,13 +91,7 @@ export default function SettingCategoryModal({ onClose, isOpen, categoryID, cate
                 }
             )
 
-            if (responce.headers['accesstoken'] !== undefined) {
-                // 액세스 토큰 만료되면 재발급
-                newCookie.set('accessToken', responce.headers['accesstoken'], {
-                    path: '/',
-                    secure: true,
-                })
-            }
+            reissueAccToken(response.headers['accessToken']) // 액세스 토큰 만료되면 재발급하는 함수
 
             getCategories();
 

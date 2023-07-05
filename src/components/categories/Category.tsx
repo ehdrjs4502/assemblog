@@ -5,8 +5,6 @@ import AddCategoryModal from './modals/AddCategoryModal'
 import CategoryList from './CategoryList'
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-
-import { Cookies } from 'react-cookie'
 import { useRouter } from 'next/router'
 
 type CategoryItem = {
@@ -27,32 +25,19 @@ type BoardItem = {
 interface Props {
     list: CategoryItem[]
     getCategories: () => void
+    isLogin: boolean
+    userInfo: {
+        email: string
+        accessToken: string
+        refreshToken: string
+    }
 }
 
-type userInfo = {
-    email: string
-    accessToken: string
-    refreshToken: string
-}
-
-export default function Category({list, getCategories}: Props) {
-    const [isLogin, setIsLogin] = useState<boolean>(false); // 로그인 되어있는지 확인
+export default function Category({list, getCategories, isLogin, userInfo}: Props) {
     const [addCategoryModalOpen, setAddCategoryModalOpen] = useState<boolean>(false); // 모달 상태
     const [onHide, setOnHide] = useState<boolean>(false); // 숨김 카테고리 상태
-    const cookie = new Cookies();
     const router = useRouter();
-    const userInfo: userInfo = {
-        email: cookie.get('email'),
-        accessToken: cookie.get('accessToken'), // 액세스 토큰 저장
-        refreshToken: cookie.get('refreshToken') // 리프레쉬 토큰 저장
-    }
-
-    useEffect(() => {
-        if (userInfo.refreshToken !== undefined) {
-            // 리프레쉬 토큰이 있으면
-            setIsLogin(true) // 로그인 되어있으니 true로 바꾸기
-        }
-    }, [])
+   
 
     return (
         <>

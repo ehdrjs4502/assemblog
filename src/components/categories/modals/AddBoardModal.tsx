@@ -39,7 +39,7 @@ export default function AddBoardModal({ onClose, isOpen, categoyID, categoryTitl
     const addBoard = async () => {
         console.log(categoyID, title);
         try {
-            const responce = await axios.post(
+            const response = await axios.post(
                 '/server/api/boards',
                 {
                     parentId: categoyID,
@@ -54,18 +54,11 @@ export default function AddBoardModal({ onClose, isOpen, categoyID, categoryTitl
                 }
             )
 
-            if (responce.headers['accesstoken'] !== undefined) {
-                // 액세스 토큰 만료되면 재발급
-                newCookie.set('accessToken', responce.headers['accesstoken'], {
-                    path: '/',
-                    secure: true,
-                })
+            reissueAccToken(response.headers['accessToken']) // 액세스 토큰 만료되면 재발급하는 함수
 
-            }
+            console.log(response);
 
-            console.log(responce);
-
-            if (responce.data === 'Duplicate category title') {
+            if (response.data === 'Duplicate category title') {
                 alert('이미 추가된 게시판입니다.')
             } else {
                 getCategories();
