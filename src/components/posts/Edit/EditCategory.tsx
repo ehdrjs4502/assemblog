@@ -1,6 +1,5 @@
 import { getCategoryList } from "@/function/getCategory"
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material"
-import axios from "axios"
 import { useEffect, useState } from "react"
 
 type CategoryItem = {

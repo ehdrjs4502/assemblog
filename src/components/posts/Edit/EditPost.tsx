@@ -1,5 +1,4 @@
 import { useState, useRef, ChangeEvent, useEffect } from 'react'
-import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import axios from 'axios'
@@ -21,7 +20,7 @@ type userInfo = {
 
 export default function EditPost() {
     const [category, setCategory] = useState<string>('') // 선택한 카테고리
-    const [thumbnail, setThumbnail] = useState<string>('') // 썸네일 URL 설정
+    const [thumbnail, setThumbnail] = useState<string>('https://storage.googleapis.com/assemblog_bucket/images/default_thumbnail.png') // 썸네일 URL 설정
     const [title, setTitle] = useState<string>('') // 제목
     const [content, setContent] = useState<any>('') // 내용
     const [tagList, setTagList] = useState<any>([]) // 태그 리스트
@@ -85,9 +84,7 @@ export default function EditPost() {
 
     const handleaddPostBtn = async (isTempSave: boolean) => {
         // 게시 버튼 클릭시
-        const preview = content.replace(/!\[\]\([^)]+\)|[!@#$%^&*()`~-]|[(\r\n|\n|\r)]/g, '') // 순수한 문자만 필터링해서 프리뷰로..
-
-        console.log(category, title, userInfo.email, content, preview, tagList)
+        const preview = content.replace(/!\[\]\([^)]+\)|[!@#$%^&*()`~-]|[(\r\n|\n|\r)]|<\/?[^>]+(>|$)/g, '').substr(0,100) // 순수한 문자만 필터링해서 프리뷰로..
         // 게시 버튼 클릭
         try {
             const response = await axios.post(
@@ -138,6 +135,7 @@ export default function EditPost() {
 
                 {/* 썸네일 지정 요소 */}
                 <EditThumbnail
+                    thumbnail={thumbnail}
                     inputRef={thumnailImgInputRef}
                     handleImageUpload={handleImageUpload}
                     handleImageBtnClick={handleImageBtnClick}
