@@ -8,7 +8,7 @@ const nextConfig = {
     return [
       {
         source: "/server/:path*", // 사용할 주소  /:path* 뒤에 붙는 것을 다 포함한다는 의미
-        destination: "https://2403-14-35-50-227.ngrok-free.app/:path*", // 실제 api 주소
+        destination: "https://b0ea-14-35-50-227.ngrok-free.app/:path*", // 실제 api 주소
       },
     ];
   },

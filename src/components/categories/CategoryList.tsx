@@ -18,12 +18,11 @@ type CategoryItem = {
 }
 
 type BoardItem = {
-    id: number;
-    title: string;
-    orderNum: number;
-    useState: boolean;
+    id: number
+    title: string
+    orderNum: number
+    useState: boolean
 }
-
 
 interface Props {
     list: CategoryItem[]
@@ -48,7 +47,7 @@ export default function CategoryList({ list, isLogin, userInfo, getCategories, i
     const router = useRouter()
 
     const onNestedClick = (id: number) => {
-        // 하위 카테고라 열기
+        // 하위 카테고리 열기
         setOpen((prevOpen) => ({
             ...prevOpen,
             [id]: !prevOpen[id],
@@ -57,23 +56,13 @@ export default function CategoryList({ list, isLogin, userInfo, getCategories, i
 
     const onClick = (id: number, title: string, childTitle: string) => {
         // 해당 카테고리 포스트 보러가기
-        if (childTitle === '') {
-            router.push(
-                {
-                    pathname: `/category/${title}`,
-                    query: { id: id, title: title },
-                },
-                `/category/${title}`
-            )
-        } else {
-            router.push(
-                {
-                    pathname: `/category/${title}/${childTitle}`,
-                    query: { id: id, title: childTitle },
-                },
-                `/category/${title}/${childTitle}`
-            )
-        }
+        router.push(
+            {
+                pathname: `/category/${title}/${childTitle}`,
+                query: { id: id, title: childTitle },
+            },
+            `/category/${title}/${childTitle}`
+        )
     }
 
     return (

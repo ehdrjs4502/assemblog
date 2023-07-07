@@ -11,11 +11,11 @@ export default function Category({data}: any) {
 
     return (
         <>
-            <HeadTitle title={data[1] ? data[1] : data[0]} />
+            <HeadTitle title={data[1] + " 카테고리"} />
             <Navigation contentRef={''}/>
             <h4>카테고리에 해당하는 포스트 보여줄 예정</h4>
             <br></br>
-            <h4>{data[1] ? data[1] : data[0]}</h4>
+            <h4>{data[1]}</h4>
             {router.query.id}
         </>
     )

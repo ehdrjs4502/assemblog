@@ -105,15 +105,13 @@ export default function Navigation({ contentRef }: any) {
     const originalStyle = {
         // 원래 네비게이션 바 스타일
         position: 'absolute',
-        backgroundColor: 'white',
-        opacity: 0.9,
+        backgroundColor: 'rgba( 255, 255, 255, 0.6 )',
     }
 
     const changeStyle = {
         // 콘텐츠 영역으로 가면 포지션을 fixed로 변경
         position: 'fixed',
-        backgroundColor: 'white',
-        opacity: 0.9,
+        backgroundColor: 'rgba( 255, 255, 255, 0.6 )',
     }
 
     const updateScroll = () => {
