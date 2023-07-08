@@ -21,7 +21,8 @@ interface Post {
 export default function Content() {
     const [postList, setPostList] = useState<Post[]>([]) // 포스트 목록
 
-    useEffect(() => { // 포스트 목록 불러오기
+    useEffect(() => {
+        // 포스트 목록 불러오기
         axios
             .get(`/server/lists/posts/?pageSize=${9}`, {
                 headers: {
@@ -57,6 +58,11 @@ export default function Content() {
                                             preview: post.preview,
                                             writer: post.username,
                                             date: post.createdAt,
+                                            commentCount: post.commentCount,
+                                            createAt: post.createAt,
+                                            updateAt: post.updateAt,
+                                            likeCount: post.likeCount,
+                                            viewCount: post.viewCount,
                                         }}
                                     />
                                 </>

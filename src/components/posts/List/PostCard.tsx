@@ -80,7 +80,7 @@ export default function PostCard({ data }: Props) {
                 </CardContent>
             </CardActionArea>
             <Typography sx={{ marginLeft: 2, fontSize: 12 }} variant="body2">
-                작성자 : {data.writer} / 작성일 : {formattedDate}
+               {data.writer} {formattedDate} 조회수 : {data.viewCount}
             </Typography>
         </Card>
     )

@@ -16,7 +16,7 @@ export default function Category({data}: any) {
             <h4>카테고리에 해당하는 포스트 보여줄 예정</h4>
             <br></br>
             <h4>{data[1]}</h4>
-            {router.query.id}
+            <span>{router.query.cid![0]}</span>
         </>
     )
 }

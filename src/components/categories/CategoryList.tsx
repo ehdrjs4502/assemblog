@@ -8,6 +8,7 @@ import { useState } from 'react'
 import AddBoardModal from './modals/AddBoardModal'
 import SettingCategoryModal from './modals/SettingCategoryModal'
 import { useRouter } from 'next/router'
+import SettingBoardModal from './modals/SettingBoardModal'
 
 type CategoryItem = {
     id: number
@@ -38,11 +39,15 @@ interface Props {
 
 export default function CategoryList({ list, isLogin, userInfo, getCategories, isView }: Props) {
     const [open, setOpen] = useState<{ [key: number]: boolean }>({}) // 상세 카테고리 열기
-    const [addBoardModalOpen, setAddBoardModalOpen] = useState(false) // 게시판 생성 모달 상태
-    const [settingCategoryModalOpen, setSettingCategoryModalOpen] = useState(false) // 카테고리 설정 모달 상태
-    const [categoyID, setCategoryID] = useState<number>(0)
-    const [categoyTitle, setCategoryTitle] = useState<string>('')
-    const [categoryOrderNum, setCategoryOrderNum] = useState<number>(0)
+    const [addBoardModalOpen, setAddBoardModalOpen] = useState<boolean>(false) // 게시판 생성 모달 상태
+    const [settingCategoryModalOpen, setSettingCategoryModalOpen] = useState<boolean>(false) // 카테고리 설정 모달 상태
+    const [settingBoardModalOpen, setSettingBoardModalOpen] = useState<boolean>(false) // 게시판 설정 모달 상태
+    const [categoyID, setCategoryID] = useState<number>(0) // 카테고리 ID
+    const [categoyTitle, setCategoryTitle] = useState<string>('') // 카테고리 제목
+    const [categoryOrderNum, setCategoryOrderNum] = useState<number>(0) // 카테고리 순서
+    const [boardID, setBoardID] = useState<number>(0) // 게시판 ID
+    const [boardTitle, setBoardTitle] = useState<string>('') // 게시판 제목
+    const [boardOrderNum, setBoardOrderNum] = useState<number>(0) // 게시판 순서
 
     const router = useRouter()
 
@@ -113,12 +118,7 @@ export default function CategoryList({ list, isLogin, userInfo, getCategories, i
                                             )}
                                         </>
                                     }>
-                                    <ListItemButton
-                                        key={id}
-                                        sx={{ pl: 4 }}
-                                        onClick={
-                                            boards.length !== 0 ? () => onNestedClick(id) : () => onClick(id, title, '')
-                                        }>
+                                    <ListItemButton key={id} sx={{ pl: 4 }} onClick={() => onNestedClick(id)}>
                                         <ListItemText primary={title} />
                                         {boards.length === 0 ? (
                                             ''
@@ -133,15 +133,20 @@ export default function CategoryList({ list, isLogin, userInfo, getCategories, i
                             {boards.length !== 0 && (
                                 <Collapse in={isOpen} timeout="auto" unmountOnExit>
                                     <List component="div">
-                                        {boards.map(({ id: childID, title: childTitle }) => (
+                                        {boards.map(({ id: id, title: title, orderNum: orderNum }) => (
                                             <ListItem
-                                                key={childID}
+                                                key={id}
                                                 disablePadding
                                                 secondaryAction={
                                                     <>
                                                         {isLogin ? (
                                                             <IconButton
-                                                                onClick={() => alert(childTitle + ' 설정')}
+                                                                onClick={() => {
+                                                                    setSettingBoardModalOpen(true)
+                                                                    setBoardID(id)
+                                                                    setBoardTitle(title)
+                                                                    setBoardOrderNum(orderNum)
+                                                                }}
                                                                 color="primary"
                                                                 aria-label="menu"
                                                                 sx={{
@@ -158,10 +163,10 @@ export default function CategoryList({ list, isLogin, userInfo, getCategories, i
                                                     </>
                                                 }>
                                                 <ListItemButton
-                                                    onClick={() => onClick(childID, title, childTitle)}
-                                                    key={childID}
+                                                    onClick={() => onClick(id, title, title)}
+                                                    key={id}
                                                     sx={{ pl: 4 }}>
-                                                    <ListItemText primary={childTitle} />
+                                                    <ListItemText primary={title} />
                                                 </ListItemButton>
                                             </ListItem>
                                         ))}
@@ -188,6 +193,16 @@ export default function CategoryList({ list, isLogin, userInfo, getCategories, i
                 isOpen={addBoardModalOpen}
                 categoyID={categoyID}
                 categoryTitle={categoyTitle}
+                userInfo={userInfo}
+                getCategories={getCategories}
+            />
+
+            <SettingBoardModal
+                onClose={() => setSettingBoardModalOpen(false)}
+                isOpen={settingBoardModalOpen}
+                boardID={boardID}
+                boardTitle={boardTitle}
+                boardOrderNum={boardOrderNum}
                 userInfo={userInfo}
                 getCategories={getCategories}
             />

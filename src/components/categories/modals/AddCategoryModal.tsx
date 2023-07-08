@@ -2,7 +2,6 @@ import reissueAccToken from '@/function/reissueAccToken'
 import { Box, Button, Modal, TextField, Typography } from '@mui/material'
 import axios from 'axios'
 import { useRef, useState } from 'react'
-import { Cookies } from 'react-cookie'
 
 interface Props {
     onClose: () => void
@@ -18,7 +17,6 @@ interface Props {
 export default function AddCategoryModal({ onClose, isOpen, userInfo, getCategories }: Props) {
     const [title, setTitle] = useState<string>('') // 카테고리명
     const titleRef = useRef() // 카테고리명 인풋창
-    const newCookie = new Cookies()
     const style = {
         // 모달 창 스타일
         position: 'absolute' as 'absolute',

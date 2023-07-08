@@ -1,7 +1,6 @@
 import { Box, Button, Checkbox, FormControlLabel, Modal, TextField, Typography } from '@mui/material'
 import axios from 'axios'
 import { useRef, useState, useEffect } from 'react'
-import { Cookies } from 'react-cookie'
 import DeleteIcon from '@mui/icons-material/Delete'
 import reissueAccToken from '@/function/reissueAccToken'
 
@@ -19,17 +18,24 @@ interface Props {
     getCategories: () => void
 }
 
-export default function SettingCategoryModal({ onClose, isOpen, categoryID, categoryTitle, categoryOrderNum, userInfo, getCategories }: Props) {
-    const [title, setTitle] = useState<string>(''); // 카테고리명
-    const titleRef = useRef(); // 카테고리명 인풋창
-    const newCookie = new Cookies();
-    const [isChecked, setIsChecked] = useState<boolean>(true); // 숨기기 여부
+export default function SettingCategoryModal({
+    onClose,
+    isOpen,
+    categoryID,
+    categoryTitle,
+    categoryOrderNum,
+    userInfo,
+    getCategories,
+}: Props) {
+    const [title, setTitle] = useState<string>('') // 카테고리명
+    const titleRef = useRef() // 카테고리명 인풋창
+    const [isChecked, setIsChecked] = useState<boolean>(true) // 숨기기 여부
 
-    useEffect(() => { // 모달창 열렸을 때 초기값 설정
-        setTitle(categoryTitle);
-        setIsChecked(true);
-    },[isOpen]);
-    
+    useEffect(() => {
+        // 모달창 열렸을 때 초기값 설정
+        setTitle(categoryTitle)
+        setIsChecked(true)
+    }, [isOpen])
 
     const style = {
         // 모달 창 스타일
@@ -67,36 +73,31 @@ export default function SettingCategoryModal({ onClose, isOpen, categoryID, cate
 
             reissueAccToken(response.headers['accessToken']) // 액세스 토큰 만료되면 재발급하는 함수
 
-            console.log(response);
+            console.log(response)
 
-            getCategories();
-            onClose();
-
+            getCategories()
+            onClose()
         } catch (error: any) {
-            alert(error.response.data);
+            alert(error.response.data)
         }
     }
 
     //카테고리 삭제하는 함수
     const delCategory = async () => {
         try {
-            const response = await axios.delete(
-                `/server/api/categories/${categoryID}`,
-                {
-                    headers: {
-                        email: userInfo.email,
-                        RefreshToken: userInfo.refreshToken,
-                        AccessToken: userInfo.accessToken,
-                    },
-                }
-            )
+            const response = await axios.delete(`/server/api/categories/${categoryID}`, {
+                headers: {
+                    email: userInfo.email,
+                    RefreshToken: userInfo.refreshToken,
+                    AccessToken: userInfo.accessToken,
+                },
+            })
 
             reissueAccToken(response.headers['accessToken']) // 액세스 토큰 만료되면 재발급하는 함수
 
-            getCategories();
-
+            getCategories()
         } catch (error: any) {
-            alert(error);
+            alert(error)
         }
     }
 
@@ -138,9 +139,9 @@ export default function SettingCategoryModal({ onClose, isOpen, categoryID, cate
                     <div className="modal-button-container">
                         <Button
                             onClick={() => {
-                                if(confirm("정말로 삭제하시겠습니까?") == true) {
-                                    delCategory();
-                                    onClose();
+                                if (confirm('정말로 삭제하시겠습니까?') == true) {
+                                    delCategory()
+                                    onClose()
                                 }
                             }}
                             sx={{ marginRight: 2 }}
@@ -155,7 +156,7 @@ export default function SettingCategoryModal({ onClose, isOpen, categoryID, cate
                         </Button>
                         <Button
                             onClick={() => {
-                                modifyCategory();
+                                modifyCategory()
                             }}
                             variant="contained"
                             size="small">
