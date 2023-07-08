@@ -9,7 +9,6 @@ interface Props {
         categoryTitle: string
         thumbnail: string
         viewCount: number
-        tagList: []
     }
 }
 

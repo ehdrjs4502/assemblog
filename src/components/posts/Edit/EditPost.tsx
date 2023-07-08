@@ -5,7 +5,7 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import { Cookies } from 'react-cookie'
 import { FormControlLabel, Switch } from '@mui/material'
-import SetCategory from './EditCategory'
+import EditCategory from './EditCategory'
 import EditTitle from './EditTitle'
 import EditThumbnail from './EditThumbnail'
 import EditContent from './EditContent'
@@ -20,12 +20,14 @@ type userInfo = {
 
 export default function EditPost() {
     const [category, setCategory] = useState<string>('') // 선택한 카테고리
-    const [thumbnail, setThumbnail] = useState<string>('https://storage.googleapis.com/assemblog_bucket/images/default_thumbnail.png') // 썸네일 URL 설정
+    const [thumbnail, setThumbnail] = useState<string>(
+        'https://storage.googleapis.com/assemblog_bucket/images/default_thumbnail.png'
+    ) // 썸네일 URL 설정
     const [title, setTitle] = useState<string>('') // 제목
     const [content, setContent] = useState<any>('') // 내용
     const [tagList, setTagList] = useState<any>([]) // 태그 리스트
     const [commentIsChecked, setCommentIsChecked] = useState<boolean>(false) // 댓글 달기 여부
-    const [hidePostIsChecked, setHidePostIsChecked] = useState<boolean>(false) // 포스트 숨기기 여부
+    const [postUseIsChecked, setPostUseIsChecked] = useState<boolean>(true) // 포스트 게시 여부
     const contentImgInputRef = useRef<HTMLInputElement>(null) // 파일 인풋창 ref
     const thumnailImgInputRef = useRef<HTMLInputElement>(null) // 썸네일 인풋창 ref
     const cookie = new Cookies()
@@ -35,6 +37,19 @@ export default function EditPost() {
         accessToken: cookie.get('accessToken'), // 액세스 토큰 저장
         refreshToken: cookie.get('refreshToken'), // 리프레쉬 토큰 저장
     }
+
+    useEffect(() => {
+        console.log(router.query)
+        if (router.query.postId !== undefined) {
+            setCategory(router.query.cateogry as string)
+            setTitle(router.query.title as string)
+            setContent(router.query.content as string)
+            setThumbnail(router.query.thumbnail as string)
+            if (router.query.tagList !== undefined) {
+                setTagList(Array.isArray(router.query.tagList) ? router.query.tagList : [router.query.tagList])
+            }
+        }
+    }, [])
 
     const handleImageBtnClick = (isThumbnail: boolean) => {
         // 이미지 업로드 버튼 클릭시 썸네일 버튼인지 내용 이미지 버튼인지 확인
@@ -84,36 +99,79 @@ export default function EditPost() {
 
     const handleaddPostBtn = async (isTempSave: boolean) => {
         // 게시 버튼 클릭시
-        const preview = content.replace(/!\[\]\([^)]+\)|[!@#$%^&*()`~-]|[(\r\n|\n|\r)]|<\/?[^>]+(>|$)/g, '').substr(0,100) // 순수한 문자만 필터링해서 프리뷰로..
+        const preview = content
+            .replace(/!\[\]\([^)]+\)|[!@#$%^&*()`~-]|[(\r\n|\n|\r)]|<\/?[^>]+(>|$)/g, '')
+            .substr(0, 100) // 순수한 문자만 필터링해서 프리뷰로..
+
+        let postData: any = {
+            boardId: category, // 카테고리 ID
+            writerMail: userInfo.email, // 글쓴이 이메일
+            title: title, // 제목
+            content: content, // 내용
+            thumbnail: thumbnail, // 썸네일 이미지
+            postUseState: postUseIsChecked, // 숨김 여부
+            commentUseState: commentIsChecked, // 댓글 가능 여부
+            tempSaveState: isTempSave, // 임시 저장 여부
+            preview: preview, // 게시글 목록에 보일 내용 프리뷰
+            tags: tagList, // 태그
+        }
+
+        if(!category) {
+            return alert('카테고리를 선택해주세요')
+        }
+
+        if(!title.trim()) {
+            return alert('제목을 작성해주세요')
+        }
+
+        if(!content.trim()) {
+            return alert('내용 작성해주세요')
+        }
+
         // 게시 버튼 클릭
         try {
-            const response = await axios.post(
-                '/server/api/posts',
-                {
-                    boardId: category, // 카테고리 ID
-                    writerMail: userInfo.email, // 글쓴이 이메일
-                    title: title, // 제목
-                    content: content, // 내용
-                    thumbnail: thumbnail, // 썸네일 이미지
-                    postUseState: hidePostIsChecked, // 숨김 여부
-                    commentUseState: commentIsChecked, // 댓글 가능 여부
-                    tempSaveState: isTempSave, // 임시 저장 여부
-                    preview: preview, // 게시글 목록에 보일 내용 프리뷰
-                    tags: tagList, // 태그
-                },
-                {
+            // 새로운 글 작성인지 수정인지 확인 undefined면 새로운 글 작성
+            if (router.query.postId === undefined) {
+                const response = await axios.post('/server/api/posts', postData, {
                     headers: {
                         email: userInfo.email,
                         RefreshToken: userInfo.refreshToken,
                         AccessToken: userInfo.accessToken,
                     },
-                }
-            )
-            
-            console.log(response)
-            
-            reissueAccToken(response.headers['accessToken']) // 액세스 토큰 만료되면 재발급하는 함수
+                })
 
+                console.log(response)
+
+                reissueAccToken(response.headers['accessToken']) // 액세스 토큰 만료되면 재발급하는 함수
+
+                if (response.status === 200) {
+                    alert('글 작성 완료')
+                    router.push('/')
+                } else {
+                    alert('글 작성 실패..')
+                }
+            } else {
+                postData['id'] = router.query.postId
+                console.log(postData)
+                const response = await axios.patch('/server/api/posts', postData, {
+                    headers: {
+                        email: userInfo.email,
+                        RefreshToken: userInfo.refreshToken,
+                        AccessToken: userInfo.accessToken,
+                    },
+                })
+
+                console.log(response)
+
+                reissueAccToken(response.headers['accessToken']) // 액세스 토큰 만료되면 재발급하는 함수
+
+                if (response.status === 200) {
+                    alert('글 수정 완료')
+                    router.push('/')
+                } else {
+                    alert('글 작성 실패..')
+                }
+            }
         } catch (error: any) {
             console.log(error)
         }
@@ -131,7 +189,7 @@ export default function EditPost() {
         <>
             <Box sx={{ marginTop: 10, padding: 5 }}>
                 {/* 카테고리 설정 요소 */}
-                <SetCategory category={category} setCategory={setCategory} />
+                <EditCategory category={category} setCategory={setCategory} />
 
                 {/* 썸네일 지정 요소 */}
                 <EditThumbnail
@@ -142,7 +200,7 @@ export default function EditPost() {
                 />
 
                 {/* 제목 입력 요소 */}
-                <EditTitle setTitle={setTitle} />
+                <EditTitle setTitle={setTitle} title={title} />
 
                 {/* 내용 입력 요소 (마크다운에디터) */}
                 <EditContent
@@ -154,7 +212,7 @@ export default function EditPost() {
                 />
 
                 {/* 태그 입력 요소 */}
-                <EditTag tagList={tagList} setTagList={setTagList}/>
+                <EditTag tagList={tagList} setTagList={setTagList} />
 
                 {/* 댓글, 숨기기 체크 요소 */}
                 <FormControlLabel
@@ -174,13 +232,14 @@ export default function EditPost() {
                     value="comment"
                     control={
                         <Switch
+                            defaultChecked
                             color="primary"
                             onChange={(e) => {
-                                setHidePostIsChecked(e.target.checked)
+                                setPostUseIsChecked(e.target.checked)
                             }}
                         />
                     }
-                    label="포스트 숨기기"
+                    label="게시 여부"
                     labelPlacement="start"
                 />
                 <br />

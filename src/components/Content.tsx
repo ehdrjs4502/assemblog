@@ -44,30 +44,26 @@ export default function Content() {
                         <span>최신 글</span>
                     </div>
                     <div className="card-box">
-                        {postList.map((post: any) => {
-                            return (
-                                <>
-                                    <PostCard
-                                        key={post.postId}
-                                        data={{
-                                            postId: post.postId,
-                                            title: post.title,
-                                            thumbnail: post.thumbnail,
-                                            categoryTitle: post.categoryTitle,
-                                            boardTitle: post.boardTitle,
-                                            preview: post.preview,
-                                            writer: post.username,
-                                            date: post.createdAt,
-                                            commentCount: post.commentCount,
-                                            createAt: post.createAt,
-                                            updateAt: post.updateAt,
-                                            likeCount: post.likeCount,
-                                            viewCount: post.viewCount,
-                                        }}
-                                    />
-                                </>
-                            )
-                        })}
+                        {postList.map((post: any) => (
+                            <PostCard
+                                key={post.postId}
+                                data={{
+                                    postId: post.postId,
+                                    title: post.title,
+                                    thumbnail: post.thumbnail,
+                                    categoryTitle: post.categoryTitle,
+                                    boardTitle: post.boardTitle,
+                                    preview: post.preview,
+                                    writer: post.username,
+                                    date: post.createdAt,
+                                    commentCount: post.commentCount,
+                                    createAt: post.createAt,
+                                    updateAt: post.updateAt,
+                                    likeCount: post.likeCount,
+                                    viewCount: post.viewCount,
+                                }}
+                            />
+                        ))}
                     </div>
                 </div>
             </div>

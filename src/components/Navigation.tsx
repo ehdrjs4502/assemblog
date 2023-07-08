@@ -158,7 +158,7 @@ export default function Navigation({ contentRef }: any) {
                     </IconButton>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}></Typography>
                     {isLogin && (
-                        <IconButton color="primary" onClick={() => router.push('/post/new')}>
+                        <IconButton color="primary" onClick={() => router.push('/post/edit')}>
                             <PostAddIcon />
                         </IconButton>
                     )}
