@@ -12,7 +12,7 @@ type inputData = {
     username: String
 }
 
-export default function signup() {
+export default function Signup() {
     const title = 'SignUp'
     const [pw, setPW] = useState<String>('')
     const [email, setEmail] = useState<String>('')

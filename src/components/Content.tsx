@@ -18,23 +18,23 @@ interface Post {
     viewCount: number
 }
 
-export default function Content() {
-    const [postList, setPostList] = useState<Post[]>([]) // 포스트 목록
+export default function Content({postList}: any) {
+    // const [postList, setPostList] = useState<Post[]>([]) // 포스트 목록
 
-    useEffect(() => {
-        // 포스트 목록 불러오기
-        axios
-            .get(`/server/lists/posts/?pageSize=${9}`, {
-                headers: {
-                    'ngrok-skip-browser-warning': '1234',
-                },
-            })
-            .then((res) => {
-                setPostList(res.data.postList)
-                console.log(res)
-            })
-            .catch((e) => console.log(e))
-    }, [])
+    // useEffect(() => {
+    //     // 포스트 목록 불러오기
+    //     axios
+    //         .get(`/server/lists/posts/?pageSize=${9}`, {
+    //             headers: {
+    //                 'ngrok-skip-browser-warning': '1234',
+    //             },
+    //         })
+    //         .then((res) => {
+    //             setPostList(res.data.postList)
+    //             console.log(res)
+    //         })
+    //         .catch((e) => console.log(e))
+    // }, [])
 
     return (
         <>

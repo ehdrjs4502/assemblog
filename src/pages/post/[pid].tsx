@@ -8,6 +8,7 @@ import ModifyBtn from '@/components/posts/button/ModifyBtn'
 import DelBtn from '@/components/posts/button/DelBtn'
 import { Cookies } from 'react-cookie'
 import ViewTag from '@/components/posts/View/ViewTag'
+import { useRouter } from 'next/router'
 
 type userInfo = {
     email: string
@@ -17,19 +18,24 @@ type userInfo = {
 export default function Post({ post }: any) {
     const [mounted, setMounted] = useState<boolean>(false) //Hydration failed because the initial UI 에러 해결하기 위함
     const cookie = new Cookies()
+    const router = useRouter()
+    const contentRef = useRef(null)
     const userInfo: userInfo = {
         email: cookie.get('email'),
         accessToken: cookie.get('accessToken'), // 액세스 토큰 저장
         refreshToken: cookie.get('refreshToken'), // 리프레쉬 토큰 저장
     }
 
-    console.log(post)
-
     useEffect(() => {
+        //Hydration failed because the initial UI 에러 해결하기 위함
         setMounted(true)
     }, [])
 
-    const contentRef = useRef(null)
+    if (router.isFallback) {
+        // npm run build시에 TypeError: Cannot read properties of undefined (reading 'title') 떠서 해결하기 위함
+        return <div>Loading...</div>
+    }
+
     return (
         <>
             <HeadTitle title={post.title} />
@@ -79,36 +85,90 @@ export default function Post({ post }: any) {
     )
 }
 
-export const getServerSideProps = async (ctx: any) => {
-    const pid: string = ctx.params.pid // 포스트 ID URL
-    console.log(pid)
-    const res = await axios.get(`https://1ead-14-35-50-227.ngrok-free.app/posts/${pid}`, {
+//ssg 방식으로 빌드 시에 정적 html 파일 생성 npm run build && npm run start 해야함
+export async function getStaticProps({ params }: any) {
+    try {
+        const res = await axios.get(`https://684a-14-35-50-227.ngrok-free.app/posts/${params.pid}`)
+
+        const post = res.data
+
+        return {
+            props: { post },
+            revalidate: 10,
+        }
+    } catch (error) {
+        return {
+            notFound: true,
+        }
+    }
+}
+
+export async function getStaticPaths() {
+    const res: any = await axios.get(`https://684a-14-35-50-227.ngrok-free.app/lists/posts`, {
         headers: {
             'ngrok-skip-browser-warning': '1234',
         },
-    }) // 해당 게시글 데이터 가져오기
+    })
 
-    const post = res.data
-
-    console.log(post)
+    const paths = res.data.postList.map((post: any) => ({
+        params: { pid: post.postId.toString() },
+    }))
 
     return {
-        props: {
-            post: post,
-            //             post: {
-            //                 title: '테스트 제목',
-            //                 content: `## 안녕하세요
-            // **글을 작성해봅시다.**
-            // ~~~js
-            // const test = 10
-            // ~~~
-
-            // 이런식으로 작성할 수 있습니다.
-
-            // ![](https://storage.googleapis.com/assemblog_bucket/images/default_thumbnail.png)
-            // `,
-            //                 thumbnail: 'https://storage.googleapis.com/assemblog_bucket/images/default_thumbnail.png',
-            //             },
-        },
+        paths,
+        fallback: true,
     }
 }
+
+// ssr 방식
+// export const getServerSideProps = async (ctx: any) => {
+//     try {
+//         const pid: string = ctx.params.pid // 포스트 ID URL
+//         console.log(pid)
+//         const res = await axios.get(`https://684a-14-35-50-227.ngrok-free.app/posts/${pid}`, {
+//             headers: {
+//                 'ngrok-skip-browser-warning': '1234',
+//             },
+//         }) // 해당 게시글 데이터 가져오기
+
+//         if (!res) {
+//             return {
+//                 notFound: true,
+//             }
+//         }
+
+//         const post = res.data
+
+//         console.log(post)
+
+//         return {
+//             props: {
+//                 post: post,
+// //                 post: {
+// //                     postId: 1,
+// //                     title: '테스트 제목',
+// //                     content: `## 안녕하세요
+// // **글을 작성해봅시다.**
+// // ~~~js
+// // const test = 10
+// // ~~~
+
+// // 이런식으로 작성할 수 있습니다.
+
+// // ![](https://storage.googleapis.com/assemblog_bucket/images/default_thumbnail.png)
+// //                 `,
+// //                     thumbnail: 'https://storage.googleapis.com/assemblog_bucket/images/default_thumbnail.png',
+// //                     tagList: ['태그','우와'],
+// //                     writerMail: 'a@naver.com',
+// //                     username:'tester',
+// //                     categoryTitle: '카테고리',
+// //                     boardTitle: '게시판',
+// //                 },
+//             },
+//         }
+//     } catch (error) {
+//         return {
+//             notFound: true,
+//         }
+//     }
+// }

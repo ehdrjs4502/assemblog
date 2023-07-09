@@ -7,7 +7,7 @@ import { useRouter } from 'next/router'
 
 const EditPost = dynamic(() => import('../../components/posts/Edit/EditPost'), { ssr: false })
 
-export default function newPost() {
+export default function Edit() {
     const router = useRouter()
 
     return (

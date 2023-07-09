@@ -11,7 +11,7 @@ type inputData = {
     password: string
 }
 
-export default function login() {
+export default function Sogin() {
     const title = 'Login'
     const [email, setEmail] = useState<string>('')
     const [pw, setPW] = useState<string>('')

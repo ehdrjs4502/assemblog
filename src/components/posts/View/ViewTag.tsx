@@ -5,7 +5,6 @@ interface Props {
 }
 
 export default function ViewTag({tagList}:Props) {
-    console.log(tagList)
     return (
         <>
             {tagList.map((tag) => 

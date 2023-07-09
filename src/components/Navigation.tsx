@@ -10,7 +10,6 @@ import Category from './categories/Category'
 import DrawerHeader from './DrawerHeader'
 import PostAddIcon from '@mui/icons-material/PostAdd'
 import { useRouter } from 'next/router'
-import axios from 'axios'
 import { Cookies } from 'react-cookie'
 import { getCategoryList } from '@/function/getCategory'
 
