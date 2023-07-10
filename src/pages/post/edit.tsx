@@ -5,7 +5,7 @@ import '@uiw/react-markdown-preview/markdown.css'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 
-const EditPost = dynamic(() => import('../../components/posts/Edit/EditPost'), { ssr: false })
+const EditPost = dynamic(() => import('../../components/posts/edit/EditPost'), { ssr: false })
 
 export default function Edit() {
     const router = useRouter()

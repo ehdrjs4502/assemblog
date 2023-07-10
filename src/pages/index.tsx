@@ -25,7 +25,8 @@ export default function Home({postList}: any) {
 
 // 게시글 목록 ssg 방식으로 가져오기
 export async function getStaticProps() {
-    const res: any = await axios.get(`https://684a-14-35-50-227.ngrok-free.app/lists/posts`, {
+    const API_URL = process.env.API
+    const res: any = await axios.get(`${API_URL}lists/posts`, {
         headers: {
             'ngrok-skip-browser-warning': '1234',
         },

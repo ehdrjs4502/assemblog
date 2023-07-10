@@ -124,14 +124,14 @@ export default function Navigation({ contentRef }: any) {
 
     useEffect(() => {
         // 카테고리 리스트 가져오기
-        // const fetchCategoryList = async () => {
-        //     const list = await getCategoryList() // 카테고리 가져오는 함수
-        //     setCategoryList(list)
-        // }
+        const fetchCategoryList = async () => {
+            const list = await getCategoryList() // 카테고리 가져오는 함수
+            setCategoryList(list)
+        }
 
-        setCategoryList(testList)
+        // setCategoryList(testList)
 
-        // fetchCategoryList()
+        fetchCategoryList()
 
         if (userInfo.email !== undefined) {
             setIsLogin(true)

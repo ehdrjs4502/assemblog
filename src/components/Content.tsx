@@ -1,4 +1,4 @@
-import PostCard from './posts/List/PostCard'
+import PostCard from './posts/list/PostCard'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 

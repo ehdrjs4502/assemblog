@@ -4,7 +4,7 @@ interface Props {
     data: {
         title: string
         writer: string
-        date: Date
+        date: string
         boradTitle: string
         categoryTitle: string
         thumbnail: string
