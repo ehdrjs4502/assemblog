@@ -1,4 +1,4 @@
-import RateReviewIcon from '@mui/icons-material/RateReview'
+import {RateReview} from '@mui/icons-material'
 import { Box, TextField, Button } from '@mui/material'
 import axios from 'axios'
 import { useRef, useState } from 'react'
@@ -28,7 +28,7 @@ export default function EditComment({ postId, setCommentList }: Props) {
     const passwordRef = useRef<HTMLInputElement>(null)
     const contentRef = useRef<HTMLInputElement>(null)
 
-    const onClick = async () => {
+    const onClickEditBtn = async () => {
         if (!nickname) {
             nicknameRef.current?.focus()
             return alert('닉네임을 입력해주세요')
@@ -139,9 +139,9 @@ export default function EditComment({ postId, setCommentList }: Props) {
                     sx={{ width: '100%', marginTop: '30px' }}
                 />
                 <Button
-                    onClick={() => onClick()}
+                    onClick={() => onClickEditBtn()}
                     variant="contained"
-                    startIcon={<RateReviewIcon />}
+                    startIcon={<RateReview />}
                     sx={{ float: 'right', marginTop: '20px' }}>
                     게시
                 </Button>

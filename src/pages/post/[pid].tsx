@@ -2,16 +2,13 @@ import Navigation from '@/components/Navigation'
 import ViewPost from '@/components/posts/view/ViewPost'
 import ViewHeader from '@/components/posts/view/ViewHeader'
 import HeadTitle from '@/components/HeadTitle'
-import axios from 'axios'
 import { useEffect, useRef, useState } from 'react'
 import ModifyBtn from '@/components/posts/button/ModifyBtn'
 import DelBtn from '@/components/posts/button/DelBtn'
 import { Cookies } from 'react-cookie'
 import ViewTag from '@/components/posts/view/ViewTag'
 import { useRouter } from 'next/router'
-import EditComment from '@/components/comment/EditComment'
 import Comment from '@/components/comment/Comment'
-import { getComment } from '@/function/getComment'
 
 interface Props {
     post: {
@@ -35,19 +32,8 @@ type userInfo = {
     refreshToken: string
 }
 
-type comment = {
-    id: number
-    nickname: string
-    content: string
-    createdAt: string
-    depth: number
-    likeState: boolean
-    parentCommentId: number
-}
-
 export default function Post({ post }: Props) {
     const [mounted, setMounted] = useState<boolean>(false) //Hydration failed because the initial UI 에러 해결하기 위함
-    const [commentList, setCommentList] = useState<comment[]>([]) // 댓글 목록
 
     const cookie = new Cookies()
     const router = useRouter()
@@ -59,13 +45,6 @@ export default function Post({ post }: Props) {
     }
 
     useEffect(() => {
-        // 댓글 가져오기
-        const fetchComments = async () => {
-            const comments = await getComment(post.postId)
-            setCommentList(comments)
-        }
-        fetchComments()
-
         //Hydration failed because the initial UI 에러 해결하기 위함
         setMounted(true)
     }, [])
@@ -107,8 +86,7 @@ export default function Post({ post }: Props) {
                     <ViewTag tagList={post.tagList} />
                 </div>
                 <div className="comment-box">
-                    <EditComment postId={post.postId} setCommentList={setCommentList} />
-                    <Comment commentList={commentList} />
+                    <Comment postId={post.postId}/>
                 </div>
             </div>
 
@@ -139,87 +117,16 @@ export default function Post({ post }: Props) {
 }
 
 //ssg 방식으로 빌드 시에 정적 html 파일 생성 npm run build && npm run start 해야함
-export async function getStaticProps({ params }: any) {
-    const API_URL = process.env.API
-    try {
-        const res = await axios.get(`${API_URL}posts/${params.pid}`)
-
-        const post = res.data
-
-        return {
-            props: { post },
-            revalidate: 10,
-        }
-    } catch (error) {
-        return {
-            notFound: true,
-        }
-    }
-}
-
-export async function getStaticPaths() {
-    const API_URL = process.env.API
-    const res: any = await axios.get(`${API_URL}lists/posts`, {
-        headers: {
-            'ngrok-skip-browser-warning': '1234',
-        },
-    })
-
-    const paths = res.data.postList.map((post: any) => ({
-        params: { pid: post.postId.toString() },
-    }))
-
-    return {
-        paths,
-        fallback: true,
-    }
-}
-
-// ssr 방식
-// export const getServerSideProps = async (ctx: any) => {
+// export async function getStaticProps({ params }: any) {
+//     const API_URL = process.env.API
 //     try {
-//         const pid: string = ctx.params.pid // 포스트 ID URL
-//         console.log(pid)
-//         const res = await axios.get(`https://684a-14-35-50-227.ngrok-free.app/posts/${pid}`, {
-//             headers: {
-//                 'ngrok-skip-browser-warning': '1234',
-//             },
-//         }) // 해당 게시글 데이터 가져오기
-
-//         if (!res) {
-//             return {
-//                 notFound: true,
-//             }
-//         }
+//         const res = await axios.get(`${API_URL}posts/${params.pid}`)
 
 //         const post = res.data
 
-//         console.log(post)
-
 //         return {
-//             props: {
-//                 post: post,
-// //                 post: {
-// //                     postId: 1,
-// //                     title: '테스트 제목',
-// //                     content: `## 안녕하세요
-// // **글을 작성해봅시다.**
-// // ~~~js
-// // const test = 10
-// // ~~~
-
-// // 이런식으로 작성할 수 있습니다.
-
-// // ![](https://storage.googleapis.com/assemblog_bucket/images/default_thumbnail.png)
-// //                 `,
-// //                     thumbnail: 'https://storage.googleapis.com/assemblog_bucket/images/default_thumbnail.png',
-// //                     tagList: ['태그','우와'],
-// //                     writerMail: 'a@naver.com',
-// //                     username:'tester',
-// //                     categoryTitle: '카테고리',
-// //                     boardTitle: '게시판',
-// //                 },
-//             },
+//             props: { post },
+//             revalidate: 10,
 //         }
 //     } catch (error) {
 //         return {
@@ -227,3 +134,74 @@ export async function getStaticPaths() {
 //         }
 //     }
 // }
+
+// export async function getStaticPaths() {
+//     const API_URL = process.env.API
+//     const res: any = await axios.get(`${API_URL}lists/posts`, {
+//         headers: {
+//             'ngrok-skip-browser-warning': '1234',
+//         },
+//     })
+
+//     const paths = res.data.postList.map((post: any) => ({
+//         params: { pid: post.postId.toString() },
+//     }))
+
+//     return {
+//         paths,
+//         fallback: true,
+//     }
+// }
+
+// ssr 방식
+export const getServerSideProps = async (ctx: any) => {
+    try {
+        // const pid: string = ctx.params.pid // 포스트 ID URL
+        // console.log(pid)
+        // const res = await axios.get(`https://684a-14-35-50-227.ngrok-free.app/posts/${pid}`, {
+        //     headers: {
+        //         'ngrok-skip-browser-warning': '1234',
+        //     },
+        // }) // 해당 게시글 데이터 가져오기
+
+        // if (!res) {
+        //     return {
+        //         notFound: true,
+        //     }
+        // }
+
+        // const post = res.data
+
+        // console.log(post)
+
+        return {
+            props: {
+                // post: post,
+                post: {
+                    postId: 1,
+                    title: '테스트 제목',
+                    content: `## 안녕하세요
+**글을 작성해봅시다.**
+~~~js
+const test = 10
+~~~
+
+이런식으로 작성할 수 있습니다.
+
+![](https://storage.googleapis.com/assemblog_bucket/images/default_thumbnail.png)
+                `,
+                    thumbnail: 'https://storage.googleapis.com/assemblog_bucket/images/default_thumbnail.png',
+                    tagList: ['태그', '우와'],
+                    writerMail: 'a@naver.com',
+                    username: 'tester',
+                    categoryTitle: '카테고리',
+                    boardTitle: '게시판',
+                },
+            },
+        }
+    } catch (error) {
+        return {
+            notFound: true,
+        }
+    }
+}

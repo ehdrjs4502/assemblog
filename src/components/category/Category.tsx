@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import IconButton from '@mui/material/IconButton'
-import AddIcon from '@mui/icons-material/Add'
 import AddCategoryModal from './modals/AddCategoryModal'
 import CategoryList from './CategoryList'
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { VisibilityOff, Visibility } from '@mui/icons-material'
 import { useRouter } from 'next/router'
+import { getCategoryList } from '@/function/getCategory'
 
 type CategoryItem = {
     id: number
@@ -16,15 +15,13 @@ type CategoryItem = {
 }
 
 type BoardItem = {
-    id: number;
-    title: string;
-    orderNum: number;
-    useState: boolean;
+    id: number
+    title: string
+    orderNum: number
+    useState: boolean
 }
 
 interface Props {
-    list: CategoryItem[]
-    getCategories: () => void
     isLogin: boolean
     userInfo: {
         email: string
@@ -33,11 +30,72 @@ interface Props {
     }
 }
 
-export default function Category({list, getCategories, isLogin, userInfo}: Props) {
-    const [addCategoryModalOpen, setAddCategoryModalOpen] = useState<boolean>(false); // 모달 상태
-    const [onHide, setOnHide] = useState<boolean>(false); // 숨김 카테고리 상태
-    const router = useRouter();
-   
+export default function Category({ isLogin, userInfo }: Props) {
+    const [categoryList, setCategoryList] = useState<CategoryItem[]>([])
+    const [onHide, setOnHide] = useState<boolean>(false) // 숨김 카테고리 상태
+    const router = useRouter()
+
+    useEffect(() => {
+        // 카테고리 리스트 가져오기
+        // const fetchCategoryList = async () => {
+        //     const list = await getCategoryList() // 카테고리 가져오는 함수
+        //     setCategoryList(list)
+        // }
+
+        // fetchCategoryList()
+        
+        const testList: CategoryItem[] = [
+            {
+                id: 1,
+                title: 'test1',
+                orderNum: 1,
+                useState: false,
+                boards: [
+                    {
+                        id: 1,
+                        title: 'board1',
+                        orderNum: 1,
+                        useState: true,
+                    },
+                ],
+            },
+    
+            {
+                id: 2,
+                title: 'test2',
+                orderNum: 2,
+                useState: true,
+                boards: [
+                    {
+                        id: 1,
+                        title: 'board2',
+                        orderNum: 1,
+                        useState: true,
+                    },
+                ],
+            },
+    
+            {
+                id: 3,
+                title: 'test3',
+                orderNum: 3,
+                useState: true,
+                boards: [],
+            },
+    
+            {
+                id: 4,
+                title: 'test4',
+                orderNum: 4,
+                useState: false,
+                boards: [],
+            },
+        ]
+    
+
+        setCategoryList(testList)
+
+    }, [])
 
     return (
         <>
@@ -46,46 +104,35 @@ export default function Category({list, getCategories, isLogin, userInfo}: Props
                 {isLogin ? (
                     <div className="admin-settings">
                         <IconButton onClick={() => setOnHide(!onHide)}>
-                            {onHide ? <VisibilityOffIcon/> : <VisibilityIcon/>}
+                            {onHide ? <VisibilityOff /> : <Visibility />}
                         </IconButton>
-                        <IconButton
-                            onClick={() => {
-                                setAddCategoryModalOpen(true)
-                            }}
-                            color="primary"
-                            aria-label="menu"
-                            sx={{
-                                color: 'gray',
-                                '&:hover': {
-                                    color: 'black',
-                                },
-                            }}>
-                            <AddIcon />
-                        </IconButton>
+                        <AddCategoryModal userInfo={userInfo} getCategories={getCategoryList}/>
                     </div>
                 ) : (
                     ''
                 )}
             </div>
 
-            <CategoryList list={list} isLogin={isLogin} userInfo={userInfo} getCategories={getCategories} isView={true} />
+            <CategoryList
+                list={categoryList}
+                isLogin={isLogin}
+                userInfo={userInfo}
+                getCategories={getCategoryList}
+                isView={true}
+            />
 
             {onHide && (
                 <>
                     <h4>숨겨진 카테고리</h4>
-                    <CategoryList list={list} isLogin={isLogin} userInfo={userInfo} getCategories={getCategories} isView={false} />
+                    <CategoryList
+                        list={categoryList}
+                        isLogin={isLogin}
+                        userInfo={userInfo}
+                        getCategories={getCategoryList}
+                        isView={false}
+                    />
                 </>
             )}
-            
-
-            <AddCategoryModal
-                onClose={() => {
-                    setAddCategoryModalOpen(false)
-                }}
-                isOpen={addCategoryModalOpen}
-                userInfo={userInfo}
-                getCategories={getCategories}
-            />
 
             <style jsx>
                 {`

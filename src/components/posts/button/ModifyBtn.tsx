@@ -1,10 +1,16 @@
-import { useRouter } from "next/router"
-import Button from '@mui/material/Button';
+import { useRouter } from 'next/router'
+import Button from '@mui/material/Button'
 
-export default function ModifyBtn({post}: any) {
+export default function ModifyBtn({ post }: any) {
     const router = useRouter()
 
-    return(
-        <Button variant="outlined" onClick={() => router.push({pathname: '/post/edit', query: post}, `/post/edit`)}>수정</Button>
+    const onClickModifyBtn = () => {
+        router.push({ pathname: '/post/edit', query: post }, `/post/edit`)
+    }
+
+    return (
+        <Button variant="outlined" onClick={() => onClickModifyBtn()}>
+            수정
+        </Button>
     )
 }

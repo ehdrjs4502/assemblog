@@ -1,12 +1,10 @@
-import { Box, Button, Checkbox, FormControlLabel, Modal, TextField, Typography } from '@mui/material'
+import { Box, Button, Checkbox, FormControlLabel, Modal, TextField, Typography, IconButton } from '@mui/material'
 import axios from 'axios'
 import { useRef, useState, useEffect } from 'react'
-import DeleteIcon from '@mui/icons-material/Delete'
 import reissueAccToken from '@/function/reissueAccToken'
+import { Settings, Delete } from '@mui/icons-material'
 
 interface Props {
-    onClose: () => void
-    isOpen: boolean
     boardID: number
     boardTitle: string
     boardOrderNum: number
@@ -18,25 +16,19 @@ interface Props {
     getCategories: () => void
 }
 
-export default function SettingBoardModal({
-    onClose,
-    isOpen,
-    boardID,
-    boardTitle,
-    boardOrderNum,
-    userInfo,
-    getCategories,
-}: Props) {
-
+export default function SettingBoardModal({ boardID, boardTitle, boardOrderNum, userInfo, getCategories }: Props) {
     const [title, setTitle] = useState<string>('') // 카테고리명
     const titleRef = useRef() // 카테고리명 인풋창
     const [isChecked, setIsChecked] = useState<boolean>(true) // 숨기기 여부
+    const [open, setOpen] = useState<boolean>(false)
+    const handleOpen = () => setOpen(true)
+    const handleClose = () => setOpen(false)
 
     useEffect(() => {
         // 모달창 열렸을 때 초기값 설정
         setTitle(boardTitle)
         setIsChecked(true)
-    }, [isOpen])
+    }, [open])
 
     const style = {
         // 모달 창 스타일
@@ -53,7 +45,7 @@ export default function SettingBoardModal({
     }
 
     //게시판 수정하는 함수
-    const modifyBoard = async () => {
+    const onClickModifyBtn = async () => {
         try {
             const response = await axios.patch(
                 `/server/api/categories`,
@@ -77,14 +69,14 @@ export default function SettingBoardModal({
             console.log(response)
 
             getCategories()
-            onClose()
+            handleClose()
         } catch (error: any) {
-            alert(error.response.data)
+            console.log(error.response.data)
         }
     }
 
     //게시판 삭제하는 함수
-    const delBoard = async () => {
+    const onClickDelBtn = async () => {
         try {
             const response = await axios.delete(`/server/api/categories/${boardID}`, {
                 headers: {
@@ -102,12 +94,23 @@ export default function SettingBoardModal({
         }
     }
 
-
     return (
         <>
+            <IconButton
+                onClick={() => {
+                    handleOpen()
+                }}
+                color="primary"
+                aria-label="menu"
+                sx={{
+                    color: 'gray',
+                    '&:hover': { color: 'black' },
+                }}>
+                <Settings />
+            </IconButton>
             <Modal
-                open={isOpen}
-                onClose={onClose}
+                open={open}
+                onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description">
                 <Box sx={style}>
@@ -142,23 +145,23 @@ export default function SettingBoardModal({
                         <Button
                             onClick={() => {
                                 if (confirm('정말로 삭제하시겠습니까?') == true) {
-                                    delBoard()
-                                    onClose()
+                                    onClickDelBtn()
+                                    handleClose()
                                 }
                             }}
                             sx={{ marginRight: 2 }}
                             color="error"
                             variant="outlined"
-                            startIcon={<DeleteIcon />}
+                            startIcon={<Delete />}
                             size="small">
                             삭제
                         </Button>
-                        <Button sx={{ marginRight: 2 }} onClick={() => onClose()} variant="outlined" size="small">
+                        <Button sx={{ marginRight: 2 }} onClick={() => handleClose()} variant="outlined" size="small">
                             취소
                         </Button>
                         <Button
                             onClick={() => {
-                                modifyBoard()
+                                onClickModifyBtn()
                             }}
                             variant="contained"
                             size="small">

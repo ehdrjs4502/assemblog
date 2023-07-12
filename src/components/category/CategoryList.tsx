@@ -1,9 +1,5 @@
 import { Collapse, List, ListItem, ListItemButton, ListItemText } from '@mui/material'
-import SettingsIcon from '@mui/icons-material/Settings'
-import IconButton from '@mui/material/IconButton'
-import AddIcon from '@mui/icons-material/Add'
-import ExpandLess from '@mui/icons-material/ExpandLess'
-import ExpandMore from '@mui/icons-material/ExpandMore'
+import { ExpandLess, ExpandMore } from '@mui/icons-material'
 import { useState } from 'react'
 import AddBoardModal from './modals/AddBoardModal'
 import SettingCategoryModal from './modals/SettingCategoryModal'
@@ -39,15 +35,6 @@ interface Props {
 
 export default function CategoryList({ list, isLogin, userInfo, getCategories, isView }: Props) {
     const [open, setOpen] = useState<{ [key: number]: boolean }>({}) // 상세 카테고리 열기
-    const [addBoardModalOpen, setAddBoardModalOpen] = useState<boolean>(false) // 게시판 생성 모달 상태
-    const [settingCategoryModalOpen, setSettingCategoryModalOpen] = useState<boolean>(false) // 카테고리 설정 모달 상태
-    const [settingBoardModalOpen, setSettingBoardModalOpen] = useState<boolean>(false) // 게시판 설정 모달 상태
-    const [categoyID, setCategoryID] = useState<number>(0) // 카테고리 ID
-    const [categoyTitle, setCategoryTitle] = useState<string>('') // 카테고리 제목
-    const [categoryOrderNum, setCategoryOrderNum] = useState<number>(0) // 카테고리 순서
-    const [boardID, setBoardID] = useState<number>(0) // 게시판 ID
-    const [boardTitle, setBoardTitle] = useState<string>('') // 게시판 제목
-    const [boardOrderNum, setBoardOrderNum] = useState<number>(0) // 게시판 순서
 
     const router = useRouter()
 
@@ -59,7 +46,7 @@ export default function CategoryList({ list, isLogin, userInfo, getCategories, i
         }))
     }
 
-    const onClick = (id: number, title: string, childTitle: string) => {
+    const onClickBoard = (id: number, title: string, childTitle: string) => {
         // 해당 카테고리 포스트 보러가기
         router.push(
             {
@@ -85,35 +72,19 @@ export default function CategoryList({ list, isLogin, userInfo, getCategories, i
                                         <>
                                             {isLogin && (
                                                 <div className="admin-settings">
-                                                    <IconButton
-                                                        onClick={() => {
-                                                            setSettingCategoryModalOpen(true)
-                                                            setCategoryID(id)
-                                                            setCategoryTitle(title)
-                                                            setCategoryOrderNum(orderNum)
-                                                        }}
-                                                        color="primary"
-                                                        aria-label="menu"
-                                                        sx={{
-                                                            color: 'gray',
-                                                            '&:hover': { color: 'black' },
-                                                        }}>
-                                                        <SettingsIcon />
-                                                    </IconButton>
-                                                    <IconButton
-                                                        onClick={() => {
-                                                            setAddBoardModalOpen(true)
-                                                            setCategoryID(id)
-                                                            setCategoryTitle(title)
-                                                        }}
-                                                        color="primary"
-                                                        aria-label="menu"
-                                                        sx={{
-                                                            color: 'gray',
-                                                            '&:hover': { color: 'black' },
-                                                        }}>
-                                                        <AddIcon />
-                                                    </IconButton>
+                                                    <SettingCategoryModal
+                                                        categoryID={id}
+                                                        categoryTitle={title}
+                                                        categoryOrderNum={orderNum}
+                                                        userInfo={userInfo}
+                                                        getCategories={getCategories}
+                                                    />
+                                                    <AddBoardModal
+                                                        categoyID={id}
+                                                        categoryTitle={title}
+                                                        userInfo={userInfo}
+                                                        getCategories={getCategories}
+                                                    />
                                                 </div>
                                             )}
                                         </>
@@ -139,31 +110,19 @@ export default function CategoryList({ list, isLogin, userInfo, getCategories, i
                                                 disablePadding
                                                 secondaryAction={
                                                     <>
-                                                        {isLogin ? (
-                                                            <IconButton
-                                                                onClick={() => {
-                                                                    setSettingBoardModalOpen(true)
-                                                                    setBoardID(id)
-                                                                    setBoardTitle(title)
-                                                                    setBoardOrderNum(orderNum)
-                                                                }}
-                                                                color="primary"
-                                                                aria-label="menu"
-                                                                sx={{
-                                                                    color: 'gray',
-                                                                    '&:hover': {
-                                                                        color: 'black',
-                                                                    },
-                                                                }}>
-                                                                <SettingsIcon />
-                                                            </IconButton>
-                                                        ) : (
-                                                            ''
+                                                        {isLogin && (
+                                                            <SettingBoardModal
+                                                                boardID={id}
+                                                                boardTitle={title}
+                                                                boardOrderNum={orderNum}
+                                                                userInfo={userInfo}
+                                                                getCategories={getCategories}
+                                                            />
                                                         )}
                                                     </>
                                                 }>
                                                 <ListItemButton
-                                                    onClick={() => onClick(id, title, title)}
+                                                    onClick={() => onClickBoard(id, title, title)}
                                                     key={id}
                                                     sx={{ pl: 4 }}>
                                                     <ListItemText primary={title} />
@@ -177,35 +136,6 @@ export default function CategoryList({ list, isLogin, userInfo, getCategories, i
                     )
                 })}
             </List>
-
-            <SettingCategoryModal
-                onClose={() => setSettingCategoryModalOpen(false)}
-                isOpen={settingCategoryModalOpen}
-                categoryID={categoyID}
-                categoryTitle={categoyTitle}
-                categoryOrderNum={categoryOrderNum}
-                userInfo={userInfo}
-                getCategories={getCategories}
-            />
-
-            <AddBoardModal
-                onClose={() => setAddBoardModalOpen(false)}
-                isOpen={addBoardModalOpen}
-                categoyID={categoyID}
-                categoryTitle={categoyTitle}
-                userInfo={userInfo}
-                getCategories={getCategories}
-            />
-
-            <SettingBoardModal
-                onClose={() => setSettingBoardModalOpen(false)}
-                isOpen={settingBoardModalOpen}
-                boardID={boardID}
-                boardTitle={boardTitle}
-                boardOrderNum={boardOrderNum}
-                userInfo={userInfo}
-                getCategories={getCategories}
-            />
 
             <style jsx>{`
                 .admin-settings {

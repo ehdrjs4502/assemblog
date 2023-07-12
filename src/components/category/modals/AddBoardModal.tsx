@@ -1,25 +1,27 @@
-import reissueAccToken from "@/function/reissueAccToken"
-import { Box, Button, Modal, TextField, Typography } from "@mui/material"
-import axios from "axios"
-import { useRef, useState } from "react"
+import reissueAccToken from '@/function/reissueAccToken'
+import { Add } from '@mui/icons-material'
+import { Box, Button, Modal, TextField, Typography, IconButton } from '@mui/material'
+import axios from 'axios'
+import { useRef, useState } from 'react'
 
 interface Props {
-    onClose: () => void,
-    isOpen: boolean,
-    categoyID: number,
-    categoryTitle: string,
+    categoyID: number
+    categoryTitle: string
     userInfo: {
         email: string
         accessToken: string
         refreshToken: string
-    },
+    }
 
     getCategories: () => void
 }
 
-export default function AddBoardModal({ onClose, isOpen, categoyID, categoryTitle, userInfo, getCategories }:Props) {
+export default function AddBoardModal({ categoyID, categoryTitle, userInfo, getCategories }: Props) {
     const [title, setTitle] = useState<string>('') // 게시판명
     const titleRef = useRef() // 게시판명 인풋창
+    const [open, setOpen] = useState<boolean>(false)
+    const handleOpen = () => setOpen(true)
+    const handleClose = () => setOpen(false)
 
     const style = {
         // 모달 창 스타일
@@ -35,8 +37,8 @@ export default function AddBoardModal({ onClose, isOpen, categoyID, categoryTitl
         p: 4,
     }
 
-    const addBoard = async () => {
-        console.log(categoyID, title);
+    const onClickAddBtn = async () => {
+        console.log(categoyID, title)
         try {
             const response = await axios.post(
                 '/server/api/boards',
@@ -55,13 +57,13 @@ export default function AddBoardModal({ onClose, isOpen, categoyID, categoryTitl
 
             reissueAccToken(response.headers['accessToken']) // 액세스 토큰 만료되면 재발급하는 함수
 
-            console.log(response);
+            console.log(response)
 
             if (response.data === 'Duplicate category title') {
                 alert('이미 추가된 게시판입니다.')
             } else {
-                getCategories();
-                onClose();
+                getCategories()
+                handleClose()
             }
         } catch (error: any) {
             alert(error.response.data.message)
@@ -70,9 +72,19 @@ export default function AddBoardModal({ onClose, isOpen, categoyID, categoryTitl
 
     return (
         <>
+            <IconButton
+                onClick={() => {handleOpen()}}
+                color="primary"
+                aria-label="menu"
+                sx={{
+                    color: 'gray',
+                    '&:hover': { color: 'black' },
+                }}>
+                <Add />
+            </IconButton>
             <Modal
-                open={isOpen}
-                onClose={onClose}
+                open={open}
+                onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description">
                 <Box sx={style}>
@@ -90,14 +102,15 @@ export default function AddBoardModal({ onClose, isOpen, categoyID, categoryTitl
                         }}
                     />
                     <div className="modal-button-container">
-                        <Button
-                            sx={{ marginRight: 2 }}
-                            onClick={() => onClose()}
-                            variant="outlined"
-                            size="small">
+                        <Button sx={{ marginRight: 2 }} onClick={() => handleClose()} variant="outlined" size="small">
                             취소
                         </Button>
-                        <Button onClick={() => {addBoard()}} variant="contained" size="small">
+                        <Button
+                            onClick={() => {
+                                onClickAddBtn()
+                            }}
+                            variant="contained"
+                            size="small">
                             추가
                         </Button>
                     </div>

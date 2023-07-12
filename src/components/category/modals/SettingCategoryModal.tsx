@@ -1,12 +1,10 @@
-import { Box, Button, Checkbox, FormControlLabel, Modal, TextField, Typography } from '@mui/material'
+import { Box, Button, Checkbox, FormControlLabel, Modal, TextField, Typography, IconButton } from '@mui/material'
 import axios from 'axios'
 import { useRef, useState, useEffect } from 'react'
-import DeleteIcon from '@mui/icons-material/Delete'
 import reissueAccToken from '@/function/reissueAccToken'
+import { Settings, Delete } from '@mui/icons-material'
 
 interface Props {
-    onClose: () => void
-    isOpen: boolean
     categoryID: number
     categoryTitle: string
     categoryOrderNum: number
@@ -19,8 +17,6 @@ interface Props {
 }
 
 export default function SettingCategoryModal({
-    onClose,
-    isOpen,
     categoryID,
     categoryTitle,
     categoryOrderNum,
@@ -30,12 +26,15 @@ export default function SettingCategoryModal({
     const [title, setTitle] = useState<string>('') // 카테고리명
     const titleRef = useRef() // 카테고리명 인풋창
     const [isChecked, setIsChecked] = useState<boolean>(true) // 숨기기 여부
+    const [open, setOpen] = useState<boolean>(false)
+    const handleOpen = () => setOpen(true)
+    const handleClose = () => setOpen(false)
 
     useEffect(() => {
         // 모달창 열렸을 때 초기값 설정
         setTitle(categoryTitle)
         setIsChecked(true)
-    }, [isOpen])
+    }, [open])
 
     const style = {
         // 모달 창 스타일
@@ -52,7 +51,7 @@ export default function SettingCategoryModal({
     }
 
     //카테고리 수정하는 함수
-    const modifyCategory = async () => {
+    const onClickModifyBtn = async () => {
         try {
             const response = await axios.patch(
                 `/server/api/categories`,
@@ -76,14 +75,14 @@ export default function SettingCategoryModal({
             console.log(response)
 
             getCategories()
-            onClose()
+            handleClose()
         } catch (error: any) {
             alert(error.response.data)
         }
     }
 
     //카테고리 삭제하는 함수
-    const delCategory = async () => {
+    const onClickDelBtn = async () => {
         try {
             const response = await axios.delete(`/server/api/categories/${categoryID}`, {
                 headers: {
@@ -103,9 +102,21 @@ export default function SettingCategoryModal({
 
     return (
         <>
+            <IconButton
+                onClick={() => {
+                    handleOpen()
+                }}
+                color="primary"
+                aria-label="menu"
+                sx={{
+                    color: 'gray',
+                    '&:hover': { color: 'black' },
+                }}>
+                <Settings />
+            </IconButton>
             <Modal
-                open={isOpen}
-                onClose={onClose}
+                open={open}
+                onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description">
                 <Box sx={style}>
@@ -140,23 +151,23 @@ export default function SettingCategoryModal({
                         <Button
                             onClick={() => {
                                 if (confirm('정말로 삭제하시겠습니까?') == true) {
-                                    delCategory()
-                                    onClose()
+                                    onClickDelBtn()
+                                    handleClose()
                                 }
                             }}
                             sx={{ marginRight: 2 }}
                             color="error"
                             variant="outlined"
-                            startIcon={<DeleteIcon />}
+                            startIcon={<Delete />}
                             size="small">
                             삭제
                         </Button>
-                        <Button sx={{ marginRight: 2 }} onClick={() => onClose()} variant="outlined" size="small">
+                        <Button sx={{ marginRight: 2 }} onClick={() => handleClose()} variant="outlined" size="small">
                             취소
                         </Button>
                         <Button
                             onClick={() => {
-                                modifyCategory()
+                                onClickModifyBtn()
                             }}
                             variant="contained"
                             size="small">

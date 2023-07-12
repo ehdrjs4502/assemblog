@@ -1,54 +1,62 @@
-import { Box, Chip, IconButton } from '@mui/material'
-import PersonIcon from '@mui/icons-material/Person'
-import DeleteIcon from '@mui/icons-material/Delete'
-import DelCommentModal from './modals/DelCommentModal'
+import EditComment from './EditComment'
+import CommentList from './CommentList'
+import { useEffect, useState } from 'react'
+import { getComment } from '@/function/getComment'
 
-interface Comment {
+interface Props {
+    postId: number
+}
+
+type comment = {
     id: number
     nickname: string
     content: string
     createdAt: string
+    depth: number
+    likeState: boolean
+    parentCommentId: number
 }
 
-interface Props {
-    commentList: Comment[]
-}
+export default function Comment({ postId }: Props) {
+    const [commentList, setCommentList] = useState<comment[]>([]) // 댓글 목록
 
-export default function Comment({ commentList }: Props) {
+    useEffect(() => {
+        // 댓글 가져오기
+        // const fetchComments = async () => {
+        //     const comments = await getComment(postId)
+        //     setCommentList(comments)
+        // }
+        // fetchComments()
+
+        const testCommentList: comment[] = [
+            {
+                id: 0,
+                nickname: '개똥',
+                content: '잘 보고 갑니다~',
+                parentCommentId: 0,
+                depth: 0,
+                createdAt: '2023-07-2',
+                likeState: false,
+            },
+
+            {
+                id: 1,
+                nickname: '길동',
+                content: '좋아용',
+                parentCommentId: 0,
+                depth: 0,
+                createdAt: '2023-07-2',
+                likeState: false,
+            },
+        ]
+
+        setCommentList(testCommentList)
+    }, [])
+
     return (
         <>
-            <h4>달린 댓글</h4>
-            {commentList.map((comment) => (
-                <Box
-                    key={comment.id}
-                    sx={{
-                        backgroundColor: 'lightpink',
-                        width: 'fit-content',
-                        marginBottom: '50px',
-                        padding: '20px 20px 5px 20px',
-                        borderRadius: 4,
-                    }}>
-                    <Chip
-                        icon={<PersonIcon color="primary" />}
-                        label={comment.nickname}
-                        sx={{ borderRadius: 2, backgroundColor: 'tomato', color: 'white' }}
-                    />
-                    <p style={{ wordBreak: 'break-all' }}>{comment.content}</p>
-                    <span className="date">{comment.createdAt}</span>
-                    <IconButton size="small" aria-label="delete">
-                        <DeleteIcon />
-                        <DelCommentModal/>
-                    </IconButton>
-                </Box>
-            ))}
-
-            <style jsx>
-                {`
-                    .date {
-                        font-size: 12px;
-                    }
-                `}
-            </style>
+            <EditComment postId={postId} setCommentList={setCommentList} />
+            <CommentList commentList={commentList} postId={postId} setCommentList={setCommentList} />
         </>
     )
 }

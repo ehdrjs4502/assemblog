@@ -1,43 +1,111 @@
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography'
-import Modal from '@mui/material/Modal'
-import Box from '@mui/material/Box';
 import { useState } from 'react'
+import DeleteIcon from '@mui/icons-material/Delete'
+import { IconButton, Box, Modal, TextField, Button, Typography, Tooltip } from '@mui/material'
+import axios from 'axios'
+import { getComment } from '@/function/getComment'
 
-export default function DelCommentModal() {
-    const [open, setOpen] = useState(false)
+type comment = {
+    id: number
+    nickname: string
+    content: string
+    createdAt: string
+    depth: number
+    likeState: boolean
+    parentCommentId: number
+}
+
+interface Props {
+    id: number
+    postId: number
+    setCommentList: (comment: comment[]) => void
+}
+
+export default function DelCommentModal({ id, postId, setCommentList }: Props) {
+    const [open, setOpen] = useState<boolean>(false)
+    const [password, setPassword] = useState<string>('')
     const handleOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)
 
     const style = {
         position: 'absolute' as 'absolute',
-        top: '50%',
+        top: '40%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 400,
-        bgcolor: 'background.paper',
-        border: '2px solid #000',
-        boxShadow: 24,
+        width: 200,
+        border: '1px solid #000',
+        backgroundColor: 'white',
+        boxShadow: 10,
         p: 4,
+    }
+
+    const onClickDelBtn = async () => {
+        const data = { id: id, password: password }
+        try {
+            const response = await axios.delete(`/server/comments/${data}`, {
+                headers: {
+                    'ngrok-skip-browser-warning': '1234',
+                },
+            })
+            console.log(response)
+
+            //성공하면
+            const comments = await getComment(postId)
+            setCommentList(comments)
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (
         <>
-            <Button onClick={handleOpen}>Open modal</Button>
+            <Tooltip title="삭제" disableInteractive placement="top" arrow>
+                <IconButton onClick={() => handleOpen()} size="small" aria-label="delete">
+                    <DeleteIcon />
+                </IconButton>
+            </Tooltip>
             <Modal
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description">
                 <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Text in a modal
-                    </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-                    </Typography>
+                    <Typography>댓글 삭제</Typography>
+                    <TextField
+                        id="standard-basic"
+                        label="비밀번호"
+                        variant="standard"
+                        type="password"
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <div className="modal-button-container">
+                        <Button sx={{ marginRight: 2 }} onClick={() => handleClose()} variant="outlined" size="small">
+                            취소
+                        </Button>
+                        <Button
+                            onClick={() => {
+                                if (confirm('정말로 삭제하시겠습니까?') == true) {
+                                    onClickDelBtn()
+                                    handleClose()
+                                }
+                            }}
+                            color="error"
+                            variant="outlined"
+                            startIcon={<DeleteIcon />}
+                            size="small">
+                            삭제
+                        </Button>
+                    </div>
                 </Box>
             </Modal>
+
+            <style jsx>
+                {`
+                    .modal-button-container {
+                        margin-top: 30px;
+                        float: right;
+                    }
+                `}
+            </style>
         </>
     )
 }
