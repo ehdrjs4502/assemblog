@@ -1,6 +1,7 @@
 import { Box, Chip, IconButton } from '@mui/material'
 import PersonIcon from '@mui/icons-material/Person'
 import DeleteIcon from '@mui/icons-material/Delete'
+import DelCommentModal from './modals/DelCommentModal'
 
 interface Comment {
     id: number
@@ -36,6 +37,7 @@ export default function Comment({ commentList }: Props) {
                     <span className="date">{comment.createdAt}</span>
                     <IconButton size="small" aria-label="delete">
                         <DeleteIcon />
+                        <DelCommentModal/>
                     </IconButton>
                 </Box>
             ))}

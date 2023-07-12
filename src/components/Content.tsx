@@ -44,7 +44,7 @@ export default function Content({postList}: any) {
                         <span>최신 글</span>
                     </div>
                     <div className="card-box">
-                        {postList.map((post: any) => (
+                        {postList !== undefined && postList.map((post: any) => (
                             <PostCard
                                 key={post.postId}
                                 data={{
