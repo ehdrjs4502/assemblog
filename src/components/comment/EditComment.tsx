@@ -80,6 +80,7 @@ export default function EditComment({ postId, setCommentList }: Props) {
     return (
         <>
             <Box
+                component="form"
                 sx={{
                     backgroundColor: '#F2F2F2',
                     padding: 2,
@@ -88,7 +89,6 @@ export default function EditComment({ postId, setCommentList }: Props) {
                 }}>
                 <div className="info-box">
                     <TextField
-                        id="outlined-basic"
                         size="small"
                         placeholder="닉네임"
                         variant="outlined"
@@ -106,8 +106,8 @@ export default function EditComment({ postId, setCommentList }: Props) {
                         }}
                     />
                     <TextField
-                        id="outlined-basic"
                         type="password"
+                        autoComplete="off"
                         size="small"
                         placeholder="비밀번호"
                         variant="outlined"
@@ -126,7 +126,6 @@ export default function EditComment({ postId, setCommentList }: Props) {
                     />
                 </div>
                 <TextField
-                    id="standard-multiline-static"
                     placeholder="댓글 달기"
                     multiline
                     rows={4}

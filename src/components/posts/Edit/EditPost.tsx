@@ -116,28 +116,29 @@ export default function EditPost() {
             tags: tagList, // 태그
         }
 
-        if(!category) {
+        if (!category) {
             return alert('카테고리를 선택해주세요')
         }
 
-        if(!title.trim()) {
+        if (!title.trim()) {
             return alert('제목을 작성해주세요')
         }
 
-        if(!content.trim()) {
+        if (!content.trim()) {
             return alert('내용 작성해주세요')
         }
 
         // 게시 버튼 클릭
         try {
+            const headers = {
+                email: userInfo.email,
+                RefreshToken: userInfo.refreshToken,
+                AccessToken: userInfo.accessToken,
+            }
             // 새로운 글 작성인지 수정인지 확인 undefined면 새로운 글 작성
             if (router.query.postId === undefined) {
                 const response = await axios.post('/server/api/posts', postData, {
-                    headers: {
-                        email: userInfo.email,
-                        RefreshToken: userInfo.refreshToken,
-                        AccessToken: userInfo.accessToken,
-                    },
+                    headers,
                 })
 
                 console.log(response)
@@ -154,11 +155,7 @@ export default function EditPost() {
                 postData['id'] = router.query.postId
                 console.log(postData)
                 const response = await axios.patch('/server/api/posts', postData, {
-                    headers: {
-                        email: userInfo.email,
-                        RefreshToken: userInfo.refreshToken,
-                        AccessToken: userInfo.accessToken,
-                    },
+                    headers,
                 })
 
                 console.log(response)

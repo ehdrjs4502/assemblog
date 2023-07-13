@@ -113,7 +113,7 @@ export default function SettingBoardModal({ boardID, boardTitle, boardOrderNum, 
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description">
-                <Box sx={style}>
+                <Box component="form" sx={style}>
                     <Typography sx={{ marginBottom: 3, fontSize: 20 }}>게시판 설정</Typography>
                     <TextField
                         label="게시판명"

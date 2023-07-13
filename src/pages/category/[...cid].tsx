@@ -1,33 +1,36 @@
-import Navigation from "@/components/Navigation"
-import HeadTitle from "@/components/HeadTitle";
-import { GetServerSideProps } from "next";
-import { useRouter } from "next/router";
+import Navigation from '@/components/Navigation'
+import HeadTitle from '@/components/HeadTitle'
+import { useRouter } from 'next/router'
+import axios from 'axios'
 
-export default function Category({data}: any) {
-    console.log(data);
-    const router = useRouter();
-
-    console.log(router);
-
+export default function Category({ postList }: any) {
+    console.log(postList)
+    const router = useRouter()
     return (
         <>
-            <HeadTitle title={data[1] + " 카테고리"} />
-            <Navigation contentRef={''}/>
-            <h4>카테고리에 해당하는 포스트 보여줄 예정</h4>
-            <br></br>
-            <h4>{data[1]}</h4>
-            <span>{router.query.cid![0]}</span>
+            <HeadTitle title={router.query.cid![1] + ' 게시글 목록'} />
+            <Navigation contentRef={''} />
+            <h4>{router.query.cid![1] + ' 게시글 목록'}</h4>
         </>
     )
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) =>{ // URL 파라미터 
-    const { cid }:any = context.params;
-    const params = cid !== undefined ? cid : null;
-  
+export async function getServerSideProps(context: any) {
+    // URL 파라미터
+    // const API_URL = process.env.API
+    // const res: any = await axios.get(`${API_URL}lists/posts/?boardId=${}`, {
+    //     headers: {
+    //         'ngrok-skip-browser-warning': '1234',
+    //     },
+    // })
+
+    // const postList = res.data.postList
+
+    console.log(context.query)
+
+    const postList = context.query
+
     return {
-      props: {
-        data: params
-      }
-    };
-  }
+        props: { postList },
+    }
+}

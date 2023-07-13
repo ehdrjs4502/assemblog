@@ -61,7 +61,7 @@ export default function EditReplyModal({ postId, parentId, depth, setCommentList
             return alert('내용을 입력해주세요')
         }
         try {
-            const response = axios.post(
+            const response = await axios.post(
                 `/server/comments`,
                 {
                     postId: postId,
@@ -104,7 +104,6 @@ export default function EditReplyModal({ postId, parentId, depth, setCommentList
                     <Typography>답글 달기</Typography>
                     <div>
                         <TextField
-                            id="standard-basic"
                             placeholder="닉네임"
                             variant="standard"
                             onChange={(e) => setNickname(e.target.value)}
@@ -112,7 +111,7 @@ export default function EditReplyModal({ postId, parentId, depth, setCommentList
                             inputRef={nicknameRef}
                         />
                         <TextField
-                            id="standard-basic"
+                            autoComplete="off"
                             placeholder="비밀번호"
                             variant="standard"
                             type="password"
@@ -123,7 +122,6 @@ export default function EditReplyModal({ postId, parentId, depth, setCommentList
                     </div>
 
                     <TextField
-                        id="standard-multiline-static"
                         placeholder="답글 달기"
                         multiline
                         rows={4}

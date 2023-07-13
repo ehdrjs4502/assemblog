@@ -50,7 +50,7 @@ export default function CategoryList({ list, isLogin, userInfo, getCategories, i
         // 해당 카테고리 포스트 보러가기
         router.push(
             {
-                pathname: `/category/${title}/${childTitle}`,
+                pathname: `/category/${title}/${childTitle}/${id}`,
                 query: { id: id, title: childTitle },
             },
             `/category/${title}/${childTitle}`
@@ -60,81 +60,82 @@ export default function CategoryList({ list, isLogin, userInfo, getCategories, i
     return (
         <>
             <List component="nav">
-                {list.map(({ id, title, orderNum, boards, useState }) => {
-                    const isOpen = open[id] || false
-                    return (
-                        <div key={id}>
-                            {useState === isView && (
-                                <ListItem
-                                    key={id}
-                                    disablePadding
-                                    secondaryAction={
-                                        <>
-                                            {isLogin && (
-                                                <div className="admin-settings">
-                                                    <SettingCategoryModal
-                                                        categoryID={id}
-                                                        categoryTitle={title}
-                                                        categoryOrderNum={orderNum}
-                                                        userInfo={userInfo}
-                                                        getCategories={getCategories}
-                                                    />
-                                                    <AddBoardModal
-                                                        categoyID={id}
-                                                        categoryTitle={title}
-                                                        userInfo={userInfo}
-                                                        getCategories={getCategories}
-                                                    />
-                                                </div>
+                {list.length !== 0 &&
+                    list.map(({ id, title, orderNum, boards, useState }) => {
+                        const isOpen = open[id] || false
+                        return (
+                            <div key={id}>
+                                {useState === isView && (
+                                    <ListItem
+                                        key={id}
+                                        disablePadding
+                                        secondaryAction={
+                                            <>
+                                                {isLogin && (
+                                                    <div className="admin-settings">
+                                                        <SettingCategoryModal
+                                                            categoryID={id}
+                                                            categoryTitle={title}
+                                                            categoryOrderNum={orderNum}
+                                                            userInfo={userInfo}
+                                                            getCategories={getCategories}
+                                                        />
+                                                        <AddBoardModal
+                                                            categoyID={id}
+                                                            categoryTitle={title}
+                                                            userInfo={userInfo}
+                                                            getCategories={getCategories}
+                                                        />
+                                                    </div>
+                                                )}
+                                            </>
+                                        }>
+                                        <ListItemButton key={id} sx={{ pl: 4 }} onClick={() => onNestedClick(id)}>
+                                            <ListItemText primary={title} />
+                                            {boards.length === 0 ? (
+                                                ''
+                                            ) : isOpen ? (
+                                                <ExpandLess sx={{ marginRight: -4 }} />
+                                            ) : (
+                                                <ExpandMore sx={{ marginRight: -4 }} />
                                             )}
-                                        </>
-                                    }>
-                                    <ListItemButton key={id} sx={{ pl: 4 }} onClick={() => onNestedClick(id)}>
-                                        <ListItemText primary={title} />
-                                        {boards.length === 0 ? (
-                                            ''
-                                        ) : isOpen ? (
-                                            <ExpandLess sx={{ marginRight: -4 }} />
-                                        ) : (
-                                            <ExpandMore sx={{ marginRight: -4 }} />
-                                        )}
-                                    </ListItemButton>
-                                </ListItem>
-                            )}
-                            {boards.length !== 0 && (
-                                <Collapse in={isOpen} timeout="auto" unmountOnExit>
-                                    <List component="div">
-                                        {boards.map(({ id: id, title: title, orderNum: orderNum }) => (
-                                            <ListItem
-                                                key={id}
-                                                disablePadding
-                                                secondaryAction={
-                                                    <>
-                                                        {isLogin && (
-                                                            <SettingBoardModal
-                                                                boardID={id}
-                                                                boardTitle={title}
-                                                                boardOrderNum={orderNum}
-                                                                userInfo={userInfo}
-                                                                getCategories={getCategories}
-                                                            />
-                                                        )}
-                                                    </>
-                                                }>
-                                                <ListItemButton
-                                                    onClick={() => onClickBoard(id, title, title)}
+                                        </ListItemButton>
+                                    </ListItem>
+                                )}
+                                {boards.length !== 0 && (
+                                    <Collapse in={isOpen} timeout="auto" unmountOnExit>
+                                        <List component="div">
+                                            {boards.map(({ id: id, title: boardTitle, orderNum: orderNum }) => (
+                                                <ListItem
                                                     key={id}
-                                                    sx={{ pl: 4 }}>
-                                                    <ListItemText primary={title} />
-                                                </ListItemButton>
-                                            </ListItem>
-                                        ))}
-                                    </List>
-                                </Collapse>
-                            )}
-                        </div>
-                    )
-                })}
+                                                    disablePadding
+                                                    secondaryAction={
+                                                        <>
+                                                            {isLogin && (
+                                                                <SettingBoardModal
+                                                                    boardID={id}
+                                                                    boardTitle={title}
+                                                                    boardOrderNum={orderNum}
+                                                                    userInfo={userInfo}
+                                                                    getCategories={getCategories}
+                                                                />
+                                                            )}
+                                                        </>
+                                                    }>
+                                                    <ListItemButton
+                                                        onClick={() => onClickBoard(id, title, boardTitle)}
+                                                        key={id}
+                                                        sx={{ pl: 4 }}>
+                                                        <ListItemText primary={boardTitle} />
+                                                    </ListItemButton>
+                                                </ListItem>
+                                            ))}
+                                        </List>
+                                    </Collapse>
+                                )}
+                            </div>
+                        )
+                    })}
             </List>
 
             <style jsx>{`

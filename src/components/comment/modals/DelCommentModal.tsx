@@ -39,9 +39,9 @@ export default function DelCommentModal({ id, postId, setCommentList }: Props) {
     }
 
     const onClickDelBtn = async () => {
-        const data = { id: id, password: password }
+        const data: any = { id: id, password: password }
         try {
-            const response = await axios.delete(`/server/comments/${data}`, {
+            const response = await axios.delete(`/server/comments?id=${id}&password=${password}`, {
                 headers: {
                     'ngrok-skip-browser-warning': '1234',
                 },
@@ -51,8 +51,8 @@ export default function DelCommentModal({ id, postId, setCommentList }: Props) {
             //성공하면
             const comments = await getComment(postId)
             setCommentList(comments)
-        } catch (error) {
-            console.log(error)
+        } catch (error: any) {
+            alert(error.response.data)
         }
     }
 
@@ -71,6 +71,7 @@ export default function DelCommentModal({ id, postId, setCommentList }: Props) {
                 <Box sx={style}>
                     <Typography>댓글 삭제</Typography>
                     <TextField
+                        autoComplete="off"
                         id="standard-basic"
                         label="비밀번호"
                         variant="standard"

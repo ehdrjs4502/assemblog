@@ -37,63 +37,63 @@ export default function Category({ isLogin, userInfo }: Props) {
 
     useEffect(() => {
         // 카테고리 리스트 가져오기
-        // const fetchCategoryList = async () => {
-        //     const list = await getCategoryList() // 카테고리 가져오는 함수
-        //     setCategoryList(list)
-        // }
+        const fetchCategoryList = async () => {
+            const list = await getCategoryList() // 카테고리 가져오는 함수
+            setCategoryList(list)
+        }
 
-        // fetchCategoryList()
+        fetchCategoryList()
         
-        const testList: CategoryItem[] = [
-            {
-                id: 1,
-                title: 'test1',
-                orderNum: 1,
-                useState: false,
-                boards: [
-                    {
-                        id: 1,
-                        title: 'board1',
-                        orderNum: 1,
-                        useState: true,
-                    },
-                ],
-            },
+        // const testList: CategoryItem[] = [
+        //     {
+        //         id: 1,
+        //         title: 'test1',
+        //         orderNum: 1,
+        //         useState: false,
+        //         boards: [
+        //             {
+        //                 id: 1,
+        //                 title: 'board1',
+        //                 orderNum: 1,
+        //                 useState: true,
+        //             },
+        //         ],
+        //     },
     
-            {
-                id: 2,
-                title: 'test2',
-                orderNum: 2,
-                useState: true,
-                boards: [
-                    {
-                        id: 1,
-                        title: 'board2',
-                        orderNum: 1,
-                        useState: true,
-                    },
-                ],
-            },
+        //     {
+        //         id: 2,
+        //         title: 'test2',
+        //         orderNum: 2,
+        //         useState: true,
+        //         boards: [
+        //             {
+        //                 id: 1,
+        //                 title: 'board2',
+        //                 orderNum: 1,
+        //                 useState: true,
+        //             },
+        //         ],
+        //     },
     
-            {
-                id: 3,
-                title: 'test3',
-                orderNum: 3,
-                useState: true,
-                boards: [],
-            },
+        //     {
+        //         id: 3,
+        //         title: 'test3',
+        //         orderNum: 3,
+        //         useState: true,
+        //         boards: [],
+        //     },
     
-            {
-                id: 4,
-                title: 'test4',
-                orderNum: 4,
-                useState: false,
-                boards: [],
-            },
-        ]
+        //     {
+        //         id: 4,
+        //         title: 'test4',
+        //         orderNum: 4,
+        //         useState: false,
+        //         boards: [],
+        //     },
+        // ]
     
 
-        setCategoryList(testList)
+        // setCategoryList(testList)
 
     }, [])
 
