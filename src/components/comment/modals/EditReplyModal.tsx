@@ -60,6 +60,7 @@ export default function EditReplyModal({ postId, parentId, depth, setCommentList
             contentRef.current?.focus()
             return alert('내용을 입력해주세요')
         }
+        console.log('postId : ', postId)
         try {
             const response = await axios.post(
                 `/server/comments`,

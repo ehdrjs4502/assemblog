@@ -54,8 +54,6 @@ export default function SingleComment({ comment, postId, setCommentList, isWrite
         }
     }
 
-    console.log('comment : ', comment)
-
     return (
         <>
             <Box

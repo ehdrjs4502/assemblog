@@ -29,11 +29,11 @@ interface Props {
         accessToken: string
         refreshToken: string
     }
-    getCategories: () => void
+    setCategoryList: ([]: any) => void
     isView: boolean
 }
 
-export default function CategoryList({ list, isLogin, userInfo, getCategories, isView }: Props) {
+export default function CategoryList({ list, isLogin, userInfo, setCategoryList, isView }: Props) {
     const [open, setOpen] = useState<{ [key: number]: boolean }>({}) // 상세 카테고리 열기
 
     const router = useRouter()
@@ -50,8 +50,8 @@ export default function CategoryList({ list, isLogin, userInfo, getCategories, i
         // 해당 카테고리 포스트 보러가기
         router.push(
             {
-                pathname: `/category/${title}/${childTitle}/${id}`,
-                query: { id: id, title: childTitle },
+                pathname: `/category/${title}/${childTitle}`,
+                query: { id: id },
             },
             `/category/${title}/${childTitle}`
         )
@@ -78,13 +78,13 @@ export default function CategoryList({ list, isLogin, userInfo, getCategories, i
                                                             categoryTitle={title}
                                                             categoryOrderNum={orderNum}
                                                             userInfo={userInfo}
-                                                            getCategories={getCategories}
+                                                            setCategoryList={setCategoryList}
                                                         />
                                                         <AddBoardModal
                                                             categoyID={id}
                                                             categoryTitle={title}
                                                             userInfo={userInfo}
-                                                            getCategories={getCategories}
+                                                            setCategoryList={setCategoryList}
                                                         />
                                                     </div>
                                                 )}
@@ -104,7 +104,7 @@ export default function CategoryList({ list, isLogin, userInfo, getCategories, i
                                 )}
                                 {boards.length !== 0 && (
                                     <Collapse in={isOpen} timeout="auto" unmountOnExit>
-                                        <List component="div">
+                                        <List component="div" sx={{marginLeft:2}}>
                                             {boards.map(({ id: id, title: boardTitle, orderNum: orderNum }) => (
                                                 <ListItem
                                                     key={id}
@@ -114,10 +114,10 @@ export default function CategoryList({ list, isLogin, userInfo, getCategories, i
                                                             {isLogin && (
                                                                 <SettingBoardModal
                                                                     boardID={id}
-                                                                    boardTitle={title}
+                                                                    boardTitle={boardTitle}
                                                                     boardOrderNum={orderNum}
                                                                     userInfo={userInfo}
-                                                                    getCategories={getCategories}
+                                                                    setCategoryList={setCategoryList}
                                                                 />
                                                             )}
                                                         </>

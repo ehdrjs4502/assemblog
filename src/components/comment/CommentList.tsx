@@ -26,10 +26,12 @@ interface Props {
 export default function CommentList({ commentList, postId, setCommentList, isWriter, userInfo }: Props) {
     console.log(commentList)
 
+    // 부모id가 0인 댓글들 즉 답글이 아닌 것들만 가져오기
+    const singleCommentList = commentList.filter((comment) => comment.parentCommentId === 0) 
     return (
         <>
             <h4>달린 댓글</h4>
-            {commentList.map(({ id, nickname, content, createdAt, depth, likeState, parentCommentId }) => (
+            {singleCommentList.map(({ id, nickname, content, createdAt, depth, likeState, parentCommentId }) => (
                 <div key={id}>
                     <SingleComment
                         comment={{ id, nickname, content, createdAt, depth, likeState, parentCommentId }}
@@ -38,6 +40,15 @@ export default function CommentList({ commentList, postId, setCommentList, isWri
                         isWriter={isWriter}
                         userInfo={userInfo}
                     />
+                    <ReplyComment
+                        commentList={commentList}
+                        postId={postId}
+                        setCommentList={setCommentList}
+                        isWriter={isWriter}
+                        userInfo={userInfo}
+                        parentCommentId={id}
+                    />
+                    <hr />
                 </div>
             ))}
 

@@ -3,6 +3,7 @@ import axios from 'axios'
 import { useRef, useState, useEffect } from 'react'
 import reissueAccToken from '@/function/reissueAccToken'
 import { Settings, Delete } from '@mui/icons-material'
+import { getCategoryList } from '@/function/getCategory'
 
 interface Props {
     categoryID: number
@@ -13,7 +14,7 @@ interface Props {
         accessToken: string
         refreshToken: string
     }
-    getCategories: () => void
+    setCategoryList: ([]: any) => void
 }
 
 export default function SettingCategoryModal({
@@ -21,7 +22,7 @@ export default function SettingCategoryModal({
     categoryTitle,
     categoryOrderNum,
     userInfo,
-    getCategories,
+    setCategoryList,
 }: Props) {
     const [title, setTitle] = useState<string>('') // 카테고리명
     const titleRef = useRef() // 카테고리명 인풋창
@@ -74,7 +75,8 @@ export default function SettingCategoryModal({
 
             console.log(response)
 
-            getCategories()
+            const list = await getCategoryList() // 카테고리 가져오는 함수
+            setCategoryList(list)
             handleClose()
         } catch (error: any) {
             alert(error.response.data)
@@ -94,7 +96,9 @@ export default function SettingCategoryModal({
 
             reissueAccToken(response.headers['accessToken']) // 액세스 토큰 만료되면 재발급하는 함수
 
-            getCategories()
+            const list = await getCategoryList() // 카테고리 가져오는 함수
+            setCategoryList(list)
+            handleClose()
         } catch (error: any) {
             alert(error)
         }

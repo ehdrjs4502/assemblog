@@ -1,3 +1,4 @@
+import { getCategoryList } from '@/function/getCategory'
 import reissueAccToken from '@/function/reissueAccToken'
 import { Add } from '@mui/icons-material'
 import { Box, Button, Modal, TextField, Typography, IconButton } from '@mui/material'
@@ -10,10 +11,10 @@ interface Props {
         accessToken: string
         refreshToken: string
     }
-    getCategories: () => void
+    setCategoryList: ([]: any) => void
 }
 
-export default function AddCategoryModal({userInfo, getCategories }: Props) {
+export default function AddCategoryModal({ userInfo, setCategoryList }: Props) {
     const [title, setTitle] = useState<string>('') // 카테고리명
     const titleRef = useRef() // 카테고리명 인풋창
     const [open, setOpen] = useState<boolean>(false)
@@ -52,8 +53,10 @@ export default function AddCategoryModal({userInfo, getCategories }: Props) {
 
             reissueAccToken(response.headers['accessToken']) // 액세스 토큰 만료되면 재발급하는 함수
 
-            getCategories() // 추가된 카테고리 다시 불러오기
+            const list = await getCategoryList() // 카테고리 가져오는 함수
+            setCategoryList(list)
             handleClose()
+            
         } catch (error: any) {
             alert(error.response.data)
         }

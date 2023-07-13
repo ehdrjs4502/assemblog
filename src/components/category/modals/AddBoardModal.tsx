@@ -1,3 +1,4 @@
+import { getCategoryList } from '@/function/getCategory'
 import reissueAccToken from '@/function/reissueAccToken'
 import { Add } from '@mui/icons-material'
 import { Box, Button, Modal, TextField, Typography, IconButton } from '@mui/material'
@@ -13,10 +14,10 @@ interface Props {
         refreshToken: string
     }
 
-    getCategories: () => void
+    setCategoryList: ([]: any) => void
 }
 
-export default function AddBoardModal({ categoyID, categoryTitle, userInfo, getCategories }: Props) {
+export default function AddBoardModal({ categoyID, categoryTitle, userInfo, setCategoryList }: Props) {
     const [title, setTitle] = useState<string>('') // 게시판명
     const titleRef = useRef() // 게시판명 인풋창
     const [open, setOpen] = useState<boolean>(false)
@@ -62,7 +63,8 @@ export default function AddBoardModal({ categoyID, categoryTitle, userInfo, getC
             if (response.data === 'Duplicate category title') {
                 alert('이미 추가된 게시판입니다.')
             } else {
-                getCategories()
+                const list = await getCategoryList() // 카테고리 가져오는 함수
+                setCategoryList(list)
                 handleClose()
             }
         } catch (error: any) {

@@ -43,7 +43,7 @@ export default function Category({ isLogin, userInfo }: Props) {
         }
 
         fetchCategoryList()
-        
+
         // const testList: CategoryItem[] = [
         //     {
         //         id: 1,
@@ -59,7 +59,7 @@ export default function Category({ isLogin, userInfo }: Props) {
         //             },
         //         ],
         //     },
-    
+
         //     {
         //         id: 2,
         //         title: 'test2',
@@ -74,7 +74,7 @@ export default function Category({ isLogin, userInfo }: Props) {
         //             },
         //         ],
         //     },
-    
+
         //     {
         //         id: 3,
         //         title: 'test3',
@@ -82,7 +82,7 @@ export default function Category({ isLogin, userInfo }: Props) {
         //         useState: true,
         //         boards: [],
         //     },
-    
+
         //     {
         //         id: 4,
         //         title: 'test4',
@@ -91,10 +91,8 @@ export default function Category({ isLogin, userInfo }: Props) {
         //         boards: [],
         //     },
         // ]
-    
 
         // setCategoryList(testList)
-
     }, [])
 
     return (
@@ -106,7 +104,10 @@ export default function Category({ isLogin, userInfo }: Props) {
                         <IconButton onClick={() => setOnHide(!onHide)}>
                             {onHide ? <VisibilityOff /> : <Visibility />}
                         </IconButton>
-                        <AddCategoryModal userInfo={userInfo} getCategories={getCategoryList}/>
+                        <AddCategoryModal
+                            userInfo={userInfo}
+                            setCategoryList={setCategoryList}
+                        />
                     </div>
                 ) : (
                     ''
@@ -117,7 +118,7 @@ export default function Category({ isLogin, userInfo }: Props) {
                 list={categoryList}
                 isLogin={isLogin}
                 userInfo={userInfo}
-                getCategories={getCategoryList}
+                setCategoryList={setCategoryList}
                 isView={true}
             />
 
@@ -128,7 +129,7 @@ export default function Category({ isLogin, userInfo }: Props) {
                         list={categoryList}
                         isLogin={isLogin}
                         userInfo={userInfo}
-                        getCategories={getCategoryList}
+                        setCategoryList={setCategoryList}
                         isView={false}
                     />
                 </>
