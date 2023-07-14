@@ -12,12 +12,6 @@ import EditContent from './EditContent'
 import reissueAccToken from '@/function/reissueAccToken'
 import EditTag from './EditTag'
 
-type userInfo = {
-    email: string
-    accessToken: string
-    refreshToken: string
-}
-
 export default function EditPost() {
     const [category, setCategory] = useState<string>('') // 선택한 카테고리
     const [thumbnail, setThumbnail] = useState<string>(
@@ -32,11 +26,6 @@ export default function EditPost() {
     const thumnailImgInputRef = useRef<HTMLInputElement>(null) // 썸네일 인풋창 ref
     const cookie = new Cookies()
     const router = useRouter()
-    const userInfo: userInfo = {
-        email: cookie.get('email'),
-        accessToken: cookie.get('accessToken'), // 액세스 토큰 저장
-        refreshToken: cookie.get('refreshToken'), // 리프레쉬 토큰 저장
-    }
 
     useEffect(() => {
         console.log(router.query)
@@ -66,38 +55,33 @@ export default function EditPost() {
         const file = event.target.files?.[0]
 
         if (file) {
+            let isSuccess = false
             const formData = new FormData()
             formData.append('file', file) // 폼 데이터에 저장
-            await axios
-                .post('/server/api/uploads/images', formData, {
+            try {
+                const response = await axios.post('/server/api/uploads/images', formData, {
                     headers: {
-                        email: userInfo.email,
-                        RefreshToken: userInfo.refreshToken,
-                        AccessToken: userInfo.accessToken,
+                        Authorization: `Bearer ${cookie.get('accessToken')}`,
                     },
                 })
-                .then((response) => {
-                    // 업로드 완료 후 처리할 작업
-                    console.log('파일 업로드 성공:', response.data)
 
-                    reissueAccToken(response.headers['accessToken']) // 액세스 토큰 만료되면 재발급하는 함수
-
-                    if (isThumbnail) {
-                        setThumbnail(response.data)
-                    } else {
-                        // 내용에 이미지이면
-                        const imageURL = `![](${response.data})` // 이미지 URL 마크다운 형식으로 변경
-                        setContent((prevContent: string) => prevContent + imageURL) // 기존 내용에다가 이미지 삽입
-                    }
-                })
-                .catch((error) => {
-                    // 업로드 오류 처리
-                    console.error('파일 업로드 오류:', error)
-                })
+                if (isThumbnail) {
+                    setThumbnail(response.data)
+                } else {
+                    // 내용에 이미지이면
+                    const imageURL = `![](${response.data})` // 이미지 URL 마크다운 형식으로 변경
+                    setContent((prevContent: string) => prevContent + imageURL) // 기존 내용에다가 이미지 삽입
+                }
+                isSuccess = true
+            } catch (error: any) {
+                await reissueAccToken()
+                !isSuccess && handleImageUpload(event, isThumbnail)
+            }
         }
     }
 
     const handleaddPostBtn = async (isTempSave: boolean) => {
+        let isSuccess = false
         // 게시 버튼 클릭시
         const preview = content
             .replace(/!\[\]\([^)]+\)|[!@#$%^&*()`~-]|[(\r\n|\n|\r)]|<\/?[^>]+(>|$)/g, '')
@@ -105,7 +89,7 @@ export default function EditPost() {
 
         let postData: any = {
             boardId: category, // 카테고리 ID
-            writerMail: userInfo.email, // 글쓴이 이메일
+            writerMail: cookie.get('email'), // 글쓴이 이메일
             title: title, // 제목
             content: content, // 내용
             thumbnail: thumbnail, // 썸네일 이미지
@@ -131,9 +115,7 @@ export default function EditPost() {
         // 게시 버튼 클릭
         try {
             const headers = {
-                email: userInfo.email,
-                RefreshToken: userInfo.refreshToken,
-                AccessToken: userInfo.accessToken,
+                Authorization: `Bearer ${cookie.get('accessToken')}`,
             }
             // 새로운 글 작성인지 수정인지 확인 undefined면 새로운 글 작성
             if (router.query.postId === undefined) {
@@ -142,8 +124,6 @@ export default function EditPost() {
                 })
 
                 console.log(response)
-
-                reissueAccToken(response.headers['accessToken']) // 액세스 토큰 만료되면 재발급하는 함수
 
                 if (response.status === 200) {
                     alert('글 작성 완료')
@@ -160,8 +140,6 @@ export default function EditPost() {
 
                 console.log(response)
 
-                reissueAccToken(response.headers['accessToken']) // 액세스 토큰 만료되면 재발급하는 함수
-
                 if (response.status === 200) {
                     alert('글 수정 완료')
                     router.push('/')
@@ -169,14 +147,15 @@ export default function EditPost() {
                     alert('글 작성 실패..')
                 }
             }
+            isSuccess = true
         } catch (error: any) {
-            console.log(error)
+            await reissueAccToken()
+            !isSuccess && handleaddPostBtn(isTempSave)
         }
     }
 
     const handleCancleBtn = () => {
         // 취소 버튼 클릭시
-        // 취소 버튼 클릭
         if (confirm('정말로 취소하시겠습니까?') === true) {
             router.push('/')
         }

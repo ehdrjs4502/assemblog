@@ -8,8 +8,8 @@ import DelBtn from '@/components/posts/button/DelBtn'
 import { Cookies } from 'react-cookie'
 import ViewTag from '@/components/posts/view/ViewTag'
 import { useRouter } from 'next/router'
-import Comment from '@/components/comment/Comment'
-import axios from 'axios'
+import Comment from '@/components/comment/CommentView'
+    import axios from 'axios'
 
 interface Props {
     post: {
@@ -22,15 +22,9 @@ interface Props {
         viewCount: number
         writerMail: string
         content: string
-        tagList: []
+        tagList: string[]
         postId: number
     }
-}
-
-type userInfo = {
-    email: string
-    accessToken: string
-    refreshToken: string
 }
 
 export default function Post({ post }: Props) {
@@ -40,15 +34,9 @@ export default function Post({ post }: Props) {
     const cookie = new Cookies()
     const router = useRouter()
     const contentRef = useRef(null)
-    const userInfo: userInfo = {
-        email: cookie.get('email'),
-        accessToken: cookie.get('accessToken'), // 액세스 토큰 저장
-        refreshToken: cookie.get('refreshToken'), // 리프레쉬 토큰 저장
-    }
-
     useEffect(() => {
         //Hydration failed because the initial UI 에러 해결하기 위함
-        if(post.writerMail! === userInfo.email) {
+        if(post.writerMail! === cookie.get('email')) {
             setIsWriter(true)
         }
         setMounted(true)
@@ -84,7 +72,7 @@ export default function Post({ post }: Props) {
                     {mounted && isWriter ? (
                         <div className="btn-box">
                             <ModifyBtn post={post} />
-                            <DelBtn id={post.postId} userInfo={userInfo} />
+                            <DelBtn id={post.postId} />
                         </div>
                     ) : null}
                     <ViewPost content={post.content} />
@@ -92,7 +80,7 @@ export default function Post({ post }: Props) {
                 </div>
                 {/* 댓글 영역 */}
                 <div className="comment-box">
-                    <Comment postId={post.postId} isWriter={isWriter} userInfo={userInfo}/>
+                    <Comment postId={post.postId} isWriter={isWriter}/>
                 </div>
             </div>
 
@@ -132,7 +120,7 @@ export async function getStaticProps({ params }: any) {
 
         return {
             props: { post },
-            revalidate: 10,
+            revalidate: 120,
         }
     } catch (error) {
         return {
@@ -143,7 +131,7 @@ export async function getStaticProps({ params }: any) {
 
 export async function getStaticPaths() {
     const API_URL = process.env.API
-    const res: any = await axios.get(`${API_URL}lists/posts`, {
+    const res = await axios.get(`${API_URL}lists/posts`, {
         headers: {
             'ngrok-skip-browser-warning': '1234',
         },

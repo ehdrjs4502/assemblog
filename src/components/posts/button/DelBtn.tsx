@@ -1,27 +1,23 @@
+import reissueAccToken from '@/function/reissueAccToken'
 import Button from '@mui/material/Button'
 import axios from 'axios'
 import { useRouter } from 'next/router'
+import { Cookies } from 'react-cookie'
 
 interface Props {
     id: number
-    userInfo: {
-        email: string
-        accessToken: string
-        refreshToken: string
-    }
 }
 
-export default function DelBtn({ id,userInfo }: Props) {
+export default function DelBtn({ id }: Props) {
     const router = useRouter()
+    const cookie = new Cookies()
 
     const onClickDelBtn = async () => {
-        console.log(id)
+        let isSuccess = false
         try {
             const response = await axios.delete(`/server/api/posts/${id}`, {
                 headers: {
-                    email: userInfo.email,
-                    RefreshToken: userInfo.refreshToken,
-                    AccessToken: userInfo.accessToken,
+                    Authorization: `Bearer ${cookie.get('accessToken')}`,
                 },
             })
 
@@ -33,8 +29,11 @@ export default function DelBtn({ id,userInfo }: Props) {
             } else {
                 alert('글 삭제 실패..')
             }
+
+            isSuccess = true
         } catch (e) {
-            console.log(e)
+            await reissueAccToken()
+            !isSuccess && onClickDelBtn()
         }
     }
 

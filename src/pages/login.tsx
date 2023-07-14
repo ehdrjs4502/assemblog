@@ -47,8 +47,8 @@ export default function Sogin() {
             console.log(response)
             if (response.status === 200) {
                 // 로그인이 성공하면
-                const accessToken = response.headers.accesstoken // jwt 액세스 토큰
-                const refreshToken = response.headers.refreshtoken // jwt 리프레쉬 토큰
+                const accessToken = response.data.access_token // jwt 액세스 토큰
+                const refreshToken = response.data.refresh_token // jwt 리프레쉬 토큰
                 cookie.set('refreshToken', refreshToken, {
                     path: '/', // 모든 경로에서 쿠키 사용하겠다는 뜻
                     secure: true,
@@ -57,7 +57,7 @@ export default function Sogin() {
                     path: '/', // 모든 경로에서 쿠키 사용하겠다는 뜻
                     secure: true,
                 })
-                cookie.set('email', response.data, {
+                cookie.set('email', email, {
                     path: '/',
                     secure: true,
                 })
@@ -87,7 +87,6 @@ export default function Sogin() {
                 autoComplete="off"
                 onSubmit={handleLogin}>
                 <TextField
-                    id="outlined-basic"
                     label="Email"
                     variant="outlined"
                     type="text"
@@ -101,7 +100,6 @@ export default function Sogin() {
                     inputRef={idRef}
                 />
                 <TextField
-                    id="outlined-basic"
                     label="Password"
                     variant="outlined"
                     type="password"
@@ -112,6 +110,7 @@ export default function Sogin() {
                         setPW(e.target.value)
                         setPWCheck(true)
                     }}
+                    autoComplete='off'
                     inputRef={pwRef}
                 />
                 <Button type="submit" variant="contained">

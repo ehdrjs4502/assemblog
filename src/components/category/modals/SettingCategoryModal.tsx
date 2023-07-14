@@ -4,32 +4,23 @@ import { useRef, useState, useEffect } from 'react'
 import reissueAccToken from '@/function/reissueAccToken'
 import { Settings, Delete } from '@mui/icons-material'
 import { getCategoryList } from '@/function/getCategory'
+import { Cookies } from 'react-cookie'
 
 interface Props {
     categoryID: number
     categoryTitle: string
     categoryOrderNum: number
-    userInfo: {
-        email: string
-        accessToken: string
-        refreshToken: string
-    }
     setCategoryList: ([]: any) => void
 }
 
-export default function SettingCategoryModal({
-    categoryID,
-    categoryTitle,
-    categoryOrderNum,
-    userInfo,
-    setCategoryList,
-}: Props) {
+export default function SettingCategoryModal({ categoryID, categoryTitle, categoryOrderNum, setCategoryList }: Props) {
     const [title, setTitle] = useState<string>('') // 카테고리명
     const titleRef = useRef() // 카테고리명 인풋창
     const [isChecked, setIsChecked] = useState<boolean>(true) // 숨기기 여부
     const [open, setOpen] = useState<boolean>(false)
     const handleOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)
+    const cookie = new Cookies()
 
     useEffect(() => {
         // 모달창 열렸을 때 초기값 설정
@@ -53,6 +44,7 @@ export default function SettingCategoryModal({
 
     //카테고리 수정하는 함수
     const onClickModifyBtn = async () => {
+        let isSuccess = false
         try {
             const response = await axios.patch(
                 `/server/api/categories`,
@@ -64,43 +56,39 @@ export default function SettingCategoryModal({
                 },
                 {
                     headers: {
-                        email: userInfo['email'],
-                        RefreshToken: userInfo['refreshToken'],
-                        AccessToken: userInfo['accessToken'],
+                        Authorization: `Bearer ${cookie.get('accessToken')}`,
                     },
                 }
             )
-
-            reissueAccToken(response.headers['accessToken']) // 액세스 토큰 만료되면 재발급하는 함수
-
             console.log(response)
 
             const list = await getCategoryList() // 카테고리 가져오는 함수
             setCategoryList(list)
             handleClose()
+            isSuccess = true
         } catch (error: any) {
-            alert(error.response.data)
+            await reissueAccToken()
+            !isSuccess && onClickModifyBtn()
         }
     }
 
     //카테고리 삭제하는 함수
     const onClickDelBtn = async () => {
+        let isSuccess = false
         try {
             const response = await axios.delete(`/server/api/categories/${categoryID}`, {
                 headers: {
-                    email: userInfo.email,
-                    RefreshToken: userInfo.refreshToken,
-                    AccessToken: userInfo.accessToken,
+                    Authorization: `Bearer ${cookie.get('accessToken')}`,
                 },
             })
-
-            reissueAccToken(response.headers['accessToken']) // 액세스 토큰 만료되면 재발급하는 함수
 
             const list = await getCategoryList() // 카테고리 가져오는 함수
             setCategoryList(list)
             handleClose()
+            isSuccess = true
         } catch (error: any) {
-            alert(error)
+            await reissueAccToken()
+            !isSuccess && onClickDelBtn()
         }
     }
 

@@ -2,9 +2,9 @@ import Navigation from '@/components/Navigation'
 import HeadTitle from '@/components/HeadTitle'
 import { useRouter } from 'next/router'
 import axios from 'axios'
+import { useEffect } from 'react'
 
-export default function Category({ postList }: any) {
-    console.log(postList)
+export default function Category({ id }: any) {
     const router = useRouter()
     return (
         <>
@@ -18,19 +18,16 @@ export default function Category({ postList }: any) {
 export async function getServerSideProps(context: any) {
     // URL 파라미터
     // const API_URL = process.env.API
-    // const res: any = await axios.get(`${API_URL}lists/posts/?boardId=${}`, {
+    // const res: any = await axios.get(`${API_URL}lists/posts?boardId=${context.query.id}`, {
     //     headers: {
     //         'ngrok-skip-browser-warning': '1234',
     //     },
     // })
+    const postList = {}
 
-    // const postList = res.data.postList
-
-    console.log(context.query)
-
-    const postList = context.query
+    const id = context.query
 
     return {
-        props: { postList },
+        props: { id },
     }
 }

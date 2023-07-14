@@ -1,15 +1,26 @@
-import { Cookies } from "react-cookie";
+import axios from 'axios'
+import { Cookies } from 'react-cookie'
 
-const reissueAccToken = (accessToken: string | undefined) => {
-    const newCookie = new Cookies();
-  
-    if (accessToken !== undefined) {
-      // 액세스 토큰 만료되면 재발급
-      newCookie.set('accessToken', accessToken, {
+const reissueAccToken = async () => {
+    const cookie = new Cookies()
+    const response = await axios.get('/server/refresh', {
+        headers: {
+            'ngrok-skip-browser-warning': '1234',
+            Authorization: `Bearer ${cookie.get('refreshToken')}`,
+        },
+    })
+
+    console.log('토큰 재발급 : ', response)
+
+    cookie.set('accessToken', response.data.access_token, {
         path: '/',
         secure: true,
-      });
-    }
-};
-  
-export default reissueAccToken;
+    })
+
+    cookie.set('refreshToken', response.data.refresh_token, {
+        path: '/',
+        secure: true,
+    })
+}
+
+export default reissueAccToken

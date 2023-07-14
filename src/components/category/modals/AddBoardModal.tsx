@@ -4,25 +4,21 @@ import { Add } from '@mui/icons-material'
 import { Box, Button, Modal, TextField, Typography, IconButton } from '@mui/material'
 import axios from 'axios'
 import { useRef, useState } from 'react'
+import { Cookies } from 'react-cookie'
 
 interface Props {
     categoyID: number
     categoryTitle: string
-    userInfo: {
-        email: string
-        accessToken: string
-        refreshToken: string
-    }
-
     setCategoryList: ([]: any) => void
 }
 
-export default function AddBoardModal({ categoyID, categoryTitle, userInfo, setCategoryList }: Props) {
+export default function AddBoardModal({ categoyID, categoryTitle, setCategoryList }: Props) {
     const [title, setTitle] = useState<string>('') // 게시판명
     const titleRef = useRef() // 게시판명 인풋창
     const [open, setOpen] = useState<boolean>(false)
     const handleOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)
+    const cookie = new Cookies()
 
     const style = {
         // 모달 창 스타일
@@ -39,7 +35,7 @@ export default function AddBoardModal({ categoyID, categoryTitle, userInfo, setC
     }
 
     const onClickAddBtn = async () => {
-        console.log(categoyID, title)
+        let isSuccess = false
         try {
             const response = await axios.post(
                 '/server/api/boards',
@@ -49,14 +45,10 @@ export default function AddBoardModal({ categoyID, categoryTitle, userInfo, setC
                 },
                 {
                     headers: {
-                        email: userInfo.email,
-                        RefreshToken: userInfo.refreshToken,
-                        AccessToken: userInfo.accessToken,
+                        Authorization: `Bearer ${cookie.get('accessToken')}`,
                     },
                 }
             )
-
-            reissueAccToken(response.headers['accessToken']) // 액세스 토큰 만료되면 재발급하는 함수
 
             console.log(response)
 
@@ -67,15 +59,20 @@ export default function AddBoardModal({ categoyID, categoryTitle, userInfo, setC
                 setCategoryList(list)
                 handleClose()
             }
+            isSuccess = true
         } catch (error: any) {
-            alert(error.response.data.message)
+            await reissueAccToken()
+
+            !isSuccess && onClickAddBtn()
         }
     }
 
     return (
         <>
             <IconButton
-                onClick={() => {handleOpen()}}
+                onClick={() => {
+                    handleOpen()
+                }}
                 color="primary"
                 aria-label="menu"
                 sx={{

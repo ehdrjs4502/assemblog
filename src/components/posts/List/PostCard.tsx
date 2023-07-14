@@ -6,26 +6,25 @@ import { Button, CardActionArea, CardActions } from '@mui/material'
 import { useRouter } from 'next/router'
 
 interface Props {
-    data: {
+    post: {
         postId: number
         title: string
         thumbnail: string
         categoryTitle: string
         boardTitle: string
         preview: string
-        writer: string
-        date: string
+        username: string
         commentCount: number
-        createAt: Date
-        updateAt: Date
+        createdAt: Date
+        updatedAt: Date
         likeCount: number
         viewCount: number
     }
 }
 
-export default function PostCard({ data }: Props) {
+export default function PostCard({ post }: Props) {
     const router = useRouter()
-    const date = new Date(data.date)
+    const date = new Date(post.createdAt)
     const formattedDate = `${date.getFullYear()}. ${
         // yyyy. MM. dd. hh:mm 으로 데이터 포맷하기
         date.getMonth() + 1
@@ -54,8 +53,8 @@ export default function PostCard({ data }: Props) {
                 transition: 'transform 0.3s ease',
                 ':hover': { boxShadow: 10, backgroundColor: 'rgba(35,35,35, 0.9)', transform: 'translateY(-5px)' },
             }}>
-            <CardActionArea onClick={() => onClickPost(data.postId)}>
-                <CardMedia component="img" height="140" image={data.thumbnail} alt="썸네일 이미지" />
+            <CardActionArea onClick={() => onClickPost(post.postId)}>
+                <CardMedia component="img" height="140" image={post.thumbnail} alt="썸네일 이미지" />
             </CardActionArea>
             <CardActions sx={{ marginTop: 1 }}>
                 <Button
@@ -67,20 +66,20 @@ export default function PostCard({ data }: Props) {
                     }}
                     size="small"
                     color="primary"
-                    onClick={() => onClickCategory(data.categoryTitle, data.boardTitle)}>
-                    {data.categoryTitle} / {data.boardTitle}
+                    onClick={() => onClickCategory(post.categoryTitle, post.boardTitle)}>
+                    {post.categoryTitle} / {post.boardTitle}
                 </Button>
             </CardActions>
-            <CardActionArea onClick={() => onClickPost(data.postId)}>
+            <CardActionArea onClick={() => onClickPost(post.postId)}>
                 <CardContent sx={{ height: 90 }}>
                     <Typography gutterBottom variant="h5" component="div">
-                        {data.title}
+                        {post.title}
                     </Typography>
-                    <Typography variant="body2">{data.preview}</Typography>
+                    <Typography variant="body2">{post.preview}</Typography>
                 </CardContent>
             </CardActionArea>
             <Typography sx={{ marginLeft: 2, fontSize: 12 }} variant="body2">
-               {data.writer} {formattedDate} 조회수 : {data.viewCount}
+               {post.username} {formattedDate} 조회수 : {post.viewCount}
             </Typography>
         </Card>
     )

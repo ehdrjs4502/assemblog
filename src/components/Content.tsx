@@ -1,24 +1,42 @@
 import PostCard from './posts/list/PostCard'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import { keyframes } from "@emotion/react";
+import { Reveal } from "react-awesome-reveal";
 
-interface Post {
+type post = {
     postId: number
     title: string
     thumbnail: string
     categoryTitle: string
     boardTitle: string
     preview: string
-    writer: string
-    date: string
+    username: string
     commentCount: number
-    createAt: Date
-    updateAt: Date
+    createdAt: Date
+    updatedAt: Date
     likeCount: number
     viewCount: number
 }
 
-export default function Content({postList}: any) {
+interface Props {
+    postList: [post]
+    contentTitle: string
+}
+
+const customAnimation: any = keyframes`
+  from {
+    opacity: 0;
+    transform: translate3d(0, -40%, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+`;
+
+export default function Content({ postList, contentTitle }: Props) {
     // const [postList, setPostList] = useState<Post[]>([]) // 포스트 목록
 
     // useEffect(() => {
@@ -41,29 +59,14 @@ export default function Content({postList}: any) {
             <div className="container">
                 <div className="latest-box">
                     <div className="latest-header">
-                        <span>최신 글</span>
+                        <span>{contentTitle}</span>
                     </div>
                     <div className="card-box">
-                        {postList !== null && postList.map((post: any) => (
-                            <PostCard
-                                key={post.postId}
-                                data={{
-                                    postId: post.postId,
-                                    title: post.title,
-                                    thumbnail: post.thumbnail,
-                                    categoryTitle: post.categoryTitle,
-                                    boardTitle: post.boardTitle,
-                                    preview: post.preview,
-                                    writer: post.username,
-                                    date: post.createdAt,
-                                    commentCount: post.commentCount,
-                                    createAt: post.createAt,
-                                    updateAt: post.updateAt,
-                                    likeCount: post.likeCount,
-                                    viewCount: post.viewCount,
-                                }}
-                            />
-                        ))}
+                        <Reveal keyframes={customAnimation} cascade damping={0.1}>
+                            {postList?.map((post: post) => (
+                                <PostCard key={post.postId} post={post} />
+                            ))}
+                        </Reveal>
                     </div>
                 </div>
             </div>

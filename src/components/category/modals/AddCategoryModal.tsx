@@ -4,22 +4,19 @@ import { Add } from '@mui/icons-material'
 import { Box, Button, Modal, TextField, Typography, IconButton } from '@mui/material'
 import axios from 'axios'
 import { useRef, useState } from 'react'
+import { Cookies } from 'react-cookie'
 
 interface Props {
-    userInfo: {
-        email: string
-        accessToken: string
-        refreshToken: string
-    }
     setCategoryList: ([]: any) => void
 }
 
-export default function AddCategoryModal({ userInfo, setCategoryList }: Props) {
+export default function AddCategoryModal({ setCategoryList }: Props) {
     const [title, setTitle] = useState<string>('') // 카테고리명
     const titleRef = useRef() // 카테고리명 인풋창
     const [open, setOpen] = useState<boolean>(false)
     const handleOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)
+    const cookie = new Cookies()
 
     const style = {
         // 모달 창 스타일
@@ -36,6 +33,7 @@ export default function AddCategoryModal({ userInfo, setCategoryList }: Props) {
     }
 
     const onClickAddBtn = async () => {
+        let isSuccess = false
         try {
             const response = await axios.post(
                 '/server/api/categories',
@@ -44,21 +42,20 @@ export default function AddCategoryModal({ userInfo, setCategoryList }: Props) {
                 },
                 {
                     headers: {
-                        email: userInfo.email,
-                        RefreshToken: userInfo.refreshToken,
-                        AccessToken: userInfo.accessToken,
+                        Authorization: `Bearer ${cookie.get('accessToken')}`,
                     },
                 }
             )
 
-            reissueAccToken(response.headers['accessToken']) // 액세스 토큰 만료되면 재발급하는 함수
-
+            // reissueAccToken(response.headers['accessToken']) // 액세스 토큰 만료되면 재발급하는 함수
             const list = await getCategoryList() // 카테고리 가져오는 함수
             setCategoryList(list)
             handleClose()
-            
+            isSuccess = true
         } catch (error: any) {
-            alert(error.response.data)
+            await reissueAccToken()
+
+            !isSuccess && onClickAddBtn()
         }
     }
 

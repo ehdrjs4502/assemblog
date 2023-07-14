@@ -8,15 +8,15 @@ import axios from 'axios'
 export default function Home({postList}: any) {
     const title = 'Main';
     const contentRef = useRef(null);
+    const contentTitle = '최신글'
     console.log(postList)
-
     return (
         <div>
             <HeadTitle title={title} />
             <Navigation contentRef={contentRef}/>
             <Introduction />
             <div ref={contentRef}>
-                <Content postList={postList}/>
+                <Content postList={postList} contentTitle={contentTitle}/>
             </div>
         </div>
     )
@@ -38,6 +38,6 @@ export async function getStaticProps() {
 
     return {
         props: { postList },
-        revalidate: 10,
+        revalidate: 120,
     }
 }
