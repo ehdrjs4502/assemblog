@@ -25,19 +25,17 @@ export default function Home({postList}: any) {
 
 // 게시글 목록 ssg 방식으로 가져오기
 export async function getStaticProps() {
-    const API_URL = process.env.API
-    const res: any = await axios.get(`${API_URL}lists/posts`, {
-        headers: {
-            'ngrok-skip-browser-warning': '1234',
-        },
-    })
+    // const API_URL = process.env.API
+    // const res: any = await axios.get(`${API_URL}lists/posts`, {
+    //     headers: {
+    //         'ngrok-skip-browser-warning': '1234',
+    //     },
+    // })
+    
+    // const postList = res.data.postList || null
 
-
-    console.log(res)
-    const postList = res.data.postList || null
-
-    return {
-        props: { postList },
-        revalidate: 120,
-    }
+    // return {
+    //     props: { postList },
+    //     revalidate: 120,
+    // }
 }
