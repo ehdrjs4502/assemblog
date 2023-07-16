@@ -20,7 +20,7 @@ type post = {
 }
 
 interface Props {
-    postList: [post]
+    postList: post[]
     contentTitle: string
 }
 
@@ -74,7 +74,7 @@ export default function Content({ postList, contentTitle }: Props) {
                 {`
                     .container {
                         width: 100%;
-                        background-color: skyblue;
+                        background-color: rgb(231, 231, 231);
                         display: flex;
                         justify-content: center;
                     }

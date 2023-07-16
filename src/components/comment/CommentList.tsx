@@ -7,6 +7,7 @@ type comment = {
     content: string
     createdAt: string
     depth: number
+    deleted: boolean
     likeState: boolean
     parentCommentId: number
 }
@@ -26,10 +27,10 @@ export default function CommentList({ commentList, postId, setCommentList, isWri
     return (
         <>
             <h4>달린 댓글</h4>
-            {singleCommentList?.map(({ id, nickname, content, createdAt, depth, likeState, parentCommentId }) => (
+            {singleCommentList?.map(({ id, nickname, content, createdAt, depth, likeState, parentCommentId, deleted }) => (
                 <div key={id}>
                     <Comment
-                        comment={{ id, nickname, content, createdAt, depth, likeState, parentCommentId }}
+                        comment={{ id, nickname, content, createdAt, depth, likeState, parentCommentId, deleted }}
                         postId={postId}
                         setCommentList={setCommentList}
                         isWriter={isWriter}
@@ -52,7 +53,7 @@ export default function CommentList({ commentList, postId, setCommentList, isWri
                     }
 
                     hr {
-                        border-top: dashed 1.5px rgb(163, 163, 163);
+                        border-top: dotted 1.5px rgba(212, 212, 212, 0.3);
                     }
                 `}
             </style>

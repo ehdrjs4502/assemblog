@@ -50,8 +50,9 @@ export default function PostCard({ post }: Props) {
                 height: 360,
                 borderRadius: 4,
                 backgroundColor: 'rgb(35,35,35)',
+                boxShadow: 10,
                 transition: 'transform 0.3s ease',
-                ':hover': { boxShadow: 10, backgroundColor: 'rgba(35,35,35, 0.9)', transform: 'translateY(-5px)' },
+                ':hover': { boxShadow: 20, backgroundColor: 'rgba(35,35,35, 0.9)', transform: 'translateY(-5px)' },
             }}>
             <CardActionArea onClick={() => onClickPost(post.postId)}>
                 <CardMedia component="img" height="140" image={post.thumbnail} alt="썸네일 이미지" />

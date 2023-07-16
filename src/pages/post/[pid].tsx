@@ -43,7 +43,7 @@ export default function Post({ post }: Props) {
     }, [])
 
     if (router.isFallback) {
-        // npm run build시에 TypeError: Cannot read properties of undefined (reading 'title') 떠서 해결하기 위함
+        // fallback true로 하고 build시에 TypeError: Cannot read properties of undefined (reading 'title') 떠서 해결하기 위함
         return <div>Loading...</div>
     }
 

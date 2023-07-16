@@ -2,13 +2,22 @@ import HeadTitle from '@/components/HeadTitle'
 import Content from '@/components/Content'
 import Navigation from '@/components/Navigation'
 import axios from 'axios'
-import { useRef } from 'react'
+import { ChangeEvent, useRef, useState } from 'react'
+import { useRouter } from 'next/router'
+import { Pagination } from '@mui/material'
 
-export default function allCategory({postList}: any) {
+export default function allCategory({ postList, totalPage, currentPage }: any) {
     const title = '전체 카테고리'
     const contentRef = useRef(null)
     const contentTitle = '분류 전체 보기'
-    console.log(postList)
+    const router = useRouter()
+    const [page,setPage] = useState(currentPage)
+
+    //페이지 이동하는 함수
+    const handleChange = (e: ChangeEvent<unknown>, value: number) => {
+        router.push({ pathname: router.pathname, query: { ...router.query, page: value } })
+        setPage(value)
+    }
 
     return (
         <div>
@@ -16,24 +25,29 @@ export default function allCategory({postList}: any) {
             <Navigation contentRef={contentRef} />
             <div ref={contentRef}>
                 <Content postList={postList} contentTitle={contentTitle} />
+                <Pagination count={totalPage} page={page} onChange={handleChange} />
             </div>
         </div>
     )
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps(context: any) {
     const API_URL = process.env.API
-    const res: any = await axios.get(`${API_URL}lists/posts`, {
+    let page = 1
+    if(context.query.page !== undefined) {
+        page = context.query.page
+    }
+    console.log(page)
+    const res: any = await axios.get(`${API_URL}lists/posts?currentPage=${page}&pageSize=${2}`, {
         headers: {
             'ngrok-skip-browser-warning': '1234',
         },
     })
-
-    console.log(res)
     const postList = res.data.postList || null
+    const totalPage = res.data.totalPage || null
+    const currentPage = res.data.currentPage || null
 
     return {
-        props: { postList },
-        revalidate: 120,
+        props: { postList, totalPage, currentPage },
     }
 }

@@ -6,6 +6,7 @@ type comment = {
     content: string
     createdAt: string
     depth: number
+    deleted: boolean
     likeState: boolean
     parentCommentId: number
 }
@@ -26,10 +27,10 @@ export default function ReplyComment({ commentList, postId, setCommentList, isWr
     return (
         <>
             {replyCommentList?.map(
-                ({ id, nickname, content, createdAt, depth, likeState, parentCommentId }: comment) => (
+                ({ id, nickname, content, createdAt, depth, likeState, parentCommentId, deleted }: comment) => (
                     <div key={id} style={{ marginLeft: '45px' }}>
                         <Comment
-                            comment={{ id, nickname, content, createdAt, depth, likeState, parentCommentId }}
+                            comment={{ id, nickname, content, createdAt, depth, likeState, parentCommentId, deleted }}
                             postId={postId}
                             setCommentList={setCommentList}
                             isWriter={isWriter}

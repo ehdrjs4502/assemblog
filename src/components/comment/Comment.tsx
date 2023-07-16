@@ -13,6 +13,7 @@ type comment = {
     content: string
     createdAt: string
     depth: number
+    deleted: boolean
     likeState: boolean
     parentCommentId: number
 }
@@ -30,7 +31,7 @@ export default function Comment({ comment, postId, setCommentList, isWriter }: P
     const onClickLikeBtn = async (commentId: number) => {
         let isSuccess = false
         try {
-            const response = await axios.patch(`/server/api/comments/likes/${commentId}`, {
+            const response = await axios.patch(`/server/api/comments/likes/${commentId}`,null, {
                 headers: {
                     Authorization: `Bearer ${cookie.get('accessToken')}`,
                 },
@@ -62,7 +63,7 @@ export default function Comment({ comment, postId, setCommentList, isWriter }: P
                     label={comment.nickname}
                     sx={{ borderRadius: 2, backgroundColor: 'tomato', color: 'white' }}
                 />
-                <p style={{ wordBreak: 'break-all' }}>{comment.content}</p>
+                <p style={{ wordBreak: 'break-all' }}>{comment.deleted ? '삭제된 댓글입니다.' : `${comment.content}`}</p>
                 <span className="date">{comment.createdAt}</span>
                 <DelCommentModal id={comment.id} postId={postId} setCommentList={setCommentList} />
                 <EditReplyModal

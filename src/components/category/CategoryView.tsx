@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import IconButton from '@mui/material/IconButton'
 import AddCategoryModal from './modals/AddCategoryModal'
 import CategoryList from './CategoryList'
-import { VisibilityOff, Visibility } from '@mui/icons-material'
+import { VisibilityOff, Visibility, Category } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 
 type CategoryItem = {
@@ -33,7 +33,10 @@ export default function CategoryView({ isLogin, categoryList, setCategoryList }:
     return (
         <>
             <div className="category-header">
-                <span onClick={() => router.push('/category')}>Category</span>
+                <div className='category-title' onClick={() => router.push('/category')}>
+                    <Category sx={{width:'18px', marginRight:1}}/>
+                    <span>카테고리</span>
+                </div>
                 {isLogin ? (
                     <div className="admin-settings">
                         <IconButton onClick={() => setOnHide(!onHide)}>
@@ -67,15 +70,16 @@ export default function CategoryView({ isLogin, categoryList, setCategoryList }:
                         padding-left: 10px;
                     }
 
-                    .category-header span {
+                    .category-title {
                         justify-content: center;
                         align-items: center;
                         display: flex;
                         font-weight: bold;
                     }
 
-                    .category-header span:hover {
+                    .category-title:hover {
                         cursor: pointer;
+                        color: tomato;
                     }
 
                     .admin-settings {

@@ -4,15 +4,30 @@ import { useRouter } from 'next/router'
 import axios from 'axios'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { Pagination } from '@mui/material'
+import Content from '@/components/Content'
 
-export default function Category({ id }: any) {
+type post = {
+    postId: number
+    title: string
+    thumbnail: string
+    categoryTitle: string
+    boardTitle: string
+    preview: string
+    username: string
+    commentCount: number
+    createdAt: Date
+    updatedAt: Date
+    likeCount: number
+    viewCount: number
+}
+
+export default function Category() {
     const [page, setPage] = useState<number>(1)
-    const [postList, setPostList] = useState([])
-    const [title, setTitle] = useState('')
+    const [postList, setPostList] = useState<post[]>([])
+    const [title, setTitle] = useState<string>('')
+    const [totalPage, setTotalPage] = useState<number>(10)
     const router = useRouter()
-    const API_URL = process.env.API
 
-    console.log(router.query)
     //페이지 이동하는 함수
     const handleChange = (e: ChangeEvent<unknown>, value: number) => {
         router.push({ pathname: router.pathname, query: { ...router.query, page: value } })
@@ -21,33 +36,44 @@ export default function Category({ id }: any) {
 
     const getPostList = async () => {
         //게시판에 해당하는 게시글 페이징에 맞게 불러오기
-        // const response = await axios.get(`${API_URL}lists/posts?boardTitle=${title}&currentPage=${page}`)
-        // setPostList(response.data)
+        const title = router.query.cid![1]
+        let page = 1
+        if (router.query.page !== undefined) {
+            page = parseInt(router.query.page! as string)
+        }
+        const response = await axios.get(`/server/lists/posts?boardTitle=${title}&currentPage=${page}&pageSize=1`, {
+            headers: {
+                'ngrok-skip-browser-warning': '123456',
+            },
+        })
+        console.log(response.data)
+        setPostList(response.data.postList)
+        setTotalPage(response.data.totalPage)
     }
 
-    useEffect(() => { // 페이지 처음 마운팅 될 때 포스트 목록 가져오기
-        getPostList()
-    },[])
-
-    useEffect(() => { // URL에 직접 페이지 접근할 때 정상적으로 작동하기 위함
+    useEffect(() => {
+        // URL에 직접 페이지 접근할 때 정상적으로 작동하기 위함
         if (router.query.page) {
             setPage(parseInt(router.query.page?.toString()))
         }
     }, [router.query.page])
 
+    // 라우터 값 가져오고난 후 게시글 목록 불러오기
     useEffect(() => {
-        if (!router.isReady) return;
+        if (!router.isReady) return
         setTitle(router.query.cid![1])
-      }, [router.isReady]);
-
-    console.log(router.query.cid)
+        getPostList()
+        if (router.query.page === undefined) {
+            setPage(1)
+        }
+    }, [router.isReady, router])
 
     return (
         <>
             <HeadTitle title={title + ' 게시글 목록'} />
             <Navigation contentRef={''} />
-            <h4>{title + ' 게시글 목록'}</h4>
-            <Pagination count={10} page={page} onChange={handleChange} />
+            <Content postList={postList} contentTitle={title} />
+            <Pagination count={totalPage} page={page} onChange={handleChange} />
         </>
     )
 }

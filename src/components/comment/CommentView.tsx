@@ -13,6 +13,7 @@ type comment = {
     nickname: string
     content: string
     createdAt: string
+    deleted: boolean 
     depth: number
     likeState: boolean
     parentCommentId: number
@@ -56,7 +57,7 @@ export default function CommentView({ postId, isWriter }: Props) {
 
     return (
         <>
-            <EditComment postId={postId} setCommentList={setCommentList} />
+            <EditComment postId={postId} setCommentList={setCommentList} isWriter={isWriter}/>
             <CommentList
                 commentList={commentList}
                 postId={postId}

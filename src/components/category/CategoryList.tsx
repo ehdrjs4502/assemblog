@@ -1,4 +1,4 @@
-import { Collapse, List, ListItem, ListItemButton, ListItemText } from '@mui/material'
+import { Button, Collapse, List, ListItem, ListItemButton, ListItemText } from '@mui/material'
 import { ExpandLess, ExpandMore } from '@mui/icons-material'
 import { useState } from 'react'
 import AddBoardModal from './modals/AddBoardModal'
@@ -46,10 +46,9 @@ export default function CategoryList({ list, isLogin, setCategoryList, isView }:
         router.push(
             {
                 pathname: `/category/${title}/${childTitle}`,
-                query: { id: id },
             },
             `/category/${title}/${childTitle}`,
-            { shallow: true } 
+            { shallow: true }
         )
     }
 
@@ -84,7 +83,7 @@ export default function CategoryList({ list, isLogin, setCategoryList, isView }:
                                                 )}
                                             </>
                                         }>
-                                        <ListItemButton key={id} sx={{ pl: 4 }} onClick={() => onNestedClick(id)}>
+                                        <ListItemButton key={id} sx={{ pl: 4, '&:hover':{color:'tomato'} }} onClick={() => onNestedClick(id)}>
                                             <ListItemText primary={title} />
                                             {boards.length === 0 ? (
                                                 ''
@@ -118,7 +117,7 @@ export default function CategoryList({ list, isLogin, setCategoryList, isView }:
                                                     <ListItemButton
                                                         onClick={() => onClickBoard(id, title, boardTitle)}
                                                         key={id}
-                                                        sx={{ pl: 4 }}>
+                                                        sx={{ pl: 4, '&:hover':{color:'tomato'} }}>
                                                         <ListItemText primary={boardTitle} />
                                                     </ListItemButton>
                                                 </ListItem>
@@ -130,7 +129,6 @@ export default function CategoryList({ list, isLogin, setCategoryList, isView }:
                         )
                     })}
             </List>
-
             <style jsx>{`
                 .admin-settings {
                     margin-left: auto;

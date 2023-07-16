@@ -10,6 +10,7 @@ type comment = {
     content: string
     createdAt: string
     depth: number
+    deleted: boolean
     likeState: boolean
     parentCommentId: number
 }
@@ -17,9 +18,10 @@ type comment = {
 interface Props {
     postId: number
     setCommentList: (comment: comment[]) => void
+    isWriter: boolean
 }
 
-export default function EditComment({ postId, setCommentList }: Props) {
+export default function EditComment({ postId, setCommentList, isWriter }: Props) {
     const [nickname, setNickname] = useState('')
     const [password, setPassword] = useState('')
     const [content, setContent] = useState('')
@@ -135,7 +137,7 @@ export default function EditComment({ postId, setCommentList }: Props) {
                     }}
                     value={content}
                     inputRef={contentRef}
-                    sx={{ width: '100%', marginTop: '30px' }}
+                    sx={{ width: '100%', marginTop: '30px', }}
                 />
                 <Button
                     onClick={() => onClickEditBtn()}

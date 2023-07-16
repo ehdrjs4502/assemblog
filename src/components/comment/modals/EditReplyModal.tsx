@@ -10,6 +10,7 @@ type comment = {
     content: string
     createdAt: string
     depth: number
+    deleted: boolean
     likeState: boolean
     parentCommentId: number
 }

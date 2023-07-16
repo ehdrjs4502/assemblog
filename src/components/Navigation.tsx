@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import {AppBar, Toolbar, IconButton, Typography, Drawer} from '@mui/material'
-import {Menu, Search, PostAdd} from '@mui/icons-material'
+import { AppBar, Toolbar, IconButton, Typography, Drawer, Button, Tooltip } from '@mui/material'
+import { Menu, Search, PostAdd, Logout } from '@mui/icons-material'
 import CategoryView from './category/CategoryView'
 import DrawerHeader from './DrawerHeader'
 import { useRouter } from 'next/router'
 import { Cookies } from 'react-cookie'
 import { getCategoryList } from '@/function/getCategory'
+import TagView from './category/TagView'
 
 type CategoryItem = {
     id: number
@@ -53,18 +54,26 @@ export default function Navigation({ contentRef }: any) {
         setScrollPosition(window.scrollY || document.documentElement.scrollTop)
     }
 
+    //로그아웃 버튼 눌렀을 때 함수
+    const onClickLogoutBtn = () => {
+        cookie.remove('email')
+        cookie.remove('accessToken')
+        cookie.remove('refreshToken')
+        router.push('/login')
+    }
 
     useEffect(() => {
         window.addEventListener('scroll', updateScroll)
     })
 
     useEffect(() => {
+        // 로그인한 사용자인지 확인
         if (cookie.get('email') !== undefined) {
             setIsLogin(true)
         }
 
-         // 카테고리 리스트 가져오기
-         const fetchCategoryList = async () => {
+        // 카테고리 리스트 가져오기
+        const fetchCategoryList = async () => {
             const list = await getCategoryList() // 카테고리 가져오는 함수
             setCategoryList(list)
         }
@@ -120,8 +129,9 @@ export default function Navigation({ contentRef }: any) {
         // ]
 
         // setCategoryList(testList)
-    },[])
+    }, [])
 
+    // 페이지가 바껴도 Drawer가 계속 열려있어서 router 바뀌면 닫히게 함
     useEffect(() => {
         setIsDrawerOpen(false)
     }, [router.asPath])
@@ -140,13 +150,24 @@ export default function Navigation({ contentRef }: any) {
                     </IconButton>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}></Typography>
                     {isLogin && (
-                        <IconButton color="primary" onClick={() => router.push('/post/edit')}>
-                            <PostAdd />
-                        </IconButton>
+                        <>
+                            <Tooltip title="로그아웃" disableInteractive placement="bottom" arrow>
+                                <IconButton color="primary" onClick={() => onClickLogoutBtn()}>
+                                    <Logout />
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title="글 작성" disableInteractive placement="bottom" arrow>
+                                <IconButton color="primary" onClick={() => router.push('/post/edit')}>
+                                    <PostAdd />
+                                </IconButton>
+                            </Tooltip>
+                        </>
                     )}
-                    <IconButton aria-label="search" color="primary">
-                        <Search />
-                    </IconButton>
+                    <Tooltip title="검색" disableInteractive placement="bottom" arrow>
+                        <IconButton aria-label="search" color="primary">
+                            <Search />
+                        </IconButton>
+                    </Tooltip>
                 </Toolbar>
             </AppBar>
 
@@ -156,7 +177,8 @@ export default function Navigation({ contentRef }: any) {
                 onClose={() => setIsDrawerOpen(false)}
                 PaperProps={{ sx: { width: '250px', '::-webkit-scrollbar': { display: 'none' } } }}>
                 <DrawerHeader />
-                <CategoryView isLogin={isLogin} categoryList={categoryList} setCategoryList={setCategoryList}/>
+                <CategoryView isLogin={isLogin} categoryList={categoryList} setCategoryList={setCategoryList} />
+                <TagView />
             </Drawer>
         </>
     )
