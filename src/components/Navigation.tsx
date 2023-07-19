@@ -60,6 +60,8 @@ export default function Navigation({ contentRef }: any) {
         cookie.remove('accessToken')
         cookie.remove('refreshToken')
         router.push('/login')
+
+        
     }
 
     useEffect(() => {

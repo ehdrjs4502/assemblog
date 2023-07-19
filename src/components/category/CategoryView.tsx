@@ -4,6 +4,7 @@ import AddCategoryModal from './modals/AddCategoryModal'
 import CategoryList from './CategoryList'
 import { VisibilityOff, Visibility, Category } from '@mui/icons-material'
 import { useRouter } from 'next/router'
+import SettingCateogryListModal from './modals/SettingCategoryListModal'
 
 type CategoryItem = {
     id: number
@@ -42,6 +43,7 @@ export default function CategoryView({ isLogin, categoryList, setCategoryList }:
                         <IconButton onClick={() => setOnHide(!onHide)}>
                             {onHide ? <VisibilityOff /> : <Visibility />}
                         </IconButton>
+                        <SettingCateogryListModal list={categoryList} setCategoryList={setCategoryList}/>
                         <AddCategoryModal setCategoryList={setCategoryList} />
                     </div>
                 ) : (
@@ -83,6 +85,7 @@ export default function CategoryView({ isLogin, categoryList, setCategoryList }:
                     }
 
                     .admin-settings {
+                        display: flex;
                         margin-left: auto;
                         margin-right: 9px;
                     }

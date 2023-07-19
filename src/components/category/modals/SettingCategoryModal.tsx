@@ -45,15 +45,16 @@ export default function SettingCategoryModal({ categoryID, categoryTitle, catego
     //카테고리 수정하는 함수
     const onClickModifyBtn = async () => {
         let isSuccess = false
+        console.log(isChecked)
         try {
             const response = await axios.patch(
                 `/server/api/categories`,
-                {
+                [{
                     id: categoryID,
                     title: title,
                     useState: isChecked,
                     orderNum: categoryOrderNum,
-                },
+                }],
                 {
                     headers: {
                         Authorization: `Bearer ${cookie.get('accessToken')}`,
@@ -133,6 +134,7 @@ export default function SettingCategoryModal({ categoryID, categoryTitle, catego
                             <Checkbox
                                 onChange={(e) => {
                                     setIsChecked(!e.target.checked)
+                                    console.log(isChecked)
                                 }}
                             />
                         }

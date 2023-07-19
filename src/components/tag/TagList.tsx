@@ -1,12 +1,21 @@
 import Tag from '@/components/tag/Tag'
 
-export default function TagList({ tagList }: any) {
+type tag = {
+    id: number,
+    name: string
+}
+
+interface Props { 
+    tagList: [tag]
+}
+
+export default function TagList({ tagList }: Props) {
     return (
         <>
             <div className='container'>
                 <div className="tag-box">
-                    {tagList.tags.map((tag: string, idx: number) => (
-                        <Tag key={idx} tag={tag} />
+                    {tagList.map((tag: tag) => (
+                        <Tag key={tag.id} tag={tag.name} />
                     ))}
                 </div>
             </div>

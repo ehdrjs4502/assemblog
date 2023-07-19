@@ -45,15 +45,16 @@ export default function SettingBoardModal({ boardID, boardTitle, boardOrderNum, 
     //게시판 수정하는 함수
     const onClickModifyBtn = async () => {
         let isSuccess = false
+        console.log(isChecked, boardID)
         try {
             const response = await axios.patch(
                 `/server/api/boards`,
-                {
+                [{
                     id: boardID,
                     title: title,
                     useState: isChecked,
                     orderNum: boardOrderNum,
-                },
+                }],
                 {
                     headers: {
                         Authorization: `Bearer ${cookie.get('accessToken')}`,
@@ -134,6 +135,7 @@ export default function SettingBoardModal({ boardID, boardTitle, boardOrderNum, 
                             <Checkbox
                                 onChange={(e) => {
                                     setIsChecked(!e.target.checked)
+                                    console.log(isChecked)
                                 }}
                             />
                         }

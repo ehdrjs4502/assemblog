@@ -23,7 +23,6 @@ export default function ReplyComment({ commentList, postId, setCommentList, isWr
     const replyCommentList: comment[] = commentList?.filter(
         (comment: any) => comment.parentCommentId === parentCommentId
     )
-    console.log('대댓글 : ', replyCommentList)
     return (
         <>
             {replyCommentList?.map(

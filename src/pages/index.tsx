@@ -10,7 +10,6 @@ export default function Home({ postList }: any) {
     const title = 'Main'
     const contentRef = useRef(null)
     const contentTitle = '최신글'
-    console.log(postList)
     const [itemList, setItemList] = useState<any>()
 
     useEffect(() => {
@@ -51,18 +50,19 @@ export default function Home({ postList }: any) {
             <div ref={contentRef}>
                 <Content postList={postList} contentTitle={contentTitle} />
             </div>
-            
-            {itemList && itemList.length > 0 && ( // itemList이 존재하고 길이가 0보다 큰 경우에만 ReactDragList 렌더링
-                <ReactDragList
-                    dataSource={itemList}
-                    rowKey="name"
-                    row={dragList}
-                    handles={false}
-                    className="simple-drag"
-                    rowClassName="simple-drag-row"
-                    onUpdate={handleUpdate}
-                />
-            )}
+
+            {itemList &&
+                itemList.length > 0 && ( // itemList이 존재하고 길이가 0보다 큰 경우에만 ReactDragList 렌더링
+                    <ReactDragList
+                        dataSource={itemList}
+                        rowKey="name"
+                        row={dragList}
+                        handles={false}
+                        className="simple-drag"
+                        rowClassName="simple-drag-row"
+                        onUpdate={handleUpdate}
+                    />
+                )}
         </div>
     )
 }
