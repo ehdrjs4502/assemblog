@@ -1,10 +1,9 @@
-import { Button, Collapse, List, ListItem, ListItemButton, ListItemText } from '@mui/material'
+import { Collapse, List, ListItem, ListItemButton, ListItemText } from '@mui/material'
 import { ExpandLess, ExpandMore } from '@mui/icons-material'
 import { useState } from 'react'
 import AddBoardModal from './modals/AddBoardModal'
-import SettingCategoryModal from './modals/SettingCategoryModal'
 import { useRouter } from 'next/router'
-import SettingBoardModal from './modals/SettingBoardModal'
+import SettingListModal from './modals/SettingListModal'
 
 type CategoryItem = {
     id: number
@@ -25,10 +24,9 @@ interface Props {
     list: CategoryItem[]
     isLogin: boolean
     setCategoryList: ([]: any) => void
-    isView: boolean
 }
 
-export default function CategoryList({ list, isLogin, setCategoryList, isView }: Props) {
+export default function CategoryList({ list, isLogin, setCategoryList }: Props) {
     const [open, setOpen] = useState<{ [key: number]: boolean }>({}) // 상세 카테고리 열기
 
     const router = useRouter()
@@ -56,23 +54,23 @@ export default function CategoryList({ list, isLogin, setCategoryList, isView }:
         <>
             <List component="nav">
                 {list.length !== 0 &&
-                    list.map(({ id, title, orderNum, boards, useState }) => {
-                        const isOpen = open[id] || false
-                        return (
-                            <div key={id}>
-                                {useState === isView && (
+                    list
+                        .filter((item) => item.useState) // useState가 true인 카테고리만 불러옴
+                        .map(({ id, title, boards, useState }) => {
+                            const isOpen = open[id] || false
+                            return (
+                                <div key={id}>
                                     <ListItem
                                         key={id}
                                         disablePadding
-                                        secondaryAction={
+                                        secondaryAction={ // 게시판 설정, 추가 버튼
                                             <>
                                                 {isLogin && (
                                                     <div className="admin-settings">
-                                                        <SettingCategoryModal
-                                                            categoryID={id}
-                                                            categoryTitle={title}
-                                                            categoryOrderNum={orderNum}
+                                                        <SettingListModal
+                                                            list={boards}
                                                             setCategoryList={setCategoryList}
+                                                            isCategory={false}
                                                         />
                                                         <AddBoardModal
                                                             categoyID={id}
@@ -83,7 +81,10 @@ export default function CategoryList({ list, isLogin, setCategoryList, isView }:
                                                 )}
                                             </>
                                         }>
-                                        <ListItemButton key={id} sx={{ pl: 4, '&:hover':{color:'tomato'} }} onClick={() => onNestedClick(id)}>
+                                        <ListItemButton
+                                            key={id}
+                                            sx={{ pl: 4, '&:hover': { color: 'tomato' } }}
+                                            onClick={() => onNestedClick(id)}>
                                             <ListItemText primary={title} />
                                             {boards.length === 0 ? (
                                                 ''
@@ -94,43 +95,31 @@ export default function CategoryList({ list, isLogin, setCategoryList, isView }:
                                             )}
                                         </ListItemButton>
                                     </ListItem>
-                                )}
-                                {boards.length !== 0 && (
-                                    <Collapse in={isOpen} timeout="auto" unmountOnExit>
-                                        <List component="div" sx={{ marginLeft: 2 }}>
-                                            {boards.map(({ id: id, title: boardTitle, orderNum: orderNum }) => (
-                                                <ListItem
-                                                    key={id}
-                                                    disablePadding
-                                                    secondaryAction={
-                                                        <>
-                                                            {isLogin && (
-                                                                <SettingBoardModal
-                                                                    boardID={id}
-                                                                    boardTitle={boardTitle}
-                                                                    boardOrderNum={orderNum}
-                                                                    setCategoryList={setCategoryList}
-                                                                />
-                                                            )}
-                                                        </>
-                                                    }>
-                                                    <ListItemButton
-                                                        onClick={() => onClickBoard(id, title, boardTitle)}
-                                                        key={id}
-                                                        sx={{ pl: 4, '&:hover':{color:'tomato'} }}>
-                                                        <ListItemText primary={boardTitle} />
-                                                    </ListItemButton>
-                                                </ListItem>
-                                            ))}
-                                        </List>
-                                    </Collapse>
-                                )}
-                            </div>
-                        )
-                    })}
+                                    {boards.length !== 0 && (
+                                        <Collapse in={isOpen} timeout="auto" unmountOnExit>
+                                            <List component="div" sx={{ marginLeft: 2 }}>
+                                                {boards
+                                                    .filter((item) => item.useState) // useState가 true인 게시판만 가져옴
+                                                    .map(({ id: id, title: boardTitle }) => (
+                                                        <ListItem key={id} disablePadding>
+                                                            <ListItemButton
+                                                                onClick={() => onClickBoard(id, title, boardTitle)}
+                                                                key={id}
+                                                                sx={{ pl: 4, '&:hover': { color: 'tomato' } }}>
+                                                                <ListItemText primary={boardTitle} />
+                                                            </ListItemButton>
+                                                        </ListItem>
+                                                    ))}
+                                            </List>
+                                        </Collapse>
+                                    )}
+                                </div>
+                            )
+                        })}
             </List>
             <style jsx>{`
                 .admin-settings {
+                    display: flex;
                     margin-left: auto;
                     margin-right: 18px;
                 }

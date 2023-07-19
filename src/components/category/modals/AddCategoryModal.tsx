@@ -70,7 +70,7 @@ export default function AddCategoryModal({ setCategoryList }: Props) {
                 sx={{
                     color: 'gray',
                     '&:hover': {
-                        color: 'black',
+                        color: 'tomato',
                     },
                 }}>
                 <Add />

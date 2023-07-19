@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react'
 import IconButton from '@mui/material/IconButton'
 import AddCategoryModal from './modals/AddCategoryModal'
 import CategoryList from './CategoryList'
-import { VisibilityOff, Visibility, Category } from '@mui/icons-material'
+import { Category } from '@mui/icons-material'
 import { useRouter } from 'next/router'
-import SettingCateogryListModal from './modals/SettingCategoryListModal'
+import SettingCateogryListModal from './modals/SettingListModal'
 
 type CategoryItem = {
     id: number
@@ -28,22 +28,22 @@ interface Props {
 }
 
 export default function CategoryView({ isLogin, categoryList, setCategoryList }: Props) {
-    const [onHide, setOnHide] = useState<boolean>(false) // 숨김 카테고리 상태
     const router = useRouter()
 
     return (
         <>
             <div className="category-header">
-                <div className='category-title' onClick={() => router.push('/category')}>
-                    <Category sx={{width:'18px', marginRight:1}}/>
+                <div className="category-title" onClick={() => router.push('/category')}>
+                    <Category sx={{ width: '18px', marginRight: 1 }} />
                     <span>카테고리</span>
                 </div>
-                {isLogin ? (
+                {isLogin ? ( // 카테고리 설정, 추가 버튼
                     <div className="admin-settings">
-                        <IconButton onClick={() => setOnHide(!onHide)}>
-                            {onHide ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                        <SettingCateogryListModal list={categoryList} setCategoryList={setCategoryList}/>
+                        <SettingCateogryListModal
+                            list={categoryList}
+                            setCategoryList={setCategoryList}
+                            isCategory={true}
+                        />
                         <AddCategoryModal setCategoryList={setCategoryList} />
                     </div>
                 ) : (
@@ -51,19 +51,7 @@ export default function CategoryView({ isLogin, categoryList, setCategoryList }:
                 )}
             </div>
 
-            <CategoryList list={categoryList} isLogin={isLogin} setCategoryList={setCategoryList} isView={true} />
-
-            {onHide && (
-                <>
-                    <h4>숨겨진 카테고리</h4>
-                    <CategoryList
-                        list={categoryList}
-                        isLogin={isLogin}
-                        setCategoryList={setCategoryList}
-                        isView={false}
-                    />
-                </>
-            )}
+            <CategoryList list={categoryList} isLogin={isLogin} setCategoryList={setCategoryList} />
 
             <style jsx>
                 {`

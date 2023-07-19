@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { AppBar, Toolbar, IconButton, Typography, Drawer, Button, Tooltip } from '@mui/material'
-import { Menu, Search, PostAdd, Logout } from '@mui/icons-material'
+import { Menu, Search, PostAdd, Logout, ManageAccounts } from '@mui/icons-material'
 import CategoryView from './category/CategoryView'
 import DrawerHeader from './DrawerHeader'
 import { useRouter } from 'next/router'
@@ -60,8 +60,6 @@ export default function Navigation({ contentRef }: any) {
         cookie.remove('accessToken')
         cookie.remove('refreshToken')
         router.push('/login')
-
-        
     }
 
     useEffect(() => {
@@ -75,62 +73,68 @@ export default function Navigation({ contentRef }: any) {
         }
 
         // 카테고리 리스트 가져오기
-        const fetchCategoryList = async () => {
-            const list = await getCategoryList() // 카테고리 가져오는 함수
-            setCategoryList(list)
-        }
+        // const fetchCategoryList = async () => {
+        //     const list = await getCategoryList() // 카테고리 가져오는 함수
+        //     setCategoryList(list)
+        // }
 
-        fetchCategoryList()
+        // fetchCategoryList()
 
-        // const testList: CategoryItem[] = [
-        //     {
-        //         id: 1,
-        //         title: 'test1',
-        //         orderNum: 1,
-        //         useState: false,
-        //         boards: [
-        //             {
-        //                 id: 1,
-        //                 title: 'board1',
-        //                 orderNum: 1,
-        //                 useState: true,
-        //             },
-        //         ],
-        //     },
+        const testList: CategoryItem[] = [
+            {
+                id: 1,
+                title: 'test1',
+                orderNum: 1,
+                useState: false,
+                boards: [
+                    {
+                        id: 1,
+                        title: 'board1',
+                        orderNum: 1,
+                        useState: true,
+                    },
+                ],
+            },
 
-        //     {
-        //         id: 2,
-        //         title: 'test2',
-        //         orderNum: 2,
-        //         useState: true,
-        //         boards: [
-        //             {
-        //                 id: 1,
-        //                 title: 'board2',
-        //                 orderNum: 1,
-        //                 useState: true,
-        //             },
-        //         ],
-        //     },
+            {
+                id: 2,
+                title: 'test2',
+                orderNum: 2,
+                useState: true,
+                boards: [
+                    {
+                        id: 1123,
+                        title: 'board2',
+                        orderNum: 1,
+                        useState: true,
+                    },
+                    {
+                        id: 2,
+                        title: 'board3',
+                        orderNum: 2,
+                        useState: false,
+                    },
+                ],
+            },
 
-        //     {
-        //         id: 3,
-        //         title: 'test3',
-        //         orderNum: 3,
-        //         useState: true,
-        //         boards: [],
-        //     },
+            {
+                id: 3,
+                title: 'test3',
+                orderNum: 3,
+                useState: true,
+                boards: [],
+            },
 
-        //     {
-        //         id: 4,
-        //         title: 'test4',
-        //         orderNum: 4,
-        //         useState: false,
-        //         boards: [],
-        //     },
-        // ]
+            {
+                id: 4,
+                title: 'test4',
+                orderNum: 4,
+                useState: false,
+                boards: [],
+            },
+        ]
 
-        // setCategoryList(testList)
+        setCategoryList(testList)
     }, [])
 
     // 페이지가 바껴도 Drawer가 계속 열려있어서 router 바뀌면 닫히게 함
@@ -161,6 +165,11 @@ export default function Navigation({ contentRef }: any) {
                             <Tooltip title="글 작성" disableInteractive placement="bottom" arrow>
                                 <IconButton color="primary" onClick={() => router.push('/post/edit')}>
                                     <PostAdd />
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title="유저 정보 수정" disableInteractive placement="bottom" arrow>
+                                <IconButton color="primary" onClick={() => router.push('/')}>
+                                    <ManageAccounts />
                                 </IconButton>
                             </Tooltip>
                         </>

@@ -1,19 +1,30 @@
-import { Box, Button, Checkbox, FormControlLabel, Modal, TextField, Typography, IconButton } from '@mui/material'
+import {
+    Box,
+    Button,
+    Checkbox,
+    FormControlLabel,
+    Modal,
+    TextField,
+    Typography,
+    IconButton,
+    Tooltip,
+} from '@mui/material'
 import axios from 'axios'
 import { useRef, useState, useEffect } from 'react'
 import reissueAccToken from '@/function/reissueAccToken'
-import { Settings, Delete } from '@mui/icons-material'
+import { EditNote, Delete } from '@mui/icons-material'
 import { getCategoryList } from '@/function/getCategory'
 import { Cookies } from 'react-cookie'
 
 interface Props {
-    categoryID: number
-    categoryTitle: string
-    categoryOrderNum: number
+    itemID: number
+    itemTitle: string
+    itemOrderNum: number
     setCategoryList: ([]: any) => void
+    isCategory: boolean
 }
 
-export default function SettingCategoryModal({ categoryID, categoryTitle, categoryOrderNum, setCategoryList }: Props) {
+export default function SettingCategoryModal({ itemID, itemTitle, itemOrderNum, setCategoryList, isCategory }: Props) {
     const [title, setTitle] = useState<string>('') // 카테고리명
     const titleRef = useRef() // 카테고리명 인풋창
     const [isChecked, setIsChecked] = useState<boolean>(true) // 숨기기 여부
@@ -24,7 +35,7 @@ export default function SettingCategoryModal({ categoryID, categoryTitle, catego
 
     useEffect(() => {
         // 모달창 열렸을 때 초기값 설정
-        setTitle(categoryTitle)
+        setTitle(itemTitle)
         setIsChecked(true)
     }, [open])
 
@@ -42,19 +53,22 @@ export default function SettingCategoryModal({ categoryID, categoryTitle, catego
         p: 4,
     }
 
-    //카테고리 수정하는 함수
+    //카테고리, 게시판 수정하는 함수
     const onClickModifyBtn = async () => {
         let isSuccess = false
-        console.log(isChecked)
+        const endpoint = isCategory ? 'categories' : 'boards';
+        console.log(isChecked, title, itemID, endpoint)
         try {
             const response = await axios.patch(
-                `/server/api/categories`,
-                [{
-                    id: categoryID,
-                    title: title,
-                    useState: isChecked,
-                    orderNum: categoryOrderNum,
-                }],
+                `/server/api/${endpoint}`,
+                [
+                    {
+                        id: itemID,
+                        title: title,
+                        useState: isChecked,
+                        orderNum: itemOrderNum,
+                    },
+                ],
                 {
                     headers: {
                         Authorization: `Bearer ${cookie.get('accessToken')}`,
@@ -73,53 +87,28 @@ export default function SettingCategoryModal({ categoryID, categoryTitle, catego
         }
     }
 
-    //카테고리 삭제하는 함수
-    const onClickDelBtn = async () => {
-        let isSuccess = false
-        try {
-            const response = await axios.delete(`/server/api/categories/${categoryID}`, {
-                headers: {
-                    Authorization: `Bearer ${cookie.get('accessToken')}`,
-                },
-            })
-
-            const list = await getCategoryList() // 카테고리 가져오는 함수
-            setCategoryList(list)
-            handleClose()
-            isSuccess = true
-        } catch (error: any) {
-            await reissueAccToken()
-            !isSuccess && onClickDelBtn()
-        }
-    }
-
     return (
         <>
-            <IconButton
-                onClick={() => {
-                    handleOpen()
-                }}
-                color="primary"
-                aria-label="menu"
-                sx={{
-                    color: 'gray',
-                    '&:hover': { color: 'black' },
-                }}>
-                <Settings />
-            </IconButton>
+            <Tooltip title="수정" disableInteractive placement="top" arrow>
+                <IconButton onClick={handleOpen} sx={{ color: 'blue' }}     >
+                    <EditNote />
+                </IconButton>
+            </Tooltip>
             <Modal
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description">
                 <Box sx={style}>
-                    <Typography sx={{ marginBottom: 3, fontSize: 20 }}>카테고리 설정</Typography>
+                    <Typography sx={{ marginBottom: 3, fontSize: 20 }}>
+                        {isCategory ? '카테고리 수정' : '게시판 수정'}
+                    </Typography>
                     <TextField
-                        label="카테고리명"
+                        label={isCategory ? '카테고리 이름' : '게시판 이름'}
                         id="standard-size-small"
                         size="small"
                         variant="standard"
-                        defaultValue={categoryTitle}
+                        defaultValue={itemTitle}
                         fullWidth
                         sx={{ m: 1 }}
                         inputRef={titleRef}
@@ -138,24 +127,10 @@ export default function SettingCategoryModal({ categoryID, categoryTitle, catego
                                 }}
                             />
                         }
-                        label="카테고리 숨기기"
+                        label={isCategory ? '카테고리 숨기기' : '게시판 숨기기'}
                         labelPlacement="start"
                     />
                     <div className="modal-button-container">
-                        <Button
-                            onClick={() => {
-                                if (confirm('정말로 삭제하시겠습니까?') == true) {
-                                    onClickDelBtn()
-                                    handleClose()
-                                }
-                            }}
-                            sx={{ marginRight: 2 }}
-                            color="error"
-                            variant="outlined"
-                            startIcon={<Delete />}
-                            size="small">
-                            삭제
-                        </Button>
                         <Button sx={{ marginRight: 2 }} onClick={() => handleClose()} variant="outlined" size="small">
                             취소
                         </Button>

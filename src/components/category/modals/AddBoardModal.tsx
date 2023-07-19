@@ -77,7 +77,9 @@ export default function AddBoardModal({ categoyID, categoryTitle, setCategoryLis
                 aria-label="menu"
                 sx={{
                     color: 'gray',
-                    '&:hover': { color: 'black' },
+                    '&:hover': {
+                        color: 'tomato',
+                    },
                 }}>
                 <Add />
             </IconButton>
