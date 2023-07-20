@@ -6,6 +6,7 @@ import { List, ListItem, ListItemText, Tooltip } from '@mui/material'
 import axios from 'axios'
 import reissueAccToken from '@/function/reissueAccToken'
 import { Cookies } from 'react-cookie'
+import { getCategoryList } from '@/function/getCategory'
 
 interface Props {
     list: any[]
@@ -14,25 +15,29 @@ interface Props {
 }
 
 export default function ActiveList({ list, setCategoryList, isCategory }: Props) {
-    const [activeList, setActiveList] = useState<any>()
+    const [activeList, setActiveList] = useState<any>([])
     const cookie = new Cookies()
 
     useEffect(() => {
         setActiveList(list.filter((item) => item.useState === true)) // 숨기지 않은 카테고리 가져오기
-    }, [])
+    }, [list])
 
     // 바뀐 리스트 설정
     const changeList = async () => {
+        const endpoint = isCategory ? 'categories' : 'boards';
+        console.log(activeList)
         let isSuccess = false
         try {
-            const response = await axios.patch('/server/api/categories', activeList, {
+            const response = await axios.patch(`/server/api/${endpoint}`, activeList, {
                 headers: {
                     Authorization: `Bearer ${cookie.get('accessToken')}`,
                 },
             })
 
             console.log(response)
-            setCategoryList(activeList)
+            const list = await getCategoryList() // 카테고리 가져오는 함수
+            console.log(list)
+            setCategoryList(list)
             isSuccess = true
         } catch (error) {
             console.log(error)
@@ -51,7 +56,6 @@ export default function ActiveList({ list, setCategoryList, isCategory }: Props)
             items[i].orderNum = i + 1
         }
         setActiveList(items)
-
         changeList()
     }
 
@@ -77,32 +81,30 @@ export default function ActiveList({ list, setCategoryList, isCategory }: Props)
                                 <Draggable draggableId={`test-${item.id}`} index={idx} key={`test-${item.id}`}>
                                     {(provided, snapshot) => {
                                         return (
-                                            
-                                                <ListItem
-                                                    {...provided.draggableProps}
-                                                    {...provided.dragHandleProps}
-                                                    ref={provided.innerRef}>
-                                                        <Tooltip
-                                                title="드래그로 순서를 정할 수 있어요"
-                                                disableInteractive
-                                                placement="left"
-                                                arrow>
+                                            <ListItem
+                                                {...provided.draggableProps}
+                                                {...provided.dragHandleProps}
+                                                ref={provided.innerRef}>
+                                                <Tooltip
+                                                    title="드래그로 순서를 정할 수 있어요"
+                                                    disableInteractive
+                                                    placement="left"
+                                                    arrow>
                                                     <ListItemText primary={`${idx + 1}. ${item.title}`} />
-                                                    </Tooltip>
-                                                    <DelBtn
-                                                        itemID={item.id}
-                                                        setCategoryList={setCategoryList}
-                                                        isCategory={isCategory}
-                                                    />
-                                                    <SettingModal
-                                                        itemID={item.id}
-                                                        itemTitle={item.title}
-                                                        itemOrderNum={item.orderNum}
-                                                        setCategoryList={setCategoryList}
-                                                        isCategory={isCategory}
-                                                    />
-                                                </ListItem>
-                                            
+                                                </Tooltip>
+                                                <DelBtn
+                                                    itemID={item.id}
+                                                    setCategoryList={setCategoryList}
+                                                    isCategory={isCategory}
+                                                />
+                                                <SettingModal
+                                                    itemID={item.id}
+                                                    itemTitle={item.title}
+                                                    itemOrderNum={item.orderNum}
+                                                    setCategoryList={setCategoryList}
+                                                    isCategory={isCategory}
+                                                />
+                                            </ListItem>
                                         )
                                     }}
                                 </Draggable>

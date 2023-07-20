@@ -64,7 +64,7 @@ export default function Content({ postList, contentTitle }: Props) {
                     <div className="card-box">
                         <Reveal keyframes={customAnimation} cascade damping={0.1}>
                             {postList?.map((post: post) => (
-                                <PostCard key={post.postId} post={post} />
+                                <PostCard post={post} key={post.postId}/>
                             ))}
                         </Reveal>
                     </div>

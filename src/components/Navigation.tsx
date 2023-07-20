@@ -73,69 +73,71 @@ export default function Navigation({ contentRef }: any) {
         }
 
         // 카테고리 리스트 가져오기
-        // const fetchCategoryList = async () => {
-        //     const list = await getCategoryList() // 카테고리 가져오는 함수
-        //     setCategoryList(list)
-        // }
+        const fetchCategoryList = async () => {
+            const list = await getCategoryList() // 카테고리 가져오는 함수
+            console.log(list)
+            setCategoryList(list)
+        }
 
-        // fetchCategoryList()
+        fetchCategoryList()
 
-        const testList: CategoryItem[] = [
-            {
-                id: 1,
-                title: 'test1',
-                orderNum: 1,
-                useState: false,
-                boards: [
-                    {
-                        id: 1,
-                        title: 'board1',
-                        orderNum: 1,
-                        useState: true,
-                    },
-                ],
-            },
+        // const testList: CategoryItem[] = [
+        //     {
+        //         id: 1,
+        //         title: 'test1',
+        //         orderNum: 1,
+        //         useState: false,
+        //         boards: [
+        //             {
+        //                 id: 1,
+        //                 title: 'board1',
+        //                 orderNum: 1,
+        //                 useState: true,
+        //             },
+        //         ],
+        //     },
 
-            {
-                id: 2,
-                title: 'test2',
-                orderNum: 2,
-                useState: true,
-                boards: [
-                    {
-                        id: 1123,
-                        title: 'board2',
-                        orderNum: 1,
-                        useState: true,
-                    },
-                    {
-                        id: 2,
-                        title: 'board3',
-                        orderNum: 2,
-                        useState: false,
-                    },
-                ],
-            },
+        //     {
+        //         id: 2,
+        //         title: 'test2',
+        //         orderNum: 2,
+        //         useState: true,
+        //         boards: [
+        //             {
+        //                 id: 1123,
+        //                 title: 'board2',
+        //                 orderNum: 1,
+        //                 useState: true,
+        //             },
+        //             {
+        //                 id: 2,
+        //                 title: 'board3',
+        //                 orderNum: 2,
+        //                 useState: false,
+        //             },
+        //         ],
+        //     },
 
-            {
-                id: 3,
-                title: 'test3',
-                orderNum: 3,
-                useState: true,
-                boards: [],
-            },
+        //     {
+        //         id: 3,
+        //         title: 'test3',
+        //         orderNum: 3,
+        //         useState: true,
+        //         boards: [],
+        //     },
 
-            {
-                id: 4,
-                title: 'test4',
-                orderNum: 4,
-                useState: false,
-                boards: [],
-            },
-        ]
+        //     {
+        //         id: 4,
+        //         title: 'test4',
+        //         orderNum: 4,
+        //         useState: false,
+        //         boards: [],
+        //     },
+        // ]
 
-        setCategoryList(testList)
+        // setCategoryList(testList)
     }, [])
+
 
     // 페이지가 바껴도 Drawer가 계속 열려있어서 router 바뀌면 닫히게 함
     useEffect(() => {
@@ -167,8 +169,8 @@ export default function Navigation({ contentRef }: any) {
                                     <PostAdd />
                                 </IconButton>
                             </Tooltip>
-                            <Tooltip title="유저 정보 수정" disableInteractive placement="bottom" arrow>
-                                <IconButton color="primary" onClick={() => router.push('/')}>
+                            <Tooltip title="유저 수정" disableInteractive placement="bottom" arrow>
+                                <IconButton color="primary" onClick={() => router.push('/userinfo')}>
                                     <ManageAccounts />
                                 </IconButton>
                             </Tooltip>

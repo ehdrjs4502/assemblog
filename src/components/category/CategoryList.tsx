@@ -63,7 +63,8 @@ export default function CategoryList({ list, isLogin, setCategoryList }: Props) 
                                     <ListItem
                                         key={id}
                                         disablePadding
-                                        secondaryAction={ // 게시판 설정, 추가 버튼
+                                        secondaryAction={
+                                            // 게시판 설정, 추가 버튼
                                             <>
                                                 {isLogin && (
                                                     <div className="admin-settings">
@@ -86,7 +87,7 @@ export default function CategoryList({ list, isLogin, setCategoryList }: Props) 
                                             sx={{ pl: 4, '&:hover': { color: 'tomato' } }}
                                             onClick={() => onNestedClick(id)}>
                                             <ListItemText primary={title} />
-                                            {boards.length === 0 ? (
+                                            {boards?.length === 0 ? (
                                                 ''
                                             ) : isOpen ? (
                                                 <ExpandLess sx={{ marginRight: -4 }} />
@@ -95,11 +96,11 @@ export default function CategoryList({ list, isLogin, setCategoryList }: Props) 
                                             )}
                                         </ListItemButton>
                                     </ListItem>
-                                    {boards.length !== 0 && (
+                                    {boards?.length !== 0 && (
                                         <Collapse in={isOpen} timeout="auto" unmountOnExit>
                                             <List component="div" sx={{ marginLeft: 2 }}>
                                                 {boards
-                                                    .filter((item) => item.useState) // useState가 true인 게시판만 가져옴
+                                                    ?.filter((item) => item.useState) // useState가 true인 게시판만 가져옴
                                                     .map(({ id: id, title: boardTitle }) => (
                                                         <ListItem key={id} disablePadding>
                                                             <ListItemButton

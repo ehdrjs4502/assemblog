@@ -1,11 +1,11 @@
 import HeadTitle from '@/components/HeadTitle'
-import Introduction from '@/components/Introduction'
+import UserIntroView from '@/components/user/UserIntroView'
 import Navigation from '@/components/Navigation'
 import Content from '@/components/Content'
-import { useEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
 import axios from 'axios'
 
-export default function Home({ postList }: any) {
+export default function Home({ postList, usersIntro }: any) {
     const title = 'Main'
     const contentRef = useRef(null)
     const contentTitle = '최신글'
@@ -14,7 +14,7 @@ export default function Home({ postList }: any) {
         <div>
             <HeadTitle title={title} />
             <Navigation contentRef={contentRef} />
-            <Introduction />
+            <UserIntroView usersIntro={usersIntro} />
             <div ref={contentRef}>
                 <Content postList={postList} contentTitle={contentTitle} />
             </div>
@@ -31,12 +31,43 @@ export async function getStaticProps() {
     //     },
     // })
 
+    // console.log(res)
+
     // const postList = res.data.postList || null
-    
+
     const postList = [{}]
 
+    const usersIntro = [
+        {
+            username: 'ehdrjs',
+            email: 'ehdrjs@gmail.com',
+            introduction: 'hello',
+            profileImageURL: 'profile.png',
+            links: [
+                {
+                    id: 1,
+                    linkDescription: '깃허브',
+                    linkUrl: 'www.github.com',
+                    linkImageUrl: 'github.png',
+                },
+                {
+                    id: 2,
+                    linkDescription: '인스타그램',
+                    linkUrl: 'www.instagram.com',
+                    linkImageUrl: 'instagram.png',
+                },
+                {
+                    id: 3,
+                    linkDescription: '페이스북',
+                    linkUrl: 'www.facebook.com',
+                    linkImageUrl: 'facebook.png',
+                },
+            ],
+        },
+    ]
+
     return {
-        props: { postList },
+        props: { postList, usersIntro },
         revalidate: 120,
     }
 }

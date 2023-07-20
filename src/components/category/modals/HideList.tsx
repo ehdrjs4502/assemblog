@@ -14,7 +14,7 @@ export default function HideList({ list, setCategoryList, isCategory }: Props) {
 
     useEffect(() => {
         setHideList(list.filter((item: any) => item.useState === false)) // 숨겨진 카테고리 또는 게시판 가져오기
-    }, [])
+    }, [list])
 
     return (
         <>

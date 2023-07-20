@@ -15,8 +15,6 @@ export default function SettingCateogryListModal({ list, setCategoryList, isCate
     const handleOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)
 
-    console.log(isCategory)
-
     const style: any = {
         position: 'fixed',
         top: -100,
@@ -36,9 +34,7 @@ export default function SettingCateogryListModal({ list, setCategoryList, isCate
         borderRadius: '10px',
         p: 4,
     }
-
-    console.log("list : ",list)
-
+    
     return (
         <>
             <div>
