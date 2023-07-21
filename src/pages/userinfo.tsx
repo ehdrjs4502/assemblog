@@ -2,7 +2,6 @@ import { Box, Tab, Tabs } from '@mui/material'
 import UserIntroModifyView from '@/components/user/UserIntroModifyView'
 import { SyntheticEvent, useState } from 'react'
 import UserInfoModifyView from '@/components/user/UserInfoModifyView'
-
 function a11yProps(index: number) {
     return {
         id: `simple-tab-${index}`,
@@ -11,7 +10,7 @@ function a11yProps(index: number) {
 }
 
 export default function UserInfo() {
-    const [value, setValue] = useState<number>(0)
+    const [value, setValue] = useState<number>(0) // 탭 상태
 
     const handleChange = (event: SyntheticEvent, newValue: number) => {
         setValue(newValue)

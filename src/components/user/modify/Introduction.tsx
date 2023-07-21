@@ -13,7 +13,7 @@ export default function Introduction({ introduction, setIntroduction }: Props) {
                 label="소개글 수정"
                 multiline
                 rows={6}
-                defaultValue={introduction}
+                value={introduction}
                 onChange={(e) => {
                     setIntroduction(e.target.value)
                 }}

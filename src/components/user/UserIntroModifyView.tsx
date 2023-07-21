@@ -15,13 +15,14 @@ interface Props {
 
 export default function userIntroModifyView({ value, index }: Props) {
     const [introduction, setIntroduction] = useState<string>('') // 소개글
-    const [linkList, setLinkList] = useState<[{}]>([{}]) // 링크 목록
-    const [bgImgUrl, setBgImgUrl] = useState<string>('/img/defaultBgImg.png') // 배경 이미지
+    const [bgImgUrl, setBgImgUrl] = useState<string>('') // 배경 이미지
+    const [linkList, setLinkList] = useState() // 링크 목록
+
     const cookie = new Cookies()
     const router = useRouter()
 
     //유저 소개글 가져오기
-    const getUserInfo = async () => {
+    const getUserIntro = async () => {
         let isSuccess = false
         const email = cookie.get('email')
         try {
@@ -30,10 +31,10 @@ export default function userIntroModifyView({ value, index }: Props) {
                     'ngrok-skip-browser-warning': '1234',
                 },
             })
-            console.log(response)
-            setIntroduction(response.data.introduction)
-            // setBgImgUrl(response.data.bgImgUrl) 수정해야합니당
-            setLinkList(response.data.links)
+            console.log(response.data[0])
+            setIntroduction(response.data[0].introduction)
+            setLinkList(response.data[0].links)
+            setBgImgUrl(response.data[0].backgroundImageURL)
             isSuccess = true
         } catch (error) {
             await reissueAccToken()
@@ -44,14 +45,15 @@ export default function userIntroModifyView({ value, index }: Props) {
     const onClickModifyBtn = async () => {
         let isSuccess = false
         const email = cookie.get('email')
+        console.log('소개글 : ', introduction, ' 배경 : ', bgImgUrl, ' 링크 : ', linkList)
         try {
             const response = await axios.patch(
-                '/server/api/users',
+                '/server/api/user-introductions',
                 {
                     email: email,
-                    introduction: introduction,
-                    links: linkList,
-                    bgImgUrl: bgImgUrl
+                    introduction: introduction ?? '',
+                    backgroundImageURL: bgImgUrl ?? '',
+                    links: linkList ?? [{}],
                 },
                 {
                     headers: {
@@ -61,13 +63,14 @@ export default function userIntroModifyView({ value, index }: Props) {
             )
             console.log(response)
             isSuccess = true
+            router.push('/')
         } catch (error) {
-            await reissueAccToken()
+            // await reissueAccToken()
         }
     }
 
     useEffect(() => {
-        getUserInfo()
+        getUserIntro()
     }, [])
 
     return (
@@ -77,7 +80,7 @@ export default function userIntroModifyView({ value, index }: Props) {
                     <h4>유저 소개 수정</h4>
                     <Introduction introduction={introduction} setIntroduction={setIntroduction} />
                     <Link linkList={linkList} setLinkList={setLinkList} />
-                    <BgImage bgImgUrl={bgImgUrl} setBgImgUrl={setBgImgUrl}/>
+                    <BgImage bgImgUrl={bgImgUrl} setBgImgUrl={setBgImgUrl} />
                     <div className="modal-button-container">
                         <Button
                             sx={{ marginRight: 2 }}
@@ -87,7 +90,7 @@ export default function userIntroModifyView({ value, index }: Props) {
                             size="small">
                             취소
                         </Button>
-                        <Button onClick={() => {}} variant="contained" size="small">
+                        <Button onClick={onClickModifyBtn} variant="contained" size="small">
                             수정
                         </Button>
                     </div>
@@ -104,7 +107,6 @@ export default function userIntroModifyView({ value, index }: Props) {
                 .modal-button-container {
                     margin-top: 50px;
                 }
-                
             `}</style>
         </>
     )

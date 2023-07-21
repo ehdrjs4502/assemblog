@@ -11,7 +11,6 @@ interface Props {
 }
 
 export default function BgImage({ bgImgUrl, setBgImgUrl }: Props) {
-    const router = useRouter()
     const inputRef = useRef<HTMLInputElement>(null) // 파일 인풋창 ref
     const cookie = new Cookies()
 
@@ -52,7 +51,12 @@ export default function BgImage({ bgImgUrl, setBgImgUrl }: Props) {
         <>
             <input type="file" style={{ display: 'none' }} ref={inputRef} onChange={(e) => handleImageUpload(e)} />
             <button className="bgimg-btn" type="button" onClick={handleImageBtnClick}>
-                <Image src={bgImgUrl} width={160} height={160} alt="배경 이미지" />
+                <Image
+                    src={bgImgUrl === '' ? '/img/defaultBgImg.png' : bgImgUrl}
+                    width={160}
+                    height={160}
+                    alt="배경 이미지"
+                />
             </button>
 
             <style jsx>

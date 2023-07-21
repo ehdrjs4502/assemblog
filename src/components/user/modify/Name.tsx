@@ -7,6 +7,7 @@ interface Props {
 }
 
 export default function Name({ name, setName }: Props) {
+
     return (
         <>
             <OutlinedInput
@@ -19,7 +20,7 @@ export default function Name({ name, setName }: Props) {
                         </IconButton>
                     </InputAdornment>
                 }
-                defaultValue={name}
+                value={name}
                 onChange={(e) => {
                     setName(e.target.value)
                 }}

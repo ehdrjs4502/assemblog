@@ -1,24 +1,19 @@
 import LinkModal from './modal/LinkModal'
 
 interface Props {
-    linkList: [{}]
-    setLinkList: (linkList: [{}]) => void
+    linkList: any
+    setLinkList: (linkList: any) => void
 }
 
 export default function Link({ linkList, setLinkList }: Props) {
-    const imgStyle = {
-        width: 50,
-        height: 50,
-        '&:hover': { cursor: 'pointer', backgroundColor: 'rgba(0,0,0,0.4)' },
-    }
-
+    console.log(linkList)
     return (
         <>
             <h4>링크 수정</h4>
             <div className="link-box">
-                <LinkModal linkId="1" />
-                <LinkModal linkId="2" />
-                <LinkModal linkId="3" />
+                {linkList.map((link: any, idx: number) => (
+                    <LinkModal key={idx} link={link} idx={idx} setLinkList={setLinkList} />
+                ))}
             </div>
             <style jsx>
                 {`
