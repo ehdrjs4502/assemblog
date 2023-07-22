@@ -60,43 +60,43 @@ export default function CategoryList({ list, isLogin, setCategoryList }: Props) 
                             const isOpen = open[id] || false
                             return (
                                 <div key={id}>
-                                    <div className='divWithAnimation'>
-                                    <ListItem
-                                        key={id}
-                                        disablePadding
-                                        secondaryAction={
-                                            // 게시판 설정, 추가 버튼
-                                            <>
-                                                {isLogin && (
-                                                    <div className="admin-settings">
-                                                        <SettingListModal
-                                                            list={boards}
-                                                            setCategoryList={setCategoryList}
-                                                            isCategory={false}
-                                                        />
-                                                        <AddBoardModal
-                                                            categoyID={id}
-                                                            categoryTitle={title}
-                                                            setCategoryList={setCategoryList}
-                                                        />
-                                                    </div>
-                                                )}
-                                            </>
-                                        }>
-                                        <ListItemButton
+                                    <div className="divWithAnimation">
+                                        <ListItem
                                             key={id}
-                                            sx={{ pl: 4, '&:hover': { color: 'tomato' } }}
-                                            onClick={() => onNestedClick(id)}>
-                                            <ListItemText primary={title} />
-                                            {boards?.length === 0 ? (
-                                                ''
-                                            ) : isOpen ? (
-                                                <ExpandLess sx={{ marginRight: -4 }} />
-                                            ) : (
-                                                <ExpandMore sx={{ marginRight: -4 }} />
-                                            )}
-                                        </ListItemButton>
-                                    </ListItem>
+                                            disablePadding
+                                            secondaryAction={
+                                                // 게시판 설정, 추가 버튼
+                                                <>
+                                                    {isLogin && (
+                                                        <div className="admin-settings">
+                                                            <SettingListModal
+                                                                list={boards}
+                                                                setCategoryList={setCategoryList}
+                                                                isCategory={false}
+                                                            />
+                                                            <AddBoardModal
+                                                                categoyID={id}
+                                                                categoryTitle={title}
+                                                                setCategoryList={setCategoryList}
+                                                            />
+                                                        </div>
+                                                    )}
+                                                </>
+                                            }>
+                                            <ListItemButton
+                                                key={id}
+                                                sx={{ pl: 4, '&:hover': { color: 'tomato' } }}
+                                                onClick={() => onNestedClick(id)}>
+                                                <ListItemText primary={title} />
+                                                {boards?.length === 0 ? (
+                                                    ''
+                                                ) : isOpen ? (
+                                                    <ExpandLess sx={{ marginRight: -4 }} />
+                                                ) : (
+                                                    <ExpandMore sx={{ marginRight: -4 }} />
+                                                )}
+                                            </ListItemButton>
+                                        </ListItem>
                                     </div>
                                     {boards?.length !== 0 && (
                                         <Collapse in={isOpen} timeout="auto" unmountOnExit>
@@ -128,30 +128,31 @@ export default function CategoryList({ list, isLogin, setCategoryList }: Props) 
                 }
 
                 .divWithAnimation {
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-  padding-bottom: 4px;
-}
+                    position: relative;
+                }
 
-.divWithAnimation::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 0;
-  height: 2px;
-  background-color: tomato;
-  transition: width 0.2s;
-}
+                .divWithAnimation:hover::before {
+                    content: '';
+                    position: absolute;
+                    left: -100%;
+                    bottom: 0;
+                    width: 100%;
+                    height: 2px;
+                    background-color: tomato;
+                    animation: slideInAndOut 1.5s;
+                }
 
-.divWithAnimation:hover::after {
-  width: 100%;
-}
-
-.divWithAnimation:not(:hover)::after {
-  width: 0;
-}
+                @keyframes slideInAndOut {
+                    0% {
+                        left: -100%;
+                    }
+                    50% {
+                        left: 100%;
+                    }
+                    100% {
+                        left: 100%;
+                    }
+                }
             `}</style>
         </>
     )
