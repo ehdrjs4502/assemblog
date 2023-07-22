@@ -1,8 +1,9 @@
 import PostCard from './posts/list/PostCard'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-import { keyframes } from "@emotion/react";
-import { Reveal } from "react-awesome-reveal";
+import { keyframes } from '@emotion/react'
+import { Reveal } from 'react-awesome-reveal'
+
 
 type post = {
     postId: number
@@ -34,7 +35,7 @@ const customAnimation: any = keyframes`
     opacity: 1;
     transform: translate3d(0, 0, 0);
   }
-`;
+`
 
 export default function Content({ postList, contentTitle }: Props) {
     // const [postList, setPostList] = useState<Post[]>([]) // 포스트 목록
@@ -58,13 +59,13 @@ export default function Content({ postList, contentTitle }: Props) {
         <>
             <div className="container">
                 <div className="latest-box">
-                    <div className="latest-header">
+                    <div className="latest-title">
                         <span>{contentTitle}</span>
                     </div>
                     <div className="card-box">
                         <Reveal keyframes={customAnimation} cascade damping={0.1}>
                             {postList?.map((post: post) => (
-                                <PostCard post={post} key={post.postId}/>
+                                <PostCard post={post} key={post.postId} />
                             ))}
                         </Reveal>
                     </div>
@@ -74,20 +75,21 @@ export default function Content({ postList, contentTitle }: Props) {
                 {`
                     .container {
                         width: 100%;
-                        background-color: rgb(231, 231, 231);
                         display: flex;
                         justify-content: center;
                     }
                     .latest-box {
-                        margin-top: 30px;
+                        margin-top: 100px;
+                        margin-bottom: 50px;
                         width: 80%;
                         flex-wrap: wrap;
                     }
 
-                    .latest-header {
-                        font-size: 24px;
+                    .latest-title {
+                        font-size: 32px;
                         font-weight: bold;
-                        margin-bottom: 20px;
+                        margin-top: 20px;
+                        margin-bottom: 40px;
                     }
 
                     .card-box {

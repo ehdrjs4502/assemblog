@@ -7,8 +7,10 @@ export default function ProfileImage({imgUrl}:any) {
                 alt="Profile Image"
                 src={imgUrl}
                 sx={{
-                    width: 100,
-                    height: 100,
+                    width: 90,
+                    height: 90,
+                    marginTop: 5,
+                    marginBottom: 2,
                 }}
             />
         </>

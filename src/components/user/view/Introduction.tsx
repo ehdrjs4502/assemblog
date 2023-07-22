@@ -8,8 +8,14 @@ interface Props {
 export default function Introduction({ introduction }: Props) {
     return (
         <>
-            <Typography variant="h5">
-                <Fade cascade damping={0.1}>
+            <Typography
+                variant="h5"
+                sx={{
+                    marginTop: 6,
+                    marginBottom: 8,
+                    fontSize: '42px'
+                }}>
+                <Fade cascade damping={0.2}>
                     {introduction}
                 </Fade>
             </Typography>

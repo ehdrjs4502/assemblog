@@ -1,4 +1,5 @@
 import { Avatar, Tooltip } from '@mui/material'
+import { Reveal } from 'react-awesome-reveal'
 
 interface Props {
     linkList: any
@@ -16,13 +17,15 @@ export default function Link({ linkList }: Props) {
     return (
         <>
             <div className="link-box">
-                {linkList?.map((link: any) => (
-                    <Tooltip title={link.linkDescription} disableInteractive placement="top" arrow>
-                        <a target="_blank" href={link.linkURL} rel="noreferrer">
-                            <Avatar alt="Link Image" src={link.linkImageURL} sx={imgStyle} />
-                        </a>
-                    </Tooltip>
-                ))}
+                <Reveal cascade damping={0.5}>
+                    {linkList?.map((link: any) => (
+                        <Tooltip title={link.linkDescription} disableInteractive placement="top" arrow>
+                            <a target="_blank" href={link.linkURL} rel="noreferrer">
+                                <Avatar alt="Link Image" src={link.linkImageURL} sx={imgStyle} />
+                            </a>
+                        </Tooltip>
+                    ))}
+                </Reveal>
             </div>
             <style jsx>
                 {`
