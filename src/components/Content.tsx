@@ -79,7 +79,7 @@ export default function Content({ postList, contentTitle }: Props) {
                         justify-content: center;
                     }
                     .latest-box {
-                        margin-top: 100px;
+                        margin-top: 50px;
                         margin-bottom: 50px;
                         width: 80%;
                         flex-wrap: wrap;

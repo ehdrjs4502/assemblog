@@ -20,6 +20,33 @@ export default function Home({ postList, userIntroList }: any) {
                 <Content postList={postList} contentTitle={contentTitle} />
                 {postList.length >= 1 && <ShowMoreBtn />}
             </div>
+
+            <div className="divWithAnimation">
+                <p>마우스를 호버해보세요!</p>
+            </div>
+
+            <style jsx>{`
+                .divWithAnimation {
+                    position: relative;
+                    display: inline-block;
+                    overflow: hidden;
+                }
+
+                .divWithAnimation::before {
+                    content: '';
+                    position: absolute;
+                    left: -100%; /* 변경된 부분 */
+                    bottom: 0;
+                    width: 100%;
+                    height: 2px;
+                    background-color: blue;
+                    transition: left 0.5s; /* 변경된 부분 */
+                }
+
+                .divWithAnimation:hover::before {
+                    left: 100%; /* 변경된 부분 */
+                }
+            `}</style>
         </div>
     )
 }

@@ -60,6 +60,7 @@ export default function CategoryList({ list, isLogin, setCategoryList }: Props) 
                             const isOpen = open[id] || false
                             return (
                                 <div key={id}>
+                                    <div className='divWithAnimation'>
                                     <ListItem
                                         key={id}
                                         disablePadding
@@ -96,6 +97,7 @@ export default function CategoryList({ list, isLogin, setCategoryList }: Props) 
                                             )}
                                         </ListItemButton>
                                     </ListItem>
+                                    </div>
                                     {boards?.length !== 0 && (
                                         <Collapse in={isOpen} timeout="auto" unmountOnExit>
                                             <List component="div" sx={{ marginLeft: 2 }}>
@@ -124,6 +126,32 @@ export default function CategoryList({ list, isLogin, setCategoryList }: Props) 
                     margin-left: auto;
                     margin-right: 18px;
                 }
+
+                .divWithAnimation {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  padding-bottom: 4px;
+}
+
+.divWithAnimation::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background-color: tomato;
+  transition: width 0.2s;
+}
+
+.divWithAnimation:hover::after {
+  width: 100%;
+}
+
+.divWithAnimation:not(:hover)::after {
+  width: 0;
+}
             `}</style>
         </>
     )
