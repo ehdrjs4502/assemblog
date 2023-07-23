@@ -128,31 +128,31 @@ export default function CategoryList({ list, isLogin, setCategoryList }: Props) 
                 }
 
                 /* .divWithAnimation 클래스는 hover시 애니메이션을 요소에 적용하는데 사용됩니다. */
-.divWithAnimation {
-    position: relative; /* 요소의 위치를 상대적으로 설정하여 ::before 가상 요소에 절대 위치를 설정합니다. */
-}
+                .divWithAnimation {
+                    position: relative; /* 요소의 위치를 상대적으로 설정하여 ::before 가상 요소에 절대 위치를 설정합니다. */
+                }
 
-/* ::before 가상 요소를 사용하여 슬라이딩 애니메이션 효과를 생성합니다. */
-.divWithAnimation:hover::before {
-    content: ''; /* 가상 요소에 내용을 추가합니다. 여기서는 빈 문자열을 사용합니다. */
-    position: absolute; /* 가상 요소의 위치를 상위 요소 (.divWithAnimation)에 대해 절대 위치로 설정합니다. */
-    left: -100%; /* 가상 요소의 초기 위치를 상위 요소 왼쪽 경계 외부로 설정합니다. */
-    bottom: 0; /* 가상 요소를 상위 요소의 하단에 배치합니다. */
-    width: 100%; /* 가상 요소의 너비를 상위 요소의 너비와 같게 설정합니다. */
-    height: 2px; /* 수평 라인을 만들기 위해 가상 요소의 높이를 2px로 설정합니다. */
-    background-color: tomato; /* 가상 요소의 배경색을 토마토 색상으로 설정합니다. */
-    animation: slideInAndOut 1s; /* 'slideInAndOut' 애니메이션을 1초 동안 가상 요소에 적용합니다. */
-}
+                /* ::before 가상 요소를 사용하여 슬라이딩 애니메이션 효과를 생성합니다. */
+                .divWithAnimation:hover::before {
+                    content: ''; /* 가상 요소에 내용을 추가합니다. 여기서는 빈 문자열을 사용합니다. */
+                    position: absolute; /* 가상 요소의 위치를 상위 요소 (.divWithAnimation)에 대해 절대 위치로 설정합니다. */
+                    left: -100%; /* 가상 요소의 초기 위치를 상위 요소 왼쪽 경계 외부로 설정합니다. */
+                    bottom: 0; /* 가상 요소를 상위 요소의 하단에 배치합니다. */
+                    width: 100%; /* 가상 요소의 너비를 상위 요소의 너비와 같게 설정합니다. */
+                    height: 2px; /* 수평 라인을 만들기 위해 가상 요소의 높이를 2px로 설정합니다. */
+                    background-color: tomato; /* 가상 요소의 배경색을 토마토 색상으로 설정합니다. */
+                    animation: slideInAndOut 1s; /* 'slideInAndOut' 애니메이션을 1초 동안 가상 요소에 적용합니다. */
+                }
 
-/* @keyframes 룰을 사용하여 애니메이션 동작을 정의합니다. */
-@keyframes slideInAndOut {
-    0% {
-        left: -100%; /* 애니메이션 시작 지점(0%)에서 가상 요소를 상위 요소 왼쪽 경계 외부로 위치시킵니다. */
-    }
-    100% {
-        left: 100%; /* 애니메이션 종료 지점(100%)에서 가상 요소를 상위 요소 오른쪽 경계 외부로 위치시킵니다. */
-    }
-}
+                /* @keyframes 룰을 사용하여 애니메이션 동작을 정의합니다. */
+                @keyframes slideInAndOut {
+                    0% {
+                        left: -100%; /* 애니메이션 시작 지점(0%)에서 가상 요소를 상위 요소 왼쪽 경계 외부로 위치시킵니다. */
+                    }
+                    100% {
+                        left: 100%; /* 애니메이션 종료 지점(100%)에서 가상 요소를 상위 요소 오른쪽 경계 외부로 위치시킵니다. */
+                    }
+                }
             `}</style>
         </>
     )

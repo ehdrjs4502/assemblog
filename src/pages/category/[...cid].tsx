@@ -5,6 +5,8 @@ import axios from 'axios'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { Pagination } from '@mui/material'
 import Content from '@/components/Content'
+import PaginationView from '@/components/PaginationView'
+import PostListHeader from '@/components/PostListHeader'
 
 type post = {
     postId: number
@@ -27,12 +29,6 @@ export default function Category() {
     const [title, setTitle] = useState<string>('')
     const [totalPage, setTotalPage] = useState<number>(10)
     const router = useRouter()
-
-    //페이지 이동하는 함수
-    const handleChange = (e: ChangeEvent<unknown>, value: number) => {
-        router.push({ pathname: router.pathname, query: { ...router.query, page: value } })
-        setPage(value)
-    }
 
     const getPostList = async () => {
         //게시판에 해당하는 게시글 페이징에 맞게 불러오기
@@ -72,8 +68,9 @@ export default function Category() {
         <>
             <HeadTitle title={title + ' 게시글 목록'} />
             <Navigation contentRef={''} />
-            <Content postList={postList} contentTitle={title} />
-            <Pagination count={totalPage} page={page} onChange={handleChange} />
+            <PostListHeader />
+            <Content postList={postList} contentTitle={title + " 게시판의 게시글"} />
+            <PaginationView totalPage={totalPage} page={page} setPage={setPage} router={router} />
         </>
     )
 }

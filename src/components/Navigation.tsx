@@ -41,6 +41,7 @@ export default function Navigation({ contentRef }: any) {
         // 원래 네비게이션 바 스타일
         position: 'absolute',
         backgroundColor: 'rgba( 255, 255, 255, 0 )',
+        boxShadow: 'none',
     }
 
     const changeStyle = {
@@ -153,7 +154,7 @@ export default function Navigation({ contentRef }: any) {
                         edge="start"
                         color="primary"
                         aria-label="menu"
-                        sx={{ mr: 2 }}>
+                        sx={{ mr: 2, }}>
                         <Menu />
                     </IconButton>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}></Typography>

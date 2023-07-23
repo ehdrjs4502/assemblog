@@ -11,7 +11,7 @@ export default function Link({ linkList, setLinkList }: Props) {
         <>
             <h4>링크 수정</h4>
             <div className="link-box">
-                {linkList.map((link: any, idx: number) => (
+                {linkList?.map((link: any, idx: number) => (
                     <LinkModal key={idx} link={link} idx={idx} setLinkList={setLinkList} />
                 ))}
             </div>
