@@ -69,7 +69,7 @@ export default function CategoryView({ isLogin, categoryList, setCategoryList }:
 
                     .category-title:hover {
                         cursor: pointer;
-                        color: tomato;
+                        color: rgb(21, 0, 255);
                     }
 
                     .admin-settings {

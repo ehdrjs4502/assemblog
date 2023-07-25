@@ -6,6 +6,7 @@ import { getComment } from '@/function/getComment'
 interface Props {
     postId: number
     isWriter: boolean
+    writerMail: string
 }
 
 type comment = {
@@ -13,13 +14,13 @@ type comment = {
     nickname: string
     content: string
     createdAt: string
-    deleted: boolean 
+    deleted: boolean
     depth: number
     likeState: boolean
     parentCommentId: number
 }
 
-export default function CommentView({ postId, isWriter }: Props) {
+export default function CommentView({ postId, isWriter, writerMail }: Props) {
     const [commentList, setCommentList] = useState<comment[]>([]) // 댓글 목록
 
     useEffect(() => {
@@ -57,12 +58,13 @@ export default function CommentView({ postId, isWriter }: Props) {
 
     return (
         <>
-            <EditComment postId={postId} setCommentList={setCommentList} isWriter={isWriter}/>
+            <EditComment postId={postId} setCommentList={setCommentList} isWriter={isWriter} />
             <CommentList
                 commentList={commentList}
                 postId={postId}
                 setCommentList={setCommentList}
                 isWriter={isWriter}
+                writerMail={writerMail}
             />
         </>
     )

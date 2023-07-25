@@ -23,14 +23,14 @@ export default function tagPostList() {
         if (router.query.page !== undefined) {
             page = parseInt(router.query.page! as string)
         }
-        // const response = await axios.get(`/server/lists/posts?tagName=${title}&currentPage=${page}&pageSize=1`, {
-        //     headers: {
-        //         'ngrok-skip-browser-warning': '123456',
-        //     },
-        // })
-        // console.log(response.data)
-        // setPostList(response.data.postList)
-        // setTotalPage(response.data.totalPage)
+        const response = await axios.get(`/server/lists/posts?tagName=${title}&currentPage=${page}&pageSize=1`, {
+            headers: {
+                'ngrok-skip-browser-warning': '123456',
+            },
+        })
+        console.log(response.data)
+        setPostList(response.data.postList)
+        setTotalPage(response.data.totalPage)
     }
 
     // useEffect(() => {
@@ -58,10 +58,10 @@ export default function tagPostList() {
     const contentRef = useRef(null)
     return (
         <>
-            <HeadTitle title={title + " 태그 목록"} />
-            <Navigation contentRef={contentRef } />
+            <HeadTitle title={title + ' 태그 목록'} />
+            <Navigation contentRef={contentRef} />
             <PostListHeader />
-            <Content postList={postList} contentTitle={title + " 태그의 게시글"} />
+            <Content postList={postList} contentTitle={title + ' 태그의 게시글'} />
             <PaginationView totalPage={totalPage} page={page} setPage={setPage} router={router} />
         </>
     )

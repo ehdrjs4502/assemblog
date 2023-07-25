@@ -2,6 +2,7 @@ import { Box, Tab, Tabs } from '@mui/material'
 import UserIntroModifyView from '@/components/user/UserIntroModifyView'
 import { SyntheticEvent, useState } from 'react'
 import UserInfoModifyView from '@/components/user/UserInfoModifyView'
+
 function a11yProps(index: number) {
     return {
         id: `simple-tab-${index}`,

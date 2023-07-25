@@ -85,7 +85,7 @@ export default function CategoryList({ list, isLogin, setCategoryList }: Props) 
                                             }>
                                             <ListItemButton
                                                 key={id}
-                                                sx={{ pl: 4, '&:hover': { color: 'tomato' } }}
+                                                sx={{ pl: 4, '&:hover': { color: 'rgb(21, 0, 255)' } }}
                                                 onClick={() => onNestedClick(id)}>
                                                 <ListItemText primary={title} />
                                                 {boards?.length === 0 ? (
@@ -108,7 +108,7 @@ export default function CategoryList({ list, isLogin, setCategoryList }: Props) 
                                                             <ListItemButton
                                                                 onClick={() => onClickBoard(id, title, boardTitle)}
                                                                 key={id}
-                                                                sx={{ pl: 4, '&:hover': { color: 'tomato' } }}>
+                                                                sx={{ pl: 4, '&:hover': { color: 'rgb(21, 0, 255)' } }}>
                                                                 <ListItemText primary={boardTitle} />
                                                             </ListItemButton>
                                                         </ListItem>
@@ -140,7 +140,7 @@ export default function CategoryList({ list, isLogin, setCategoryList }: Props) 
                     bottom: 0; /* 가상 요소를 상위 요소의 하단에 배치합니다. */
                     width: 100%; /* 가상 요소의 너비를 상위 요소의 너비와 같게 설정합니다. */
                     height: 2px; /* 수평 라인을 만들기 위해 가상 요소의 높이를 2px로 설정합니다. */
-                    background-color: tomato; /* 가상 요소의 배경색을 토마토 색상으로 설정합니다. */
+                    background-color: rgb(21, 0, 255); /* 가상 요소의 배경색을 토마토 색상으로 설정합니다. */
                     animation: slideInAndOut 1s; /* 'slideInAndOut' 애니메이션을 1초 동안 가상 요소에 적용합니다. */
                 }
 

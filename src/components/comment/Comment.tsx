@@ -23,15 +23,16 @@ interface Props {
     postId: number
     setCommentList: (comment: comment[]) => void
     isWriter: boolean
+    writerMail: string
 }
 
-export default function Comment({ comment, postId, setCommentList, isWriter }: Props) {
+export default function Comment({ comment, postId, setCommentList, isWriter, writerMail }: Props) {
     const cookie = new Cookies()
 
     const onClickLikeBtn = async (commentId: number) => {
         let isSuccess = false
         try {
-            const response = await axios.patch(`/server/api/comments/likes/${commentId}`,null, {
+            const response = await axios.patch(`/server/api/comments/likes/${commentId}`, null, {
                 headers: {
                     Authorization: `Bearer ${cookie.get('accessToken')}`,
                 },
@@ -47,47 +48,67 @@ export default function Comment({ comment, postId, setCommentList, isWriter }: P
         }
     }
 
+    const boxStyle = {
+        backgroundColor: 'lightpink',
+        width: 'fit-content',
+        marginBottom: '30px',
+        marginTop: '30px',
+        padding: '20px 20px 5px 20px',
+        borderRadius: 4,
+    }
+
+    const writerBoxStyle = {
+        backgroundColor: 'lightblue',
+        width: 'fit-content',
+        marginBottom: '30px',
+        marginTop: '30px',
+        padding: '20px 20px 5px 20px',
+        borderRadius: 4,
+    }
+
     return (
         <>
-            <Box
-                sx={{
-                    backgroundColor: 'lightpink',
-                    width: 'fit-content',
-                    marginBottom: '30px',
-                    marginTop: '30px',
-                    padding: '20px 20px 5px 20px',
-                    borderRadius: 4,
-                }}>
-                <Chip
-                    icon={<Person color="primary" />}
-                    label={comment.nickname}
-                    sx={{ borderRadius: 2, backgroundColor: 'tomato', color: 'white' }}
-                />
-                <p style={{ wordBreak: 'break-all' }}>{comment.deleted ? '삭제된 댓글입니다.' : `${comment.content}`}</p>
-                <span className="date">{comment.createdAt}</span>
-                <DelCommentModal id={comment.id} postId={postId} setCommentList={setCommentList} />
-                <EditReplyModal
-                    postId={postId}
-                    parentId={comment.id}
-                    depth={comment.depth}
-                    setCommentList={setCommentList}
-                />
-                {isWriter ? (
-                    <Tooltip title="좋아요" disableInteractive placement="top" arrow>
-                        <IconButton onClick={() => onClickLikeBtn(comment.id)} sx={{ color: 'red' }}>
-                            {comment.likeState ? <Favorite /> : <FavoriteBorder />}
-                        </IconButton>
-                    </Tooltip>
-                ) : (
-                    comment.likeState && (
-                        <Tooltip title="글쓴이가 해당 댓글을 좋아합니다." disableInteractive placement="top" arrow>
-                            <IconButton sx={{ color: 'red' }}>
-                                <Favorite />
+            <div style={writerMail === comment.nickname ? {display:'flex', justifyContent:'end'} : undefined}>
+                <Box sx={writerMail === comment.nickname ? writerBoxStyle : boxStyle}>
+                    <Chip
+                        icon={<Person color="primary" />}
+                        label={comment.nickname}
+                        sx={{
+                            borderRadius: 2,
+                            backgroundColor: writerMail === comment.nickname ? 'rgb(0,50,200)' : 'tomato',
+                            color: 'white',
+                        }}
+                    />
+                    <p style={{ wordBreak: 'break-all' }}>
+                        {comment.deleted ? '삭제된 댓글입니다.' : `${comment.content}`}
+                    </p>
+                    <span className="date">{comment.createdAt}</span>
+                    <DelCommentModal id={comment.id} postId={postId} setCommentList={setCommentList} />
+                    {comment.parentCommentId === 0 && (
+                        <EditReplyModal
+                            postId={postId}
+                            parentId={comment.id}
+                            depth={comment.depth}
+                            setCommentList={setCommentList}
+                        />
+                    )}
+                    {isWriter ? (
+                        <Tooltip title="좋아요" disableInteractive placement="top" arrow>
+                            <IconButton onClick={() => onClickLikeBtn(comment.id)} sx={{ color: 'red' }}>
+                                {comment.likeState ? <Favorite /> : <FavoriteBorder />}
                             </IconButton>
                         </Tooltip>
-                    )
-                )}
-            </Box>
+                    ) : (
+                        comment.likeState && (
+                            <Tooltip title="글쓴이가 해당 댓글을 좋아합니다." disableInteractive placement="top" arrow>
+                                <IconButton sx={{ color: 'red' }}>
+                                    <Favorite />
+                                </IconButton>
+                            </Tooltip>
+                        )
+                    )}
+                </Box>
+            </div>
         </>
     )
 }

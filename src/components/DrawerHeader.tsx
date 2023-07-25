@@ -17,6 +17,10 @@ export default function DrawerHeader() {
                         margin-top: 30px;
                         margin-bottom: 30px;
                     }
+
+                    .drawer-header h3:hover {
+                        color: rgb(21, 0, 255);
+                    }
                 `}
             </style>
         </>

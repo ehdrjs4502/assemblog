@@ -8,8 +8,8 @@ import DelBtn from '@/components/posts/buttons/DelBtn'
 import { Cookies } from 'react-cookie'
 import ViewTag from '@/components/posts/view/ViewTag'
 import { useRouter } from 'next/router'
-import Comment from '@/components/comment/CommentView'
-    import axios from 'axios'
+import CommentView from '@/components/comment/CommentView'
+import axios from 'axios'
 
 interface Props {
     post: {
@@ -28,19 +28,21 @@ interface Props {
 }
 
 export default function Post({ post }: Props) {
-    const [mounted, setMounted] = useState<boolean>(false) //Hydration failed because the initial UI 에러 해결하기 위함
-    const [isWriter, setIsWriter] = useState<boolean>(false) // 로그인한 사용자가 글쓴이인지 확인
-
     const cookie = new Cookies()
+    const [mounted, setMounted] = useState<boolean>(false) //Hydration failed because the initial UI 에러 해결하기 위함
+    const [isWriter, setIsWriter] = useState<boolean>(post.writerMail! !== cookie.get('email') ? false : true) // 로그인한 사용자가 글쓴이인지 확인
+
     const router = useRouter()
     const contentRef = useRef(null)
     useEffect(() => {
         //Hydration failed because the initial UI 에러 해결하기 위함
-        if(post.writerMail! === cookie.get('email')) {
-            setIsWriter(true)
-        }
+        // if(post.writerMail! !== cookie.get('email')) {
+        //     setIsWriter(false)
+        // }
         setMounted(true)
     }, [])
+
+    console.log(isWriter)
 
     if (router.isFallback) {
         // fallback true로 하고 build시에 TypeError: Cannot read properties of undefined (reading 'title') 떠서 해결하기 위함
@@ -80,7 +82,7 @@ export default function Post({ post }: Props) {
                 </div>
                 {/* 댓글 영역 */}
                 <div className="comment-box">
-                    <Comment postId={post.postId} isWriter={isWriter}/>
+                    <CommentView postId={post.postId} isWriter={isWriter} writerMail={post.writerMail} />
                 </div>
             </div>
 

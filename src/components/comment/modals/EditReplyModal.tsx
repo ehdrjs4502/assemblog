@@ -3,6 +3,7 @@ import { IconButton, Box, Modal, TextField, Button, Typography, Tooltip } from '
 import RateReviewIcon from '@mui/icons-material/RateReview'
 import axios from 'axios'
 import { getComment } from '@/function/getComment'
+import { Cookies } from 'react-cookie'
 
 type comment = {
     id: number
@@ -36,6 +37,7 @@ const style = {
 }
 
 export default function EditReplyModal({ postId, parentId, depth, setCommentList }: Props) {
+    const cookie = new Cookies()
     const [open, setOpen] = useState<boolean>(false)
     const [nickname, setNickname] = useState<string>('')
     const [password, setPassword] = useState<string>('')
@@ -71,11 +73,11 @@ export default function EditReplyModal({ postId, parentId, depth, setCommentList
                     password: password,
                     content: content,
                     parentCommentId: parentId,
-                    depth: depth + 1,
                 },
                 {
                     headers: {
                         'ngrok-skip-browser-warning': '1234',
+                        Authorization: `Bearer ${cookie.get('accessToken')}`,
                     },
                 }
             )

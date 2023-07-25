@@ -17,34 +17,39 @@ interface Props {
     postId: number
     setCommentList: (comment: comment[]) => void
     isWriter: boolean
+    writerMail: string
 }
 
-export default function CommentList({ commentList, postId, setCommentList, isWriter }: Props) {
+export default function CommentList({ commentList, postId, setCommentList, isWriter, writerMail }: Props) {
     console.log(commentList)
 
     // 부모id가 0인 댓글들 즉 답글이 아닌 것들만 가져오기
-    const singleCommentList = commentList?.filter((comment) => comment.parentCommentId === 0) 
+    const singleCommentList = commentList?.filter((comment) => comment.parentCommentId === 0)
     return (
         <>
             <h4>달린 댓글</h4>
-            {singleCommentList?.map(({ id, nickname, content, createdAt, depth, likeState, parentCommentId, deleted }) => (
-                <div key={id}>
-                    <Comment
-                        comment={{ id, nickname, content, createdAt, depth, likeState, parentCommentId, deleted }}
-                        postId={postId}
-                        setCommentList={setCommentList}
-                        isWriter={isWriter}
-                    />
-                    <ReplyComment
-                        commentList={commentList}
-                        postId={postId}
-                        setCommentList={setCommentList}
-                        isWriter={isWriter}
-                        parentCommentId={id}
-                    />
-                    <hr />
-                </div>
-            ))}
+            {singleCommentList?.map(
+                ({ id, nickname, content, createdAt, depth, likeState, parentCommentId, deleted }) => (
+                    <div key={id}>
+                        <Comment
+                            comment={{ id, nickname, content, createdAt, depth, likeState, parentCommentId, deleted }}
+                            postId={postId}
+                            setCommentList={setCommentList}
+                            isWriter={isWriter}
+                            writerMail={writerMail}
+                        />
+                        <ReplyComment
+                            commentList={commentList}
+                            postId={postId}
+                            setCommentList={setCommentList}
+                            isWriter={isWriter}
+                            parentCommentId={id}
+                            writerMail={writerMail}
+                        />
+                        <hr />
+                    </div>
+                )
+            )}
 
             <style jsx>
                 {`

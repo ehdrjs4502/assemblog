@@ -1,8 +1,9 @@
-import {RateReview} from '@mui/icons-material'
+import { RateReview } from '@mui/icons-material'
 import { Box, TextField, Button } from '@mui/material'
 import axios from 'axios'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { getComment } from '@/function/getComment'
+import { Cookies } from 'react-cookie'
 
 type comment = {
     id: number
@@ -22,7 +23,8 @@ interface Props {
 }
 
 export default function EditComment({ postId, setCommentList, isWriter }: Props) {
-    const [nickname, setNickname] = useState('')
+    const cookie = new Cookies()
+    const [nickname, setNickname] = useState(isWriter ? cookie.get('email') : '')
     const [password, setPassword] = useState('')
     const [content, setContent] = useState('')
 
@@ -30,17 +32,21 @@ export default function EditComment({ postId, setCommentList, isWriter }: Props)
     const passwordRef = useRef<HTMLInputElement>(null)
     const contentRef = useRef<HTMLInputElement>(null)
 
+    //**수정사항 :  로그인 돼있으면 headers에 액세스 토큰도 같이 보내서 작성자가 댓글 작성한지 백엔드에게 보내줌**!!
+
     const onClickEditBtn = async () => {
         if (!nickname) {
             nicknameRef.current?.focus()
             return alert('닉네임을 입력해주세요')
-
         }
 
-        if (!password) {
-            passwordRef.current?.focus()
-            return alert('비밀번호를 입력해주세요')
+        if (!isWriter) {
+            if (!password) {
+                passwordRef.current?.focus()
+                return alert('비밀번호를 입력해주세요')
+            }
         }
+
         if (!content) {
             contentRef.current?.focus()
             return alert('내용을 입력해주세요')
@@ -54,12 +60,12 @@ export default function EditComment({ postId, setCommentList, isWriter }: Props)
                     nickname: nickname,
                     password: password,
                     parentCommentId: 0,
-                    depth: 0,
                     content: content,
                 },
                 {
                     headers: {
                         'ngrok-skip-browser-warning': '1234',
+                        Authorization: `Bearer ${cookie.get('accessToken')}`,
                     },
                 }
             )
@@ -71,7 +77,8 @@ export default function EditComment({ postId, setCommentList, isWriter }: Props)
             const comments = await getComment(postId)
             setCommentList(comments)
 
-            setNickname('')
+            !isWriter && setNickname('') //글 작성자가 아닐시 닉네임 인풋창 초기화
+
             setPassword('')
             setContent('')
         } catch (error) {
@@ -137,7 +144,7 @@ export default function EditComment({ postId, setCommentList, isWriter }: Props)
                     }}
                     value={content}
                     inputRef={contentRef}
-                    sx={{ width: '100%', marginTop: '30px', }}
+                    sx={{ width: '100%', marginTop: '30px' }}
                 />
                 <Button
                     onClick={() => onClickEditBtn()}

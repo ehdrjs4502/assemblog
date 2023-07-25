@@ -5,27 +5,33 @@ import Name from './view/Name'
 import ProfileImage from './view/ProfileImage'
 
 export default function UserIntroView({ userIntroList }: any) {
-    const style: any = {
-        display: 'flex',
-        alignItems: 'center',
-        flexDirection: 'column',
-        backgroundImage: `url(${userIntroList[1]?.backgroundImageURL})`,
-    }
     console.log(userIntroList)
 
     return (
         <>
             <div className="header">
                 <div className="container">
-                    {userIntroList.map((userIntro: any, idx: number) => (
-                        <div className="userinfo-box" style={style}>
-                            <ProfileImage imgUrl={userIntro.profileImageURL} />
-                            <Name name={userIntro.username} />
-                            <Email email={userIntro.email} />
-                            <Introduction introduction={userIntro.introduction} />
-                            <Link linkList={userIntro.links} />
-                        </div>
-                    ))}
+                    {userIntroList.map((userIntro: any, idx: number) => {
+                        const style: any = {
+                            display: 'flex',
+                            alignItems: 'center',
+                            flexDirection: 'column',
+                            width:'100vw',
+                            height:'100vh',
+                            backgroundRepeat : 'no-repeat',
+                            backgroundSize : 'cover',
+                            backgroundImage: `url(${userIntro.backgroundImageURL})`,
+                        }
+                        return (
+                            <div className="userinfo-box" style={style}>
+                                <ProfileImage imgUrl={userIntro.profileImageURL} />
+                                <Name name={userIntro.username} />
+                                <Email email={userIntro.email} />
+                                <Introduction introduction={userIntro.introduction} />
+                                <Link linkList={userIntro.links} />
+                            </div>
+                        )
+                    })}
                 </div>
             </div>
 

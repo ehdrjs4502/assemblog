@@ -28,7 +28,7 @@ export default function TagView() {
 
                 .tag-title:hover {
                     cursor: pointer;
-                    color: tomato;
+                    color: rgb(21, 0, 255);
                 }
             `}</style>
         </>

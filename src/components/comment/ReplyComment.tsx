@@ -17,8 +17,9 @@ interface Props {
     setCommentList: (comment: comment[]) => void
     isWriter: boolean
     parentCommentId: number
+    writerMail: string
 }
-export default function ReplyComment({ commentList, postId, setCommentList, isWriter, parentCommentId }: Props) {
+export default function ReplyComment({ commentList, postId, setCommentList, isWriter, parentCommentId, writerMail }: Props) {
     // 부모 id 찾아서 맞는 애들만 가져오기
     const replyCommentList: comment[] = commentList?.filter(
         (comment: any) => comment.parentCommentId === parentCommentId
@@ -33,13 +34,7 @@ export default function ReplyComment({ commentList, postId, setCommentList, isWr
                             postId={postId}
                             setCommentList={setCommentList}
                             isWriter={isWriter}
-                        />
-                        <ReplyComment
-                            commentList={commentList}
-                            postId={postId}
-                            setCommentList={setCommentList}
-                            isWriter={isWriter}
-                            parentCommentId={id}
+                            writerMail={writerMail}
                         />
                     </div>
                 )
