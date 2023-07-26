@@ -31,9 +31,11 @@ export default function DelBtn({ id }: Props) {
             }
 
             isSuccess = true
-        } catch (e) {
-            await reissueAccToken()
-            !isSuccess && onClickDelBtn()
+        } catch (error: any) {
+            if (error.response.status === 401) {
+                await reissueAccToken()
+                !isSuccess && onClickDelBtn()
+            }
         }
     }
 

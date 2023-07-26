@@ -5,7 +5,6 @@ interface Props {
 }
 
 export default function Name({ name }: Props) {
-    console.log(name)
     return (
         <>
             <Typography variant='h4'>{name}</Typography>

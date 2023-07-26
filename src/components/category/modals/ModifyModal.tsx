@@ -56,7 +56,7 @@ export default function SettingCategoryModal({ itemID, itemTitle, itemOrderNum, 
     //카테고리, 게시판 수정하는 함수
     const onClickModifyBtn = async () => {
         let isSuccess = false
-        const endpoint = isCategory ? 'categories' : 'boards';
+        const endpoint = isCategory ? 'categories' : 'boards'
         console.log(isChecked, title, itemID, endpoint)
         try {
             const response = await axios.patch(
@@ -82,15 +82,18 @@ export default function SettingCategoryModal({ itemID, itemTitle, itemOrderNum, 
             handleClose()
             isSuccess = true
         } catch (error: any) {
-            await reissueAccToken()
-            !isSuccess && onClickModifyBtn()
+            console.log(error)
+            if (error.response.status === 401) {
+                await reissueAccToken()
+                !isSuccess && onClickModifyBtn()
+            }
         }
     }
 
     return (
         <>
             <Tooltip title="수정" disableInteractive placement="top" arrow>
-                <IconButton onClick={handleOpen} sx={{ color: 'blue' }}     >
+                <IconButton onClick={handleOpen} sx={{ color: 'blue' }}>
                     <EditNote />
                 </IconButton>
             </Tooltip>

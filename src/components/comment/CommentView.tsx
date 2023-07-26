@@ -2,11 +2,12 @@ import EditComment from './EditComment'
 import CommentList from './CommentList'
 import { useEffect, useState } from 'react'
 import { getComment } from '@/function/getComment'
+import { getGuestBook } from '@/function/getGuestBook'
 
 interface Props {
-    postId: number
-    isWriter: boolean
-    writerMail: string
+    postId?: number
+    isWriter?: boolean
+    isPostComment: boolean
 }
 
 type comment = {
@@ -15,21 +16,35 @@ type comment = {
     content: string
     createdAt: string
     deleted: boolean
-    depth: number
     likeState: boolean
     parentCommentId: number
+    writer: boolean
 }
 
-export default function CommentView({ postId, isWriter, writerMail }: Props) {
+
+export default function CommentView({ postId, isWriter, isPostComment }: Props) {
     const [commentList, setCommentList] = useState<comment[]>([]) // 댓글 목록
 
     useEffect(() => {
-        // 댓글 가져오기
-        const fetchComments = async () => {
-            const comments = await getComment(postId)
-            setCommentList(comments)
+        console.log('isPostComment : ', isPostComment)
+
+        if (isPostComment) {
+            // 댓글 가져오기
+            const fetchComments = async () => {
+                const comments = await getComment(postId!)
+                setCommentList(comments)
+            }
+
+            fetchComments()
+        } else {
+            // 방명록 가져오기
+            const fetchComments = async () => {
+                const comments = await getGuestBook()
+                setCommentList(comments)
+            }
+
+            fetchComments()
         }
-        fetchComments()
 
         // const testCommentList: comment[] = [
         //     {
@@ -58,13 +73,13 @@ export default function CommentView({ postId, isWriter, writerMail }: Props) {
 
     return (
         <>
-            <EditComment postId={postId} setCommentList={setCommentList} isWriter={isWriter} />
+            <EditComment postId={postId} setCommentList={setCommentList} isWriter={isWriter} isPostComment={isPostComment} />
             <CommentList
                 commentList={commentList}
                 postId={postId}
                 setCommentList={setCommentList}
                 isWriter={isWriter}
-                writerMail={writerMail}
+                isPostComment={isPostComment}
             />
         </>
     )

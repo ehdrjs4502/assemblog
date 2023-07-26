@@ -6,7 +6,6 @@ interface Props {
 }
 
 export default function Link({ linkList }: Props) {
-    console.log(linkList)
 
     const imgStyle = {
         width: 50,
@@ -18,8 +17,8 @@ export default function Link({ linkList }: Props) {
         <>
             <div className="link-box">
                 <Reveal cascade damping={0.5}>
-                    {linkList?.map((link: any) => (
-                        <Tooltip title={link.linkDescription} disableInteractive placement="top" arrow>
+                    {linkList?.map((link: any, idx: number) => (
+                        <Tooltip key={idx} title={link.linkDescription} disableInteractive placement="top" arrow>
                             <a target="_blank" href={link.linkURL} rel="noreferrer">
                                 <Avatar alt="Link Image" src={link.linkImageURL} sx={imgStyle} />
                             </a>

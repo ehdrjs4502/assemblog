@@ -2,8 +2,7 @@ import Navigation from '@/components/Navigation'
 import HeadTitle from '@/components/HeadTitle'
 import { useRouter } from 'next/router'
 import axios from 'axios'
-import { ChangeEvent, useEffect, useState } from 'react'
-import { Pagination } from '@mui/material'
+import { useEffect, useState } from 'react'
 import Content from '@/components/Content'
 import PaginationView from '@/components/PaginationView'
 import PostListHeader from '@/components/PostListHeader'
@@ -69,7 +68,7 @@ export default function Category() {
             <HeadTitle title={title + ' 게시글 목록'} />
             <Navigation contentRef={''} />
             <PostListHeader />
-            <Content postList={postList} contentTitle={title + " 게시판의 게시글"} />
+            <Content postList={postList} contentTitle={title + ' 게시판의 게시글'} />
             <PaginationView totalPage={totalPage} page={page} setPage={setPage} router={router} />
         </>
     )

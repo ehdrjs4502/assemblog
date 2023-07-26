@@ -30,8 +30,7 @@ interface Props {
 export default function Post({ post }: Props) {
     const cookie = new Cookies()
     const [mounted, setMounted] = useState<boolean>(false) //Hydration failed because the initial UI 에러 해결하기 위함
-    const [isWriter, setIsWriter] = useState<boolean>(post.writerMail! !== cookie.get('email') ? false : true) // 로그인한 사용자가 글쓴이인지 확인
-
+    const [isWriter, setIsWriter] = useState<boolean>(post?.writerMail !== cookie.get('email') ? false : true) // 로그인한 사용자가 글쓴이인지 확인
     const router = useRouter()
     const contentRef = useRef(null)
     useEffect(() => {
@@ -41,8 +40,6 @@ export default function Post({ post }: Props) {
         // }
         setMounted(true)
     }, [])
-
-    console.log(isWriter)
 
     if (router.isFallback) {
         // fallback true로 하고 build시에 TypeError: Cannot read properties of undefined (reading 'title') 떠서 해결하기 위함
@@ -82,7 +79,12 @@ export default function Post({ post }: Props) {
                 </div>
                 {/* 댓글 영역 */}
                 <div className="comment-box">
-                    <CommentView postId={post.postId} isWriter={isWriter} writerMail={post.writerMail} />
+                    {}
+                    <CommentView
+                        postId={post.postId}
+                        isWriter={isWriter}
+                        isPostComment={true}
+                    />
                 </div>
             </div>
 

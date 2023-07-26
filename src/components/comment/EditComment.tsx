@@ -1,40 +1,53 @@
 import { RateReview } from '@mui/icons-material'
 import { Box, TextField, Button } from '@mui/material'
 import axios from 'axios'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { getComment } from '@/function/getComment'
 import { Cookies } from 'react-cookie'
+import { getGuestBook } from '@/function/getGuestBook'
+import reissueAccToken from '@/function/reissueAccToken'
 
 type comment = {
     id: number
     nickname: string
     content: string
     createdAt: string
-    depth: number
     deleted: boolean
     likeState: boolean
     parentCommentId: number
+    writer: boolean
+}
+
+type data = {
+    nickname: string
+    password: string
+    parentCommentId: number
+    content: string
+    postId?: number
 }
 
 interface Props {
-    postId: number
-    setCommentList: (comment: comment[]) => void
-    isWriter: boolean
+    postId?: number
+    setCommentList?: (comment: comment[]) => void
+    isWriter?: boolean
+    isPostComment: boolean
 }
 
-export default function EditComment({ postId, setCommentList, isWriter }: Props) {
+export default function EditComment({ postId, setCommentList, isWriter, isPostComment }: Props) {
     const cookie = new Cookies()
     const [nickname, setNickname] = useState(isWriter ? cookie.get('email') : '')
     const [password, setPassword] = useState('')
     const [content, setContent] = useState('')
-
     const nicknameRef = useRef<HTMLInputElement>(null)
     const passwordRef = useRef<HTMLInputElement>(null)
     const contentRef = useRef<HTMLInputElement>(null)
 
-    //**수정사항 :  로그인 돼있으면 headers에 액세스 토큰도 같이 보내서 작성자가 댓글 작성한지 백엔드에게 보내줌**!!
+    console.log('isWriter : ', isWriter)
 
+    //**수정사항 :  로그인 돼있으면 headers에 액세스 토큰도 같이 보내서 작성자가 댓글 작성한지 백엔드에게 보내줌**!!
     const onClickEditBtn = async () => {
+        let isSuccess = false
+
         if (!nickname) {
             nicknameRef.current?.focus()
             return alert('닉네임을 입력해주세요')
@@ -52,37 +65,53 @@ export default function EditComment({ postId, setCommentList, isWriter }: Props)
             return alert('내용을 입력해주세요')
         }
 
+        const endpoint = isPostComment ? 'comments' : 'guestbooks' // 엔드 포인트 설정
+
+        const data: data = {
+            nickname: nickname,
+            password: password,
+            parentCommentId: 0,
+            content: content,
+        }
+
+        if (isPostComment) {
+            data.postId = postId // 만약 게시글 댓글이면 postId 추가
+        }
+
         try {
-            const response = await axios.post(
-                '/server/comments',
-                {
-                    postId: postId,
-                    nickname: nickname,
-                    password: password,
-                    parentCommentId: 0,
-                    content: content,
+            console.log(cookie.get('accessToken'), data)
+            const response = await axios.post(`/server/${endpoint}`, data, {
+                headers: {
+                    'ngrok-skip-browser-warning': '1234',
+                    Authorization: `Bearer ${cookie.get('accessToken')}`,
                 },
-                {
-                    headers: {
-                        'ngrok-skip-browser-warning': '1234',
-                        Authorization: `Bearer ${cookie.get('accessToken')}`,
-                    },
-                }
-            )
+            })
 
             console.log(response)
 
-            alert('댓글 작성 완료')
+            if (isPostComment) {
+                alert('댓글 작성 완료')
+                const comments = await getComment(postId as number)
+                setCommentList!(comments)
+            } else {
+                alert('방명록 작성 완료')
+                const comments = await getGuestBook()
+                setCommentList!(comments)
+            }
 
-            const comments = await getComment(postId)
-            setCommentList(comments)
-
-            !isWriter && setNickname('') //글 작성자가 아닐시 닉네임 인풋창 초기화
+            if (!isWriter) {
+                setNickname('')
+            }
 
             setPassword('')
             setContent('')
-        } catch (error) {
+            isSuccess = true
+        } catch (error: any) {
             console.log(error)
+            if (error.response.status === 401) {
+                await reissueAccToken()
+                !isSuccess && onClickEditBtn()
+            }
         }
     }
 
@@ -112,6 +141,7 @@ export default function EditComment({ postId, setCommentList, isWriter }: Props)
                                 borderRadius: '10px',
                                 color: 'white',
                             },
+                            readOnly: isWriter ? true : false,
                         }}
                     />
                     <TextField

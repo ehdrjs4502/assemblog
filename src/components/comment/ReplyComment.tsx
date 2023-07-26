@@ -5,21 +5,31 @@ type comment = {
     nickname: string
     content: string
     createdAt: string
-    depth: number
     deleted: boolean
     likeState: boolean
     parentCommentId: number
+    writer: boolean
 }
 
 interface Props {
     commentList: comment[]
-    postId: number
+    postId?: number
     setCommentList: (comment: comment[]) => void
-    isWriter: boolean
+    isWriter?: boolean
     parentCommentId: number
-    writerMail: string
+    writerMail?: string
+    isPostComment: boolean
 }
-export default function ReplyComment({ commentList, postId, setCommentList, isWriter, parentCommentId, writerMail }: Props) {
+
+export default function ReplyComment({
+    commentList,
+    postId,
+    setCommentList,
+    isWriter,
+    parentCommentId,
+    writerMail,
+    isPostComment,
+}: Props) {
     // 부모 id 찾아서 맞는 애들만 가져오기
     const replyCommentList: comment[] = commentList?.filter(
         (comment: any) => comment.parentCommentId === parentCommentId
@@ -27,14 +37,14 @@ export default function ReplyComment({ commentList, postId, setCommentList, isWr
     return (
         <>
             {replyCommentList?.map(
-                ({ id, nickname, content, createdAt, depth, likeState, parentCommentId, deleted }: comment) => (
+                ({ id, nickname, content, createdAt, likeState, parentCommentId, deleted, writer }: comment) => (
                     <div key={id} style={{ marginLeft: '45px' }}>
                         <Comment
-                            comment={{ id, nickname, content, createdAt, depth, likeState, parentCommentId, deleted }}
+                            comment={{ id, nickname, content, createdAt, likeState, parentCommentId, deleted, writer }}
                             postId={postId}
                             setCommentList={setCommentList}
                             isWriter={isWriter}
-                            writerMail={writerMail}
+                            isPostComment={isPostComment}
                         />
                     </div>
                 )

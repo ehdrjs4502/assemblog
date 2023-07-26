@@ -59,8 +59,10 @@ export default function LinkModal({ link, idx, setLinkList }: Props) {
                 setLinkImgURL(response.data)
                 isSuccess = true
             } catch (error: any) {
-                await reissueAccToken()
-                !isSuccess && handleImageUpload(event)
+                if (error.response.status === 401) {
+                    await reissueAccToken()
+                    !isSuccess && handleImageUpload(event)
+                }
             }
         }
     }

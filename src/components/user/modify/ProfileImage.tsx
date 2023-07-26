@@ -40,8 +40,10 @@ export default function ProfileImage({ profileImage, setProfileImage }: Props) {
                 setProfileImage(response.data)
                 isSuccess = true
             } catch (error: any) {
-                await reissueAccToken()
-                !isSuccess && handleImageUpload(event)
+                if (error.response.status === 401) {
+                    await reissueAccToken()
+                    !isSuccess && handleImageUpload(event)
+                }
             }
         }
     }

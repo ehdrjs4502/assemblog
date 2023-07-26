@@ -24,7 +24,7 @@ export default function ActiveList({ list, setCategoryList, isCategory }: Props)
 
     // 바뀐 리스트 설정
     const changeList = async () => {
-        const endpoint = isCategory ? 'categories' : 'boards';
+        const endpoint = isCategory ? 'categories' : 'boards'
         console.log(activeList)
         let isSuccess = false
         try {
@@ -39,10 +39,12 @@ export default function ActiveList({ list, setCategoryList, isCategory }: Props)
             console.log(list)
             setCategoryList(list)
             isSuccess = true
-        } catch (error) {
+        } catch (error: any) {
             console.log(error)
-            await reissueAccToken()
-            // !isSuccess && onClickModifyBtn()
+            if (error.response.status === 401) {
+                await reissueAccToken()
+                !isSuccess && changeList()
+            }
         }
     }
 

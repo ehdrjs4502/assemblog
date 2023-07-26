@@ -74,8 +74,10 @@ export default function EditPost() {
                 }
                 isSuccess = true
             } catch (error: any) {
-                await reissueAccToken()
-                !isSuccess && handleImageUpload(event, isThumbnail)
+                if (error.response.status === 401) {
+                    await reissueAccToken()
+                    !isSuccess && handleImageUpload(event, isThumbnail)
+                }
             }
         }
     }
@@ -149,8 +151,10 @@ export default function EditPost() {
             }
             isSuccess = true
         } catch (error: any) {
-            await reissueAccToken()
-            !isSuccess && handleaddPostBtn(isTempSave)
+            if (error.response.status === 401) {
+                await reissueAccToken()
+                !isSuccess && handleaddPostBtn(isTempSave)
+            }
         }
     }
 

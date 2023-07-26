@@ -53,8 +53,10 @@ export default function AddCategoryModal({ setCategoryList }: Props) {
             handleClose()
             isSuccess = true
         } catch (error: any) {
-            await reissueAccToken()
-            !isSuccess && onClickAddBtn()
+            if (error.response.status === 401) {
+                await reissueAccToken()
+                !isSuccess && onClickAddBtn()
+            }
         }
     }
 

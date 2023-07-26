@@ -5,7 +5,6 @@ interface Props {
 }
 
 export default function Email({ email }: Props) {
-    console.log(email)
     return (
         <>
             <Typography variant='body1'>{email}</Typography>

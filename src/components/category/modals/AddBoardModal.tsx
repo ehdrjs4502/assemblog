@@ -61,9 +61,11 @@ export default function AddBoardModal({ categoyID, categoryTitle, setCategoryLis
             }
             isSuccess = true
         } catch (error: any) {
-            await reissueAccToken()
-
-            !isSuccess && onClickAddBtn()
+            console.log(error)
+            if (error.response.status === 401) {
+                await reissueAccToken()
+                !isSuccess && onClickAddBtn()
+            }
         }
     }
 

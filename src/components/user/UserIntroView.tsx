@@ -16,14 +16,14 @@ export default function UserIntroView({ userIntroList }: any) {
                             display: 'flex',
                             alignItems: 'center',
                             flexDirection: 'column',
-                            width:'100vw',
-                            height:'100vh',
-                            backgroundRepeat : 'no-repeat',
-                            backgroundSize : 'cover',
+                            width: '100vw',
+                            height: '100vh',
+                            backgroundRepeat: 'no-repeat',
+                            backgroundSize: 'cover',
                             backgroundImage: `url(${userIntro.backgroundImageURL})`,
                         }
                         return (
-                            <div className="userinfo-box" style={style}>
+                            <div key={idx} className="userinfo-box" style={style}>
                                 <ProfileImage imgUrl={userIntro.profileImageURL} />
                                 <Name name={userIntro.username} />
                                 <Email email={userIntro.email} />

@@ -6,45 +6,45 @@ type comment = {
     nickname: string
     content: string
     createdAt: string
-    depth: number
     deleted: boolean
     likeState: boolean
     parentCommentId: number
+    writer: boolean
 }
 
 interface Props {
     commentList: comment[]
-    postId: number
+    postId?: number
     setCommentList: (comment: comment[]) => void
-    isWriter: boolean
-    writerMail: string
+    isWriter?: boolean
+    isPostComment: boolean
 }
 
-export default function CommentList({ commentList, postId, setCommentList, isWriter, writerMail }: Props) {
+export default function CommentList({ commentList, postId, setCommentList, isWriter, isPostComment }: Props) {
     console.log(commentList)
 
     // 부모id가 0인 댓글들 즉 답글이 아닌 것들만 가져오기
     const singleCommentList = commentList?.filter((comment) => comment.parentCommentId === 0)
     return (
         <>
-            <h4>달린 댓글</h4>
+            <h4>{isPostComment ? '달린 댓글' : '달린 방명록'}</h4>
             {singleCommentList?.map(
-                ({ id, nickname, content, createdAt, depth, likeState, parentCommentId, deleted }) => (
+                ({ id, nickname, content, createdAt, likeState, parentCommentId, deleted, writer }) => (
                     <div key={id}>
                         <Comment
-                            comment={{ id, nickname, content, createdAt, depth, likeState, parentCommentId, deleted }}
-                            postId={postId}
+                            comment={{ id, nickname, content, createdAt, likeState, parentCommentId, deleted, writer }}
+                            postId={postId!}
                             setCommentList={setCommentList}
-                            isWriter={isWriter}
-                            writerMail={writerMail}
+                            isWriter={isWriter!}
+                            isPostComment={isPostComment}
                         />
                         <ReplyComment
                             commentList={commentList}
-                            postId={postId}
+                            postId={postId!}
                             setCommentList={setCommentList}
-                            isWriter={isWriter}
+                            isWriter={isWriter!}
                             parentCommentId={id}
-                            writerMail={writerMail}
+                            isPostComment={isPostComment}
                         />
                         <hr />
                     </div>

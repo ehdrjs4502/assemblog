@@ -1,53 +1,30 @@
 import { Box, Chip, IconButton, Tooltip } from '@mui/material'
-import { Person, Favorite, FavoriteBorder } from '@mui/icons-material'
+import { Person, Favorite, FavoriteBorder, Delete } from '@mui/icons-material'
 import DelCommentModal from './modals/DelCommentModal'
 import EditReplyModal from './modals/EditReplyModal'
-import axios from 'axios'
-import { getComment } from '@/function/getComment'
-import { Cookies } from 'react-cookie'
-import reissueAccToken from '@/function/reissueAccToken'
+import DelBtn from './buttons/DelBtn'
+import LikeBtn from './buttons/LikeBtn'
 
 type comment = {
     id: number
     nickname: string
     content: string
     createdAt: string
-    depth: number
     deleted: boolean
     likeState: boolean
     parentCommentId: number
+    writer: boolean
 }
 
 interface Props {
     comment: comment
-    postId: number
+    postId?: number
     setCommentList: (comment: comment[]) => void
-    isWriter: boolean
-    writerMail: string
+    isWriter?: boolean
+    isPostComment: boolean
 }
 
-export default function Comment({ comment, postId, setCommentList, isWriter, writerMail }: Props) {
-    const cookie = new Cookies()
-
-    const onClickLikeBtn = async (commentId: number) => {
-        let isSuccess = false
-        try {
-            const response = await axios.patch(`/server/api/comments/likes/${commentId}`, null, {
-                headers: {
-                    Authorization: `Bearer ${cookie.get('accessToken')}`,
-                },
-            })
-
-            console.log(response)
-            const comments = await getComment(postId)
-            setCommentList(comments)
-            isSuccess = true
-        } catch (error: any) {
-            await reissueAccToken()
-            !isSuccess && onClickLikeBtn(commentId)
-        }
-    }
-
+export default function Comment({ comment, postId, setCommentList, isWriter, isPostComment }: Props) {
     const boxStyle = {
         backgroundColor: 'lightpink',
         width: 'fit-content',
@@ -68,14 +45,14 @@ export default function Comment({ comment, postId, setCommentList, isWriter, wri
 
     return (
         <>
-            <div style={writerMail === comment.nickname ? {display:'flex', justifyContent:'end'} : undefined}>
-                <Box sx={writerMail === comment.nickname ? writerBoxStyle : boxStyle}>
+            <div style={comment.writer ? { display: 'flex', justifyContent: 'end' } : undefined}>
+                <Box sx={comment.writer ? writerBoxStyle : boxStyle}>
                     <Chip
                         icon={<Person color="primary" />}
                         label={comment.nickname}
                         sx={{
                             borderRadius: 2,
-                            backgroundColor: writerMail === comment.nickname ? 'rgb(0,50,200)' : 'tomato',
+                            backgroundColor: comment.writer ? 'rgb(0,50,200)' : 'tomato',
                             color: 'white',
                         }}
                     />
@@ -83,21 +60,44 @@ export default function Comment({ comment, postId, setCommentList, isWriter, wri
                         {comment.deleted ? '삭제된 댓글입니다.' : `${comment.content}`}
                     </p>
                     <span className="date">{comment.createdAt}</span>
-                    <DelCommentModal id={comment.id} postId={postId} setCommentList={setCommentList} />
+                    {!comment.writer && !isWriter ? (
+                        // 일반 유저일때 댓글 삭제
+                        <DelCommentModal
+                            id={comment.id}
+                            postId={postId}
+                            setCommentList={setCommentList}
+                            isPostComment={isPostComment}
+                        />
+                    ) : isWriter && !comment.writer ? (
+                        // 글 작성자이면서 일반 유저 댓글 삭제
+                        <DelBtn postId={postId} commentId={comment.id} setCommentList={setCommentList} />
+                    ) : (
+                        isWriter &&
+                        comment.writer && (
+                            // 글 작성자이면서 자신의 댓글 삭제
+                            <DelBtn postId={postId} commentId={comment.id} setCommentList={setCommentList} />
+                        )
+                    )}
+
                     {comment.parentCommentId === 0 && (
+                        // 대댓글 작성
                         <EditReplyModal
                             postId={postId}
                             parentId={comment.id}
-                            depth={comment.depth}
                             setCommentList={setCommentList}
+                            isPostComment={isPostComment}
+                            isWriter={isWriter}
                         />
                     )}
-                    {isWriter ? (
-                        <Tooltip title="좋아요" disableInteractive placement="top" arrow>
-                            <IconButton onClick={() => onClickLikeBtn(comment.id)} sx={{ color: 'red' }}>
-                                {comment.likeState ? <Favorite /> : <FavoriteBorder />}
-                            </IconButton>
-                        </Tooltip>
+
+                    {isWriter && !comment.writer ? (
+                        // 글 작성자 전용 좋아요 버튼
+                        <LikeBtn
+                            postId={postId}
+                            commentId={comment.id}
+                            likeState={comment.likeState}
+                            setCommentList={setCommentList}
+                        />
                     ) : (
                         comment.likeState && (
                             <Tooltip title="글쓴이가 해당 댓글을 좋아합니다." disableInteractive placement="top" arrow>
