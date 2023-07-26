@@ -17,7 +17,6 @@ type comment = {
     writer: boolean
 }
 
-
 interface Props {
     id: number
     postId?: number

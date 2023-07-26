@@ -1,6 +1,6 @@
 import HeadTitle from '@/components/HeadTitle'
 import UserIntroView from '@/components/user/UserIntroView'
-import Navigation from '@/components/Navigation'
+import Navigation from '@/components/navigation/Navigation'
 import Content from '@/components/Content'
 import { useRef } from 'react'
 import axios from 'axios'

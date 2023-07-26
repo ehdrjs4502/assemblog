@@ -1,17 +1,17 @@
 import { useRouter } from 'next/router'
-import { LocalOffer } from '@mui/icons-material'
+import { MenuBook } from '@mui/icons-material'
 
-export default function TagView() {
+export default function GuestBookView() {
     const router = useRouter()
     const onClickBtn = () => {
-        router.push('/tag')
+        router.push('/guestbook')
     }
     return (
         <>
             <div className="tag-header">
                 <div className="tag-title" onClick={() => onClickBtn()}>
-                    <LocalOffer sx={{ width: '18px', marginRight: 1 }} />
-                    <span>태그 저장소</span>
+                    <MenuBook sx={{ width: '18px', marginRight: 1 }} />
+                    <span>방명록</span>
                 </div>
             </div>
 

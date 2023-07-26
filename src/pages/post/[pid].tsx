@@ -1,4 +1,4 @@
-import Navigation from '@/components/Navigation'
+import Navigation from '@/components/navigation/Navigation'
 import ViewPost from '@/components/posts/view/ViewPost'
 import ViewHeader from '@/components/posts/view/ViewHeader'
 import HeadTitle from '@/components/HeadTitle'

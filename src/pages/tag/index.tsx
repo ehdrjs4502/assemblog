@@ -1,5 +1,5 @@
 import HeadTitle from '@/components/HeadTitle'
-import Navigation from '@/components/Navigation'
+import Navigation from '@/components/navigation/Navigation'
 import { useRef } from 'react'
 import axios from 'axios'
 import TagList from '@/components/tag/TagList'

@@ -1,3 +1,4 @@
+import HeaderWave from '@/components/HeaderWave'
 import { Fade } from 'react-awesome-reveal'
 
 export default function PostListHeader() {
@@ -29,6 +30,7 @@ export default function PostListHeader() {
                     </Fade>
                 </div>
             </div>
+            <HeaderWave />
 
             <style jsx>{`
                 .header-box {

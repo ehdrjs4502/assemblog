@@ -1,10 +1,11 @@
 import HeadTitle from '@/components/HeadTitle'
 import Content from '@/components/Content'
-import Navigation from '@/components/Navigation'
+import Navigation from '@/components/navigation/Navigation'
 import axios from 'axios'
 import { ChangeEvent, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 import { Pagination } from '@mui/material'
+import PostListHeader from '@/components/posts/list/PostListHeader'
 
 export default function allCategory({ postList, totalPage, currentPage }: any) {
     const title = '전체 카테고리'
@@ -23,6 +24,7 @@ export default function allCategory({ postList, totalPage, currentPage }: any) {
         <div>
             <HeadTitle title={title} />
             <Navigation contentRef={contentRef} />
+            <PostListHeader/>
             <div ref={contentRef}>
                 <Content postList={postList} contentTitle={contentTitle} />
                 <Pagination count={totalPage} page={page} onChange={handleChange} />

@@ -1,11 +1,11 @@
-import Navigation from '@/components/Navigation'
+import Navigation from '@/components/navigation/Navigation'
 import HeadTitle from '@/components/HeadTitle'
 import { useRouter } from 'next/router'
 import axios from 'axios'
 import { useEffect, useRef, useState } from 'react'
 import Content from '@/components/Content'
-import PaginationView from '@/components/PaginationView'
-import PostListHeader from '@/components/PostListHeader'
+import PaginationView from '@/components/posts/list/PaginationView'
+import PostListHeader from '@/components/posts/list/PostListHeader'
 
 export default function tagPostList() {
     const [page, setPage] = useState<number>(1)

@@ -1,9 +1,7 @@
-import GusetBookHeader from '@/components/GuestBookHeader'
+import GusetBookHeader from '@/components/guestbook/GuestBookHeader'
 import HeadTitle from '@/components/HeadTitle'
-import Navigation from '@/components/Navigation'
-import CommentList from '@/components/comment/CommentList'
+import Navigation from '@/components/navigation/Navigation'
 import CommentView from '@/components/comment/CommentView'
-import EditComment from '@/components/comment/EditComment'
 import { useRef } from 'react'
 
 export default function GuestBook() {
@@ -42,6 +40,7 @@ export default function GuestBook() {
                     font-size: 38px;
                     display: flex;
                     justify-content: center;
+                    margin-bottom: 30px;
                 }
             `}</style>
         </>

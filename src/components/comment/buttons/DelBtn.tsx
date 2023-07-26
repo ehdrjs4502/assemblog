@@ -29,7 +29,7 @@ export default function DelBtn({ postId, commentId, setCommentList }: Props) {
     const onClickDelBtn = async (commentId: number) => {
         let isSuccess = false
         try {
-            const response = await axios.delete(`/server/api/comments?id=${commentId}`, {
+            const response = await axios.delete(`/server/comments?id=${commentId}&password=0`, {
                 headers: {
                     Authorization: `Bearer ${cookie.get('accessToken')}`,
                 },
