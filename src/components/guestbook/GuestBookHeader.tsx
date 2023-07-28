@@ -23,8 +23,8 @@ export default function GusetBookHeader() {
                     </div>
                 </div>
             </div>
-            <HeaderWave/>
-            
+            <HeaderWave />
+
             <style jsx>{`
                 .header-box {
                     position: relative;

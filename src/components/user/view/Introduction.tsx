@@ -7,18 +7,18 @@ interface Props {
 
 export default function Introduction({ introduction }: Props) {
     return (
-        <>
+        <div>
             <Typography
                 variant="h5"
                 sx={{
                     marginTop: 6,
                     marginBottom: 8,
-                    fontSize: '42px'
+                    fontSize: '28px',
                 }}>
-                <Fade cascade damping={0.2}>
+                <Fade cascade damping={0.08}>
                     {introduction}
                 </Fade>
             </Typography>
-        </>
+        </div>
     )
 }

@@ -19,7 +19,8 @@ export default function GuestBookView() {
                 .tag-header {
                     display: flex;
                     padding-left: 10px;
-                    margin-top: 30px;
+                    margin-top: 15px;
+                    margin-bottom: 15px;
                 }
                 .tag-title {
                     align-items: center;

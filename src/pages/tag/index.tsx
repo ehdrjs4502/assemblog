@@ -3,6 +3,7 @@ import Navigation from '@/components/navigation/Navigation'
 import { useRef } from 'react'
 import axios from 'axios'
 import TagList from '@/components/tag/TagList'
+import TagHeader from '@/components/tag/TagHeader'
 
 type tag = {
     id: number,
@@ -21,9 +22,7 @@ export default function Tag({ tagList }: Props) {
         <div>
             <HeadTitle title={title} />
             <Navigation contentRef={contentRef} />
-            <div>
-                <h1>태그 목록</h1>
-            </div>
+            <TagHeader/>
             <div ref={contentRef}>
                 <TagList tagList= {tagList}/>
             </div>

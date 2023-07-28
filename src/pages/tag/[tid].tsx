@@ -61,7 +61,7 @@ export default function tagPostList() {
             <HeadTitle title={title + ' 태그 목록'} />
             <Navigation contentRef={contentRef} />
             <PostListHeader />
-            <Content postList={postList} contentTitle={title + ' 태그의 게시글'} />
+            <Content postList={postList} contentTitle={title} />
             <PaginationView totalPage={totalPage} page={page} setPage={setPage} router={router} />
         </>
     )

@@ -28,6 +28,13 @@ type BoardItem = {
 }
 
 export default function DrawerView({ isDrawerOpen, setIsDrawerOpen, isLogin, categoryList, setCategoryList }: Props) {
+    const lineStyle = {
+        width: '100%',
+        border: 0,
+        backgroundColor: 'lightgray',
+        height: '0.5px',
+    }
+
     return (
         <Drawer
             anchor="left"
@@ -35,9 +42,13 @@ export default function DrawerView({ isDrawerOpen, setIsDrawerOpen, isLogin, cat
             onClose={() => setIsDrawerOpen(false)}
             PaperProps={{ sx: { width: '250px', '::-webkit-scrollbar': { display: 'none' } } }}>
             <DrawerHeader />
+            <hr style={lineStyle} />
             <CategoryView isLogin={isLogin} categoryList={categoryList} setCategoryList={setCategoryList} />
+            <hr style={lineStyle} />
             <TagView />
+            <hr style={lineStyle} />
             <GuestBookView />
+            <hr style={lineStyle} />
         </Drawer>
     )
 }

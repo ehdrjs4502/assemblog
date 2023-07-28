@@ -32,9 +32,9 @@ export default function Comment({ comment, postId, setCommentList, isWriter, isP
         marginTop: '30px',
         padding: '20px 20px 5px 20px',
         borderRadius: 4,
-        minWidth:'250px',
-        maxWidth:'380px',
-        paddingBottom:'15px'
+        minWidth: '250px',
+        maxWidth: '380px',
+        paddingBottom: '15px',
     }
 
     const writerBoxStyle = {
@@ -44,9 +44,9 @@ export default function Comment({ comment, postId, setCommentList, isWriter, isP
         marginTop: '30px',
         padding: '20px 20px 5px 20px',
         borderRadius: 4,
-        minWidth:'250px',
-        maxWidth:'380px',
-        paddingBottom:'15px'
+        minWidth: '250px',
+        maxWidth: '380px',
+        paddingBottom: '15px',
     }
 
     return (

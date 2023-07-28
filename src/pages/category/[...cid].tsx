@@ -68,7 +68,7 @@ export default function Category() {
             <HeadTitle title={title + ' 게시글 목록'} />
             <Navigation contentRef={''} />
             <PostListHeader />
-            <Content postList={postList} contentTitle={title + ' 게시판의 게시글'} />
+            <Content postList={postList} contentTitle={title} />
             <PaginationView totalPage={totalPage} page={page} setPage={setPage} router={router} />
         </>
     )

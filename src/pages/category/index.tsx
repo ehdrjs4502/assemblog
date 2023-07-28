@@ -12,7 +12,7 @@ export default function allCategory({ postList, totalPage, currentPage }: any) {
     const contentRef = useRef(null)
     const contentTitle = '분류 전체 보기'
     const router = useRouter()
-    const [page,setPage] = useState(currentPage)
+    const [page, setPage] = useState(currentPage)
 
     //페이지 이동하는 함수
     const handleChange = (e: ChangeEvent<unknown>, value: number) => {
@@ -24,7 +24,7 @@ export default function allCategory({ postList, totalPage, currentPage }: any) {
         <div>
             <HeadTitle title={title} />
             <Navigation contentRef={contentRef} />
-            <PostListHeader/>
+            <PostListHeader />
             <div ref={contentRef}>
                 <Content postList={postList} contentTitle={contentTitle} />
                 <Pagination count={totalPage} page={page} onChange={handleChange} />
@@ -36,7 +36,7 @@ export default function allCategory({ postList, totalPage, currentPage }: any) {
 export async function getServerSideProps(context: any) {
     const API_URL = process.env.API
     let page = 1
-    if(context.query.page !== undefined) {
+    if (context.query.page !== undefined) {
         page = context.query.page
     }
     console.log(page)
