@@ -70,7 +70,7 @@ export default function searchList() {
             <PostListHeader />
             {postList.length === 0 ? (
                 <div className="no-search-box">
-                    <h4>'{title}'에 대한 검색 결과가 없습니다..</h4>
+                    <h4>'{title}'에 대한 검색 결과가 없습니다...</h4>
                 </div>
             ) : (
                 <>
