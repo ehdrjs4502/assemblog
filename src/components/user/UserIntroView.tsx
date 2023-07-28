@@ -1,3 +1,4 @@
+import BackgroundImg from './view/BackgroundImg'
 import Email from './view/Email'
 import Introduction from './view/Introduction'
 import Link from './view/Link'
@@ -29,13 +30,7 @@ export default function UserIntroView({ userIntroList }: any) {
                                 <Email email={userIntro.email} />
                                 <Introduction introduction={userIntro.introduction} />
                                 <Link linkList={userIntro.links} />
-                                {/* 배경 이미지에 ::before 가상 요소를 추가합니다 */}
-                                <div
-                                    className="background-image"
-                                    style={{
-                                        backgroundImage: `url(${userIntro.backgroundImageURL})`,
-                                    }}
-                                />
+                                <BackgroundImg bgImgURL={userIntro.backgroundImageURL} />
                             </div>
                         )
                     })}
@@ -63,26 +58,12 @@ export default function UserIntroView({ userIntroList }: any) {
                         position: relative;
                         width: 50%;
                         height: 100vh;
-                        border: 1px solid black;
                         padding-top: 70px;
                         display: flex;
                         flex-direction: column;
                         color: rgb(207, 207, 207);
                         align-items: center;
-                    }
-
-                    .background-image::before {
-                        content: '';
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 100%;
-                        background-image: inherit;
-                        background-repeat: no-repeat;
-                        background-size: cover;
-                        filter: brightness(15%);
-                        z-index: -1; /* 가상 요소를 내용 뒤에 배치하도록 z-index를 설정합니다 */
+                        
                     }
                 `}
             </style>

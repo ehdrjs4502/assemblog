@@ -113,7 +113,7 @@ export default function Sogin() {
                     autoComplete='off'
                     inputRef={pwRef}
                 />
-                <Button type="submit" variant="contained">
+                <Button type="submit" variant="contained" onClick={handleLogin}>
                     로그인
                 </Button>
                 <Link href="/signup">

@@ -8,6 +8,7 @@ import DrawerView from './Drawer.tsx/DrawerView'
 import LogoutBtn from './buttons/LogoutBtn'
 import EditPostBtn from './buttons/EditPostBtn'
 import UserSettingBtn from './buttons/UserSettingBtn'
+import SearchModal from '../search/SearchModal'
 import SearchBtn from './buttons/SearchBtn'
 
 type CategoryItem = {
@@ -151,14 +152,14 @@ export default function Navigation({ contentRef }: any) {
                         <Menu />
                     </IconButton>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}></Typography>
+                    <SearchBtn />
                     {isLogin && (
                         <>
-                            <LogoutBtn />
                             <EditPostBtn />
                             <UserSettingBtn />
+                            <LogoutBtn />
                         </>
                     )}
-                    <SearchBtn />
                 </Toolbar>
             </AppBar>
             {/*햄버거바 눌렀을 때 나오는 드로어*/}
