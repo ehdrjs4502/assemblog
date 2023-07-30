@@ -1,9 +1,6 @@
-import PostCard from './posts/list/PostCard'
-import { useEffect, useState } from 'react'
-import axios from 'axios'
+import PostCard from '../posts/list/PostCard'
 import { keyframes } from '@emotion/react'
 import { Reveal } from 'react-awesome-reveal'
-
 
 type post = {
     postId: number
@@ -37,24 +34,7 @@ const customAnimation: any = keyframes`
   }
 `
 
-export default function Content({ postList, contentTitle }: Props) {
-    // const [postList, setPostList] = useState<Post[]>([]) // 포스트 목록
-
-    // useEffect(() => {
-    //     // 포스트 목록 불러오기
-    //     axios
-    //         .get(`/server/lists/posts/?pageSize=${9}`, {
-    //             headers: {
-    //                 'ngrok-skip-browser-warning': '1234',
-    //             },
-    //         })
-    //         .then((res) => {
-    //             setPostList(res.data.postList)
-    //             console.log(res)
-    //         })
-    //         .catch((e) => console.log(e))
-    // }, [])
-
+export default function ContentView({ postList, contentTitle }: Props) {
     return (
         <>
             <div className="container">
@@ -63,7 +43,7 @@ export default function Content({ postList, contentTitle }: Props) {
                         <span>{contentTitle}</span>
                     </div>
                     <div className="card-box">
-                        <Reveal keyframes={customAnimation} cascade damping={0.1}>
+                        <Reveal keyframes={customAnimation} cascade damping={0.1} triggerOnce>
                             {postList?.map((post: post) => (
                                 <PostCard post={post} key={post.postId} />
                             ))}

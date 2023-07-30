@@ -17,6 +17,7 @@
     "@types/react": "18.2.13",
     "@types/react-beautiful-dnd": "^13.1.4",
     "@types/react-dom": "18.2.6",
+    "@types/react-typist": "^2.0.3",
     "@uiw/react-md-editor": "^3.6.0",
     "eslint": "8.43.0",
     "eslint-config-next": "13.4.6",
@@ -29,6 +30,7 @@
     "react-dom": "18.2.0",
     "react-drag-list": "^1.1.0",
     "react-markdown": "^8.0.7",
+    "react-simple-typewriter": "^5.0.1",
     "react-syntax-highlighter": "^15.5.0",
     "remark-gfm": "^3.0.1",
     "typescript": "5.1.3"

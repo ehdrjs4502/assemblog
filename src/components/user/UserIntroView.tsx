@@ -63,7 +63,6 @@ export default function UserIntroView({ userIntroList }: any) {
                         flex-direction: column;
                         color: rgb(207, 207, 207);
                         align-items: center;
-                        
                     }
                 `}
             </style>

@@ -3,7 +3,7 @@ import HeadTitle from '@/components/HeadTitle'
 import { useRouter } from 'next/router'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import Content from '@/components/Content'
+import ContentView from '@/components/content/ContentView'
 import PaginationView from '@/components/posts/list/PaginationView'
 import PostListHeader from '@/components/posts/list/PostListHeader'
 
@@ -68,7 +68,7 @@ export default function Category() {
             <HeadTitle title={title + ' 게시글 목록'} />
             <Navigation contentRef={''} />
             <PostListHeader />
-            <Content postList={postList} contentTitle={title} />
+            <ContentView postList={postList} contentTitle={title} />
             <PaginationView totalPage={totalPage} page={page} setPage={setPage} router={router} />
         </>
     )

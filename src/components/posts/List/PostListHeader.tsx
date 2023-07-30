@@ -9,6 +9,7 @@ export default function PostListHeader() {
                     <Fade
                         cascade
                         damping={0.05}
+                        triggerOnce
                         style={{ fontSize: '38px', whiteSpace: 'pre-wrap', fontWeight: 'bold', color: 'white' }}>
                         "프로그래머는 오류를 만든다. 그리고 그 오류를 찾는 것이 재미있다."
                     </Fade>

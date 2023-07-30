@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material'
-import { Fade } from 'react-awesome-reveal'
+import { Typewriter } from 'react-simple-typewriter'
 
 interface Props {
     introduction: string
@@ -7,18 +7,26 @@ interface Props {
 
 export default function Introduction({ introduction }: Props) {
     return (
-        <div>
-            <Typography
-                variant="h5"
-                sx={{
-                    marginTop: 6,
-                    marginBottom: 8,
-                    fontSize: '28px',
-                }}>
-                <Fade cascade damping={0.08}>
-                    {introduction}
-                </Fade>
-            </Typography>
-        </div>
+        <>
+            <div className="introduction-box">
+                <Typography
+                    variant="h5"
+                    sx={{
+                        marginTop: 6,
+                        marginBottom: 8,
+                        fontSize: '28px',
+                    }}>
+                    <Typewriter words={[introduction]} />
+                </Typography>
+            </div>
+
+            <style jsx>{`
+                .introduction-box {
+                    width: 450px;
+                    min-height: 200px;
+                    word-break: keep-all;
+                }
+            `}</style>
+        </>
     )
 }

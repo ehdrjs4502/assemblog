@@ -4,7 +4,7 @@ import HeadTitle from '@/components/HeadTitle'
 import { useRouter } from 'next/router'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import Content from '@/components/Content'
+import ContentView from '@/components/content/ContentView'
 import PaginationView from '@/components/posts/list/PaginationView'
 
 type post = {
@@ -70,11 +70,11 @@ export default function searchList() {
             <PostListHeader />
             {postList.length === 0 ? (
                 <div className="no-search-box">
-                    <h4>'{title}'에 대한 검색 결과가 없습니다...</h4>
+                    <h4>'{title}'에 대한 검색 결과가 없습니다..</h4>
                 </div>
             ) : (
                 <>
-                    <Content postList={postList} contentTitle={title} />
+                    <ContentView postList={postList} contentTitle={title} />
                     <PaginationView totalPage={totalPage} page={page} setPage={setPage} router={router} />
                 </>
             )}

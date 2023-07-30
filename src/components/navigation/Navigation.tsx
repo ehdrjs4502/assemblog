@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { AppBar, Toolbar, IconButton, Typography, Drawer, Button, Tooltip } from '@mui/material'
-import { Menu, Search, PostAdd, Logout, ManageAccounts } from '@mui/icons-material'
+import { AppBar, Toolbar, IconButton, Typography} from '@mui/material'
+import { Menu } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import { Cookies } from 'react-cookie'
 import { getCategoryList } from '@/function/getCategory'
@@ -8,7 +8,6 @@ import DrawerView from './Drawer.tsx/DrawerView'
 import LogoutBtn from './buttons/LogoutBtn'
 import EditPostBtn from './buttons/EditPostBtn'
 import UserSettingBtn from './buttons/UserSettingBtn'
-import SearchModal from '../search/SearchModal'
 import SearchBtn from './buttons/SearchBtn'
 
 type CategoryItem = {

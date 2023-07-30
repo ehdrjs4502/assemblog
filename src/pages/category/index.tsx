@@ -1,5 +1,5 @@
 import HeadTitle from '@/components/HeadTitle'
-import Content from '@/components/Content'
+import ContentView from '@/components/content/ContentView'
 import Navigation from '@/components/navigation/Navigation'
 import axios from 'axios'
 import { ChangeEvent, useRef, useState } from 'react'
@@ -26,7 +26,7 @@ export default function allCategory({ postList, totalPage, currentPage }: any) {
             <Navigation contentRef={contentRef} />
             <PostListHeader />
             <div ref={contentRef}>
-                <Content postList={postList} contentTitle={contentTitle} />
+                <ContentView postList={postList} contentTitle={contentTitle} />
                 <Pagination count={totalPage} page={page} onChange={handleChange} />
             </div>
         </div>

@@ -16,7 +16,7 @@ export default function Link({ linkList }: Props) {
     return (
         <>
             <div className="link-box">
-                <Reveal cascade damping={0.5}>
+                <Reveal cascade damping={0.5} triggerOnce>
                     {linkList?.map((link: any, idx: number) => (
                         <Tooltip key={idx} title={link.linkDescription} disableInteractive placement="top" arrow>
                             <a target="_blank" href={link.linkURL} rel="noreferrer">
