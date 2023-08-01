@@ -51,7 +51,7 @@ export async function getStaticProps() {
             username: 'ehdrjs',
             email: 'ehdrjs@gmail.com',
             introduction: `hello 안녕하세요 글을 길게 쓰면 div 넘어갈거같은데요?
-하이요`,
+하이요 글을 더 길게 쓰면 어떻게 될까요 글 엄청 길게 쓰자`,
             profileImageURL: 'profile.png',
             links: [
                 {

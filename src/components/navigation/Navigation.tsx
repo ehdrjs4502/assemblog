@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { AppBar, Toolbar, IconButton, Typography} from '@mui/material'
+import { AppBar, Toolbar, IconButton, Typography } from '@mui/material'
 import { Menu } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import { Cookies } from 'react-cookie'

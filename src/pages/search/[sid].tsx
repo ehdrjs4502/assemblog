@@ -85,6 +85,12 @@ export default function searchList() {
                     justify-content: center;
                     font-size: 30px;
                 }
+
+                @media (max-width: 720px) {
+                    .no-search-box {
+                        font-size: 12px;
+                    }
+                }
             `}</style>
         </>
     )

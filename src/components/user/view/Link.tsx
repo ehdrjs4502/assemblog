@@ -6,7 +6,6 @@ interface Props {
 }
 
 export default function Link({ linkList }: Props) {
-
     const imgStyle = {
         width: 50,
         height: 50,

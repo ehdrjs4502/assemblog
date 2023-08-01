@@ -24,11 +24,13 @@ export default function UserIntroView({ userIntroList }: any) {
                             backgroundImage: `url(${userIntro.backgroundImageURL})`,
                         }
                         return (
-                            <div key={idx} className="userinfo-box">
-                                <ProfileImage imgUrl={userIntro.profileImageURL} />
-                                <Name name={userIntro.username} />
-                                <Email email={userIntro.email} />
-                                <Introduction introduction={userIntro.introduction} />
+                            <div key={idx} className="box">
+                                <div className='info-box'>
+                                    <ProfileImage imgUrl={userIntro.profileImageURL} />
+                                    <Name name={userIntro.username} />
+                                    <Email email={userIntro.email} />
+                                </div>
+                                <Introduction introduction={userIntro.introduction} idx ={idx}/>
                                 <Link linkList={userIntro.links} />
                                 <BackgroundImg bgImgURL={userIntro.backgroundImageURL} />
                             </div>
@@ -54,7 +56,7 @@ export default function UserIntroView({ userIntroList }: any) {
                         flex-wrap: nowrap;
                     }
 
-                    .userinfo-box {
+                    .box {
                         position: relative;
                         width: 50%;
                         height: 100vh;
@@ -63,6 +65,27 @@ export default function UserIntroView({ userIntroList }: any) {
                         flex-direction: column;
                         color: rgb(207, 207, 207);
                         align-items: center;
+                        justify-content: space-around;
+                        background-color: gray;
+                    }
+
+                    .info-box {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                    }
+
+                    @media (max-width: 950px) {
+                        .container {
+                            display: block;
+                        }
+                        .box {
+                            width: 100%;
+                            border-bottom: 1px solid black;
+                            padding-left: 10px;
+                            padding-right: 10px;
+                            padding-bottom: 30px;
+                        }
                     }
                 `}
             </style>
