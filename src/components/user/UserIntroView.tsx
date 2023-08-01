@@ -13,24 +13,14 @@ export default function UserIntroView({ userIntroList }: any) {
             <div className="header">
                 <div className="container">
                     {userIntroList.map((userIntro: any, idx: number) => {
-                        const style: any = {
-                            display: 'flex',
-                            alignItems: 'center',
-                            flexDirection: 'column',
-                            width: '100vw',
-                            height: '100vh',
-                            backgroundRepeat: 'no-repeat',
-                            backgroundSize: 'cover',
-                            backgroundImage: `url(${userIntro.backgroundImageURL})`,
-                        }
                         return (
-                            <div key={idx} className="box">
-                                <div className='info-box'>
+                            <div key={idx} className={`box box${idx}`}>
+                                <div className="info-box">
                                     <ProfileImage imgUrl={userIntro.profileImageURL} />
                                     <Name name={userIntro.username} />
                                     <Email email={userIntro.email} />
                                 </div>
-                                <Introduction introduction={userIntro.introduction} idx ={idx}/>
+                                <Introduction introduction={userIntro.introduction} idx={idx} />
                                 <Link linkList={userIntro.links} />
                                 <BackgroundImg bgImgURL={userIntro.backgroundImageURL} />
                             </div>
@@ -67,6 +57,10 @@ export default function UserIntroView({ userIntroList }: any) {
                         align-items: center;
                         justify-content: space-around;
                         background-color: gray;
+                    }
+
+                    .box0 {
+                        border-right: 1px solid black;
                     }
 
                     .info-box {

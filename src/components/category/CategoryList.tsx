@@ -52,9 +52,9 @@ export default function CategoryList({ list, isLogin, setCategoryList }: Props) 
 
     return (
         <>
-            <List component="nav">
-                {list.length !== 0 &&
-                    list
+            {list.length !== 0 && (
+                <List component="nav">
+                    {list
                         .filter((item) => item.useState) // useState가 true인 카테고리만 불러옴
                         .map(({ id, title, boards, useState }) => {
                             const isOpen = open[id] || false
@@ -108,7 +108,10 @@ export default function CategoryList({ list, isLogin, setCategoryList }: Props) 
                                                             <ListItemButton
                                                                 onClick={() => onClickBoard(id, title, boardTitle)}
                                                                 key={id}
-                                                                sx={{ pl: 4, '&:hover': { color: 'rgb(21, 0, 255)' } }}>
+                                                                sx={{
+                                                                    pl: 4,
+                                                                    '&:hover': { color: 'rgb(21, 0, 255)' },
+                                                                }}>
                                                                 <ListItemText primary={boardTitle} />
                                                             </ListItemButton>
                                                         </ListItem>
@@ -119,7 +122,9 @@ export default function CategoryList({ list, isLogin, setCategoryList }: Props) 
                                 </div>
                             )
                         })}
-            </List>
+                </List>
+            )}
+
             <style jsx>{`
                 .admin-settings {
                     display: flex;
