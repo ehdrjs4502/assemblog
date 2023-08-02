@@ -10,6 +10,7 @@ interface Props {
 }
 
 export default function TagList({ tagList }: Props) {
+    console.log(tagList)
     return (
         <>
             <div className='container'>

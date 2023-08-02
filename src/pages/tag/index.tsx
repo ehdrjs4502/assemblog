@@ -6,25 +6,25 @@ import TagList from '@/components/tag/TagList'
 import TagHeader from '@/components/tag/TagHeader'
 
 type tag = {
-    id: number,
+    id: number
     name: string
 }
 
-interface Props { 
+interface Props {
     tagList: [tag]
 }
-
 
 export default function Tag({ tagList }: Props) {
     const title = '태그 목록'
     const contentRef = useRef(null)
+    console.log('tagList:', tagList)
     return (
         <div>
             <HeadTitle title={title} />
             <Navigation contentRef={contentRef} />
-            <TagHeader/>
+            <TagHeader />
             <div ref={contentRef}>
-                <TagList tagList= {tagList}/>
+                <TagList tagList={tagList} />
             </div>
         </div>
     )
@@ -40,17 +40,9 @@ export async function getStaticProps() {
 
     const tagList = res.data
 
-    // console.log(res.data)
+    console.log(res.data)
 
-    // const tagList = {tags : [
-    //     "태그",
-    //     "뿅",
-    //     "자바",
-    //     "자바스크립트",
-    //     "클라우드",
-    //     "Next.js",
-    //     "React.js"
-    // ]}
+    // const tagList = ['태그', '뿅', '자바', '자바스크립트', '클라우드', 'Next.js', 'React.js']
 
     return {
         props: { tagList },

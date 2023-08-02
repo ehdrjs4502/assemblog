@@ -27,13 +27,14 @@ export default function ReplyComment({
     setCommentList,
     isWriter,
     parentCommentId,
-    writerMail,
     isPostComment,
 }: Props) {
     // 부모 id 찾아서 맞는 애들만 가져오기
     const replyCommentList: comment[] = commentList?.filter(
         (comment: any) => comment.parentCommentId === parentCommentId
     )
+
+    console.log('replyCommentList : ',replyCommentList)
     return (
         <>
             {replyCommentList?.map(

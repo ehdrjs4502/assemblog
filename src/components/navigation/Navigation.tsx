@@ -138,9 +138,11 @@ export default function Navigation({ contentRef }: any) {
         setIsDrawerOpen(false)
     }, [router.asPath])
 
+    const isScrollPastContentTop = scrollPosition + 50 >= contentTop // 스크롤이 콘텐츠 영역으로 왔는지 확인(boolean)
+
     return (
         <>
-            <AppBar sx={scrollPosition + 50 >= contentTop ? changeStyle : originalStyle}>
+            <AppBar sx={isScrollPastContentTop ? changeStyle : originalStyle}>
                 <Toolbar>
                     <IconButton
                         onClick={() => setIsDrawerOpen(true)}
@@ -151,7 +153,7 @@ export default function Navigation({ contentRef }: any) {
                         <Menu />
                     </IconButton>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}></Typography>
-                    <SearchBtn />
+                    <SearchBtn isScrollPastContentTop={isScrollPastContentTop}/>
                     {isLogin && (
                         <>
                             <EditPostBtn />

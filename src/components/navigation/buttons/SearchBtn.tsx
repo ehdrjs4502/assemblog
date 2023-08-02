@@ -3,7 +3,11 @@ import { IconButton, TextField, Tooltip } from '@mui/material'
 import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
 
-export default function SearchBtn() {
+interface Props {
+    isScrollPastContentTop: boolean
+}
+
+export default function SearchBtn({ isScrollPastContentTop }: Props) {
     const [search, setSearch] = useState<string>('') // 카테고리명
     const [isTextFieldVisible, setTextFieldVisible] = useState<boolean>(false) // 텍스트 필드의 가시성 상태를 관리
     const searchRef = useRef<HTMLInputElement>(null) // 검색 인풋창
@@ -38,7 +42,7 @@ export default function SearchBtn() {
                         variant="standard"
                         placeholder="Search..."
                         fullWidth
-                        sx={{ m: 1, input: { color: 'white' } }}
+                        sx={{ m: 1, input: { color: isScrollPastContentTop ? 'black' : 'white'} }}
                         inputRef={searchRef}
                         onChange={(e) => {
                             setSearch(e.target.value)
@@ -49,7 +53,7 @@ export default function SearchBtn() {
             </div>
             <Tooltip title="검색" disableInteractive placement="bottom" arrow>
                 <IconButton aria-label="search" color="primary" onClick={toggleTextField}>
-                    {isTextFieldVisible ?  <Clear/> : <Search />}
+                    {isTextFieldVisible ? <Clear /> : <Search />}
                 </IconButton>
             </Tooltip>
 
