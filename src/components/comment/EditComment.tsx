@@ -120,10 +120,12 @@ export default function EditComment({ postId, setCommentList, isWriter, isPostCo
             <Box
                 component="form"
                 sx={{
+                    display:'flex',
+                    flexDirection:'column',
                     backgroundColor: '#F2F2F2',
                     padding: 2,
                     borderRadius: 5,
-                    height: '230px',
+                    height: '180px',
                 }}>
                 <div className="info-box">
                     <TextField
@@ -167,20 +169,34 @@ export default function EditComment({ postId, setCommentList, isWriter, isPostCo
                 <TextField
                     placeholder="댓글 달기"
                     multiline
-                    rows={4}
+                    rows={2}
                     variant="standard"
                     onChange={(e) => {
                         setContent(e.target.value)
                     }}
                     value={content}
                     inputRef={contentRef}
-                    sx={{ width: '100%', marginTop: '30px' }}
+                    sx={{
+                        width: '100%',
+                        marginTop: '30px',
+                        '@media (max-width: 950px)': {
+                            width: '100%',
+                            marginTop: '30px',
+                            height: '60px',
+                        },
+                    }}
                 />
                 <Button
                     onClick={() => onClickEditBtn()}
                     variant="contained"
                     startIcon={<RateReview />}
-                    sx={{ float: 'right', marginTop: '20px' }}>
+                    sx={{
+                        marginLeft:'auto',
+                        marginTop: '20px',
+                        '@media (max-width: 950px)': {
+                            marginTop: '10px',
+                        },
+                    }}>
                     게시
                 </Button>
             </Box>

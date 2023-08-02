@@ -39,10 +39,10 @@ export default function ViewTitle({ data }: Props) {
                             {data.categoryTitle} / {data.boradTitle}
                         </span>
                     </div>
-                    <div className='title-box'>
+                    <div className="title-box">
                         <span>{data.title}</span>
                     </div>
-                    <div className='post-info-box'>
+                    <div className="post-info-box">
                         <span>작성자 : {data.writer}</span>
                         <span>작성일 : {formattedDate}</span>
                         <span>조회수 : {data.viewCount}</span>
@@ -59,11 +59,17 @@ export default function ViewTitle({ data }: Props) {
                     margin: 0;
                 }
 
+                .thumbnail-box {
+                    width: 100%;
+                    height: 500px;
+                    background-color: gray;
+                }
+
                 .thumbnail-box img {
                     width: 100%;
                     height: 500px;
                     vertical-align: middle;
-                    filter: brightness(65%); 
+                    filter: brightness(65%);
                 }
 
                 .box {
@@ -96,11 +102,25 @@ export default function ViewTitle({ data }: Props) {
                     color: whitesmoke;
                 }
 
-                .post-info-box  span{
+                .post-info-box span {
                     color: whitesmoke;
                     margin: 15px;
                 }
 
+                @media (max-width: 950px) {
+                    .thumbnail-box {
+                        width: 100%;
+                        height: 350px;
+                        background-color: gray;
+                    }
+
+                    .thumbnail-box img {
+                        width: 100%;
+                        height: 350px;
+                        vertical-align: middle;
+                        filter: brightness(65%);
+                    }
+                }
             `}</style>
         </>
     )
