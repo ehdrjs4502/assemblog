@@ -153,7 +153,7 @@ export default function Navigation({ contentRef }: any) {
                         <Menu />
                     </IconButton>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}></Typography>
-                    <SearchBtn isScrollPastContentTop={isScrollPastContentTop}/>
+                    <SearchBtn isScrollPastContentTop={isScrollPastContentTop} />
                     {isLogin && (
                         <>
                             <EditPostBtn />

@@ -56,7 +56,6 @@ export default function UserIntroView({ userIntroList }: any) {
                         color: rgb(207, 207, 207);
                         align-items: center;
                         justify-content: space-around;
-                        background-color: gray;
                     }
 
                     .box0 {

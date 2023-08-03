@@ -1,15 +1,16 @@
 import Navigation from '@/components/navigation/Navigation'
-import ViewPost from '@/components/posts/view/ViewPost'
-import ViewHeader from '@/components/posts/view/ViewHeader'
+import PostView from '@/components/posts/view/PostView'
+import HeaderView from '@/components/posts/view/HeaderView'
 import HeadTitle from '@/components/HeadTitle'
 import { useEffect, useRef, useState } from 'react'
 import ModifyBtn from '@/components/posts/buttons/ModifyBtn'
 import DelBtn from '@/components/posts/buttons/DelBtn'
 import { Cookies } from 'react-cookie'
-import ViewTag from '@/components/posts/view/ViewTag'
+import TagView from '@/components/posts/view/TagView'
 import { useRouter } from 'next/router'
 import CommentView from '@/components/comment/CommentView'
 import axios from 'axios'
+import PrevNextPostView from '@/components/posts/view/PrevNextPostView'
 
 interface Props {
     post: {
@@ -52,7 +53,7 @@ export default function Post({ post }: Props) {
             <Navigation contentRef={contentRef} />
 
             {/* 게시글 헤더 영역 */}
-            <ViewHeader
+            <HeaderView
                 data={{
                     title: post.title,
                     writer: post.username,
@@ -74,8 +75,9 @@ export default function Post({ post }: Props) {
                             <DelBtn id={post.postId} />
                         </div>
                     ) : null}
-                    <ViewPost content={post.content} />
-                    <ViewTag tagList={post.tagList} />
+                    <PostView content={post.content} />
+                    <TagView tagList={post.tagList} />
+                    <PrevNextPostView/>
                 </div>
                 {/* 댓글 영역 */}
                 <div className="comment-box">

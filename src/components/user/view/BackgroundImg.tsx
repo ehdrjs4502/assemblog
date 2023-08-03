@@ -1,8 +1,8 @@
 interface Props {
-    bgImgURL : string
+    bgImgURL: string
 }
 
-export default function BackgroundImg({bgImgURL}: Props) {
+export default function BackgroundImg({ bgImgURL }: Props) {
     return (
         <>
             <div

@@ -38,6 +38,7 @@ export default function PostCard({ post }: Props) {
     }
 
     const onClickPost = (postID: number) => {
+        //해당 포스트 보러가기
         router.push({
             pathname: `/post/${postID}`,
         })

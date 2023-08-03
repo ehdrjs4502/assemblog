@@ -53,6 +53,8 @@ export async function getStaticProps() {
             introduction: `hello 안녕하세요 글을 길게 쓰면 div 넘어갈거같은데요?
 하이요 글을 더 길게 쓰면 어떻게 될까요 글 엄청 길게 쓰자`,
             profileImageURL: 'profile.png',
+            backgroundImageURL:
+                'https://cdn.discordapp.com/attachments/1136307485398007878/1136307555824582796/indo.png',
             links: [
                 {
                     id: 1,
@@ -79,7 +81,8 @@ export async function getStaticProps() {
             email: 'test@gmail.com',
             introduction: '안녕하세용',
             profileImageURL: 'profile.png',
-            backgroundImageURL: 'bgImg.png',
+            backgroundImageURL:
+                'https://cdn.discordapp.com/attachments/1136307485398007878/11363075558245896/indo.png',
             links: [
                 {
                     id: 1,

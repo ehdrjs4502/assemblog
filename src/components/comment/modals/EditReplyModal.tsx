@@ -45,6 +45,10 @@ const style = {
     boxShadow: 10,
     p: 4,
     borderRadius: 2,
+    '@media (max-width:950px)' : {
+        width:'70%',
+
+    }
 }
 
 export default function EditReplyModal({ postId, parentId, setCommentList, isPostComment, isWriter }: Props) {
@@ -138,6 +142,7 @@ export default function EditReplyModal({ postId, parentId, setCommentList, isPos
                     <RateReviewIcon />
                 </IconButton>
             </Tooltip>
+
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -145,7 +150,7 @@ export default function EditReplyModal({ postId, parentId, setCommentList, isPos
                 aria-describedby="modal-modal-description">
                 <Box sx={style} component="form">
                     <Typography>답글 달기</Typography>
-                    <div>
+                    <div className='info-box'>
                         <TextField
                             placeholder="닉네임"
                             variant="standard"
@@ -200,8 +205,9 @@ export default function EditReplyModal({ postId, parentId, setCommentList, isPos
 
             <style jsx>
                 {`
-                    .info-box {
+                    .info-box {                        
                         display: flex;
+                        margin-top: 20px;
                     }
                     .modal-button-container {
                         margin-top: 30px;

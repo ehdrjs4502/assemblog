@@ -42,7 +42,7 @@ export default function SearchBtn({ isScrollPastContentTop }: Props) {
                         variant="standard"
                         placeholder="Search..."
                         fullWidth
-                        sx={{ m: 1, input: { color: isScrollPastContentTop ? 'black' : 'white'} }}
+                        sx={{ m: 1, input: { color: isScrollPastContentTop ? 'black' : 'white' } }}
                         inputRef={searchRef}
                         onChange={(e) => {
                             setSearch(e.target.value)
