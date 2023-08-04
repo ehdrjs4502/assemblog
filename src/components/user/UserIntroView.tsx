@@ -75,8 +75,6 @@ export default function UserIntroView({ userIntroList }: any) {
                         .box {
                             width: 100%;
                             border-bottom: 1px solid black;
-                            padding-left: 10px;
-                            padding-right: 10px;
                             padding-bottom: 30px;
                         }
                     }

@@ -35,6 +35,9 @@ export default function Comment({ comment, postId, setCommentList, isWriter, isP
         minWidth: '250px',
         maxWidth: '380px',
         paddingBottom: '15px',
+        '@media (max-width:950px)' : {
+            minWidth: '150px',
+        }
     }
 
     const writerBoxStyle = {
@@ -47,6 +50,9 @@ export default function Comment({ comment, postId, setCommentList, isWriter, isP
         minWidth: '250px',
         maxWidth: '380px',
         paddingBottom: '15px',
+        '@media (max-width:950px)' : {
+            minWidth: '150px',
+        }
     }
 
     return (

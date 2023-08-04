@@ -1,18 +1,31 @@
-import { ArrowForwardIos } from '@mui/icons-material'
+import { ArrowBackIosNew } from '@mui/icons-material'
+import { useRouter } from 'next/dist/client/router'
 
-export default function NextPost() {
+export default function PrevPostBtn() {
+    const router = useRouter()
+
+    const onClickPost = (postID: number) => {
+        router.push({
+            pathname: `/post/${postID}`,
+        })
+    }
+
     return (
         <>
-            <div className="next-box">
+            <button
+                className="prev-btn"
+                onClick={() => {
+                    onClickPost(1)
+                }}>
+                <ArrowBackIosNew />
                 <div className="post-navigation">
-                    <span className="label">다음 게시글</span>
+                    <span className="label">이전 게시글</span>
                     <span className="title">게시글의 제목</span>
                 </div>
-                <ArrowForwardIos />
-            </div>
+            </button>
 
             <style jsx>{`
-                .next-box {
+                .prev-btn {
                     width: 45%;
                     display: flex;
                     align-items: center;
@@ -20,10 +33,9 @@ export default function NextPost() {
                     position: relative;
                     padding: 20px 10px 20px 10px;
                     border-radius: 10px;
-                    box-shadow: -5px 5px 2px rgb(213, 213, 213);
-                    text-align: end;
-                    margin-left: auto;
-                    justify-content: flex-end;
+                    box-shadow: 5px 5px 2px rgb(213, 213, 213);
+                    border: none;
+                    color: white;
                     word-wrap: break-word;
                     transition: transform 0.3s ease;
                     background-image: linear-gradient(rgba(0, 0, 0, 0.527), rgba(0, 0, 0, 0.5)),
@@ -32,12 +44,11 @@ export default function NextPost() {
                     background-position: center;
                 }
 
-                .next-box div {
-                    align-items: flex-end;
-                    margin-right: 10px;
+                .prev-btn div {
+                    margin-left: 10px;
                 }
 
-                .next-box:hover {
+                .prev-btn:hover {
                     cursor: pointer;
                     transform: scale(1.015);
                 }
@@ -57,7 +68,7 @@ export default function NextPost() {
                 }
 
                 @media (max-width: 950px) {
-                    .next-box {
+                    .prev-btn {
                         width: 40%;
                     }
 

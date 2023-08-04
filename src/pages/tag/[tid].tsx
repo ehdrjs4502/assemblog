@@ -14,6 +14,7 @@ export default function tagPostList() {
     const [totalPage, setTotalPage] = useState<number>(10)
     const router = useRouter()
     const API_URL = process.env.API
+    const tagLabel = '태그에 맞는 게시글을 확인해보세요!'
 
     const getPostList = async () => {
         //태그에 해당하는 게시글 페이징에 맞게 불러오기
@@ -61,7 +62,7 @@ export default function tagPostList() {
             <HeadTitle title={title + ' 태그 목록'} />
             <Navigation contentRef={contentRef} />
             <PostListHeader />
-            <ContentView postList={postList} contentTitle={title} />
+            <ContentView postList={postList} contentTitle={title} contentLabel={tagLabel} />
             <PaginationView totalPage={totalPage} page={page} setPage={setPage} router={router} />
         </>
     )

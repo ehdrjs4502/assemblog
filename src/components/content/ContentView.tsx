@@ -20,6 +20,7 @@ type post = {
 interface Props {
     postList: post[]
     contentTitle: string
+    contentLabel: string
 }
 
 const customAnimation: any = keyframes`
@@ -34,13 +35,14 @@ const customAnimation: any = keyframes`
   }
 `
 
-export default function ContentView({ postList, contentTitle }: Props) {
+export default function ContentView({ postList, contentTitle, contentLabel }: Props) {
     return (
         <>
             <div className="container">
-                <div className="latest-box">
-                    <div className="latest-title">
-                        <span>{contentTitle}</span>
+                <div className="box">
+                    <div className="header">
+                        <h4 className="title">{contentTitle}</h4>
+                        <span>{contentLabel}</span>
                     </div>
                     <div className="card-box">
                         <Reveal keyframes={customAnimation} cascade damping={0.1} triggerOnce>
@@ -58,18 +60,25 @@ export default function ContentView({ postList, contentTitle }: Props) {
                         display: flex;
                         justify-content: center;
                     }
-                    .latest-box {
+
+                    .box {
                         margin-top: 50px;
                         margin-bottom: 50px;
                         width: 80%;
                         flex-wrap: wrap;
                     }
 
-                    .latest-title {
-                        font-size: 32px;
-                        font-weight: bold;
+                    .header {
                         margin-top: 20px;
                         margin-bottom: 40px;
+                    }
+
+                    .title {
+                        font-family: 'NanumSquare';
+                        font-size: 32px;
+                        font-weight: bold;
+                        margin: 0;
+                        margin-bottom: 10px;
                     }
 
                     .card-box {

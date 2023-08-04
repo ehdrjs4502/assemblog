@@ -1,13 +1,13 @@
-import NextPost from './NextPost'
-import PrevPost from './PrevPost'
+import NextPostBtn from '../buttons/NextPostBtn'
+import PrevPostBtn from '../buttons/PrevPostBtn'
 
 export default function PrevNextPostView() {
     //이전글, 다음글에 맞는 postId, title, thumbnail 보내주기
     return (
         <>
             <div className="box">
-                <PrevPost />
-                <NextPost />
+                <PrevPostBtn />
+                <NextPostBtn />
             </div>
 
             <style jsx>{`
@@ -16,7 +16,6 @@ export default function PrevNextPostView() {
                     display: flex;
                     width: 100%;
                     justify-content: space-between;
-                    color: white;
                 }
             `}</style>
         </>

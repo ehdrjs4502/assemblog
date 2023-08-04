@@ -1,3 +1,4 @@
+import Footer from '@/components/Footer'
 import ScrollIndicator from '@/components/ScrollIndicator'
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
@@ -7,6 +8,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <ScrollIndicator/>
       <Component {...pageProps} />
+      <Footer/>
 
       <style jsx global> {`
           body {

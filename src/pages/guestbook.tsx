@@ -42,6 +42,12 @@ export default function GuestBook() {
                     justify-content: center;
                     margin-bottom: 30px;
                 }
+
+                @media (max-width:950px) {
+                    .guestbook-box {
+                        width: 80%;
+                    }
+                }
             `}</style>
         </>
     )

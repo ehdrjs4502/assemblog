@@ -5,11 +5,15 @@ import ContentView from '@/components/content/ContentView'
 import { useRef } from 'react'
 import axios from 'axios'
 import ShowMoreBtn from '@/components/ShowMoreBtn'
+import Footer from '@/components/Footer'
 
 export default function Home({ postList, userIntroList }: any) {
     const title = 'Main'
     const contentRef = useRef(null)
-    const contentTitle = '최신 글'
+    const latestTitle = '최신 글'
+    const latestLabel = '최근에 올라온 게시글들을 확인해보세요!'
+    const popularTitle = '인기 글'
+    const popularLabel = '가장 인기 있는 게시글들을 확인해보세요!'
 
     return (
         <div>
@@ -17,7 +21,8 @@ export default function Home({ postList, userIntroList }: any) {
             <Navigation contentRef={contentRef} />
             <UserIntroView userIntroList={userIntroList} />
             <div ref={contentRef}>
-                <ContentView postList={postList} contentTitle={contentTitle} />
+                <ContentView postList={postList} contentTitle={latestTitle} contentLabel={latestLabel} />
+                <ContentView postList={postList} contentTitle={popularTitle} contentLabel={popularLabel}/>
                 {postList.length >= 1 && <ShowMoreBtn />}
             </div>
         </div>

@@ -28,6 +28,7 @@ export default function Category() {
     const [title, setTitle] = useState<string>('')
     const [totalPage, setTotalPage] = useState<number>(10)
     const router = useRouter()
+    const categoryLabel = '게시판에 게시글들을 확인해보세요!'
 
     const getPostList = async () => {
         //게시판에 해당하는 게시글 페이징에 맞게 불러오기
@@ -68,7 +69,7 @@ export default function Category() {
             <HeadTitle title={title + ' 게시글 목록'} />
             <Navigation contentRef={''} />
             <PostListHeader />
-            <ContentView postList={postList} contentTitle={title} />
+            <ContentView postList={postList} contentTitle={title} contentLabel={categoryLabel} />
             <PaginationView totalPage={totalPage} page={page} setPage={setPage} router={router} />
         </>
     )

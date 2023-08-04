@@ -1,0 +1,17 @@
+@font-face {
+    font-family: 'NanumSquare';
+    font-weight: 400;
+    font-size: normal;
+    src: url('/fonts/nanum/NanumSquareRoundL.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'NanumSquare';
+    font-weight: 700;
+    font-size: normal;
+    src: url('/fonts/nanum/NanumSquareRoundB.ttf') format('truetype');
+}
+
+body {
+    font-family: 'NanumSquare';
+}

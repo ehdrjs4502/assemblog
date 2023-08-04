@@ -34,34 +34,33 @@ export default function SearchBtn({ isScrollPastContentTop }: Props) {
 
     return (
         <>
-            <div className={`search-box ${isTextFieldVisible ? 'visible' : 'hidden'}`}>
-                {isTextFieldVisible && (
-                    <TextField
-                        id="standard-size-small"
-                        size="small"
-                        variant="standard"
-                        placeholder="Search..."
-                        fullWidth
-                        sx={{ m: 1, input: { color: isScrollPastContentTop ? 'black' : 'white' } }}
-                        inputRef={searchRef}
-                        onChange={(e) => {
-                            setSearch(e.target.value)
-                        }}
-                        onKeyPress={handleSearch}
-                    />
-                )}
+            <div className="box">
+                <div className={`search-box ${isTextFieldVisible ? 'visible' : 'hidden'}`}>
+                    {isTextFieldVisible && (
+                        <TextField
+                            id="standard-size-small"
+                            size="small"
+                            variant="standard"
+                            placeholder="Search..."
+                            sx={{ m: 1, input: { color: isScrollPastContentTop ? 'black' : 'white' }, width:'150px' }}
+                            inputRef={searchRef}
+                            onChange={(e) => {
+                                setSearch(e.target.value)
+                            }}
+                            onKeyPress={handleSearch}
+                        />
+                    )}
+                </div>
+                <Tooltip title="검색" disableInteractive placement="bottom" arrow>
+                    <IconButton aria-label="search" color="primary" onClick={toggleTextField}>
+                        {isTextFieldVisible ? <Clear /> : <Search />}
+                    </IconButton>
+                </Tooltip>
             </div>
-            <Tooltip title="검색" disableInteractive placement="bottom" arrow>
-                <IconButton aria-label="search" color="primary" onClick={toggleTextField}>
-                    {isTextFieldVisible ? <Clear /> : <Search />}
-                </IconButton>
-            </Tooltip>
 
             <style jsx>{`
-                .search-box {
+                .box {
                     display: flex;
-                    align-items: center;
-                    transition: all 3s ease-in-out;
                 }
             `}</style>
         </>

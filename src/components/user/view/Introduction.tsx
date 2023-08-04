@@ -27,9 +27,9 @@ export default function Introduction({ introduction, idx }: Props) {
                 @media (max-width: 950px) {
                     .introduction-box {
                         font-size: 12px;
-                        width: 100%;
+                        width: 90%;
                         max-height: 150px;
-                        word-break: break-all;
+                        word-wrap: normal;
                         height: 100%;
                         font-size: 20px;
                     }

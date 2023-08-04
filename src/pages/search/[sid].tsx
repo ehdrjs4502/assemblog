@@ -28,6 +28,7 @@ export default function searchList() {
     const [title, setTitle] = useState<string>('')
     const [totalPage, setTotalPage] = useState<number>(10)
     const router = useRouter()
+    const searchLabel = '검색 결과에 맞는 게시글을 확인해보세요!'
 
     const getPostList = async () => {
         //검색 결과에 해당하는 게시글 페이징에 맞게 불러오기
@@ -74,7 +75,7 @@ export default function searchList() {
                 </div>
             ) : (
                 <>
-                    <ContentView postList={postList} contentTitle={title} />
+                    <ContentView postList={postList} contentTitle={title} contentLabel={searchLabel} />
                     <PaginationView totalPage={totalPage} page={page} setPage={setPage} router={router} />
                 </>
             )}
