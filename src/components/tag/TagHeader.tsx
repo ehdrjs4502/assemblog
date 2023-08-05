@@ -9,6 +9,7 @@ export default function TagHeader() {
                     <Fade
                         cascade
                         damping={0.1}
+                        triggerOnce
                         style={{
                             fontSize: '38px',
                             whiteSpace: 'pre-wrap',
@@ -20,6 +21,7 @@ export default function TagHeader() {
                     </Fade>
                     <br />
                     <Fade
+                        triggerOnce
                         cascade
                         delay={1000}
                         damping={0.05}

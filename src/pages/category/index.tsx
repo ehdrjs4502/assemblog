@@ -13,6 +13,7 @@ export default function allCategory({ postList, totalPage, currentPage }: any) {
     const contentTitle = '분류 전체 보기'
     const router = useRouter()
     const [page, setPage] = useState(currentPage)
+    const contentLabel = '전체 게시글을 확인해보세요!'
 
     //페이지 이동하는 함수
     const handleChange = (e: ChangeEvent<unknown>, value: number) => {
@@ -26,7 +27,7 @@ export default function allCategory({ postList, totalPage, currentPage }: any) {
             <Navigation contentRef={contentRef} />
             <PostListHeader />
             <div ref={contentRef}>
-                <ContentView postList={postList} contentTitle={contentTitle} />
+                <ContentView postList={postList} contentTitle={contentTitle} contentLabel={contentLabel} />
                 <Pagination count={totalPage} page={page} onChange={handleChange} />
             </div>
         </div>

@@ -26,6 +26,7 @@ export default function TagList({ tagList }: Props) {
                     .container {
                         display: flex;
                         justify-content: center;
+                        margin-bottom: 100px;
                     }
                     .tag-box {
                         display: grid;

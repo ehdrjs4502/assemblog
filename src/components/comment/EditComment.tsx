@@ -42,8 +42,6 @@ export default function EditComment({ postId, setCommentList, isWriter, isPostCo
     const passwordRef = useRef<HTMLInputElement>(null)
     const contentRef = useRef<HTMLInputElement>(null)
 
-    console.log('isWriter : ', isWriter)
-
     //**수정사항 :  로그인 돼있으면 headers에 액세스 토큰도 같이 보내서 작성자가 댓글 작성한지 백엔드에게 보내줌**!!
     const onClickEditBtn = async () => {
         let isSuccess = false
@@ -79,15 +77,12 @@ export default function EditComment({ postId, setCommentList, isWriter, isPostCo
         }
 
         try {
-            console.log(cookie.get('accessToken'), data)
             const response = await axios.post(`/server/${endpoint}`, data, {
                 headers: {
                     'ngrok-skip-browser-warning': '1234',
                     Authorization: `Bearer ${cookie.get('accessToken')}`,
                 },
             })
-
-            console.log(response)
 
             if (isPostComment) {
                 alert('댓글 작성 완료')
@@ -120,8 +115,8 @@ export default function EditComment({ postId, setCommentList, isWriter, isPostCo
             <Box
                 component="form"
                 sx={{
-                    display:'flex',
-                    flexDirection:'column',
+                    display: 'flex',
+                    flexDirection: 'column',
                     backgroundColor: '#F2F2F2',
                     padding: 2,
                     borderRadius: 5,
@@ -191,7 +186,7 @@ export default function EditComment({ postId, setCommentList, isWriter, isPostCo
                     variant="contained"
                     startIcon={<RateReview />}
                     sx={{
-                        marginLeft:'auto',
+                        marginLeft: 'auto',
                         marginTop: '20px',
                         '@media (max-width: 950px)': {
                             marginTop: '10px',

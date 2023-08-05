@@ -25,52 +25,52 @@ export default function CommentView({ postId, isWriter, isPostComment }: Props) 
     const [commentList, setCommentList] = useState<comment[]>([]) // 댓글 목록
 
     useEffect(() => {
-        //     console.log('isPostComment : ', isPostComment)
+            console.log('isPostComment : ', isPostComment)
 
-        //     if (isPostComment) {
-        //         // 댓글 가져오기
-        //         const fetchComments = async () => {
-        //             const comments = await getComment(postId!)
-        //             setCommentList(comments)
-        //         }
+            if (isPostComment) {
+                // 댓글 가져오기
+                const fetchComments = async () => {
+                    const comments = await getComment(postId!)
+                    setCommentList(comments)
+                }
 
-        //         fetchComments()
-        //     } else {
-        //         // 방명록 가져오기
-        //         const fetchComments = async () => {
-        //             const comments = await getGuestBook()
-        //             setCommentList(comments)
-        //         }
+                fetchComments()
+            } else {
+                // 방명록 가져오기
+                const fetchComments = async () => {
+                    const comments = await getGuestBook()
+                    setCommentList(comments)
+                }
 
-        //         fetchComments()
-        //     }
+                fetchComments()
+            }
 
-        const testCommentList: comment[] = [
-            {
-                id: 1,
-                nickname: '개똥',
-                content: '잘 보고 갑니다~',
-                parentCommentId: 0,
-                createdAt: '2023-07-2',
-                likeState: false,
-                deleted: false,
-                writer: false,
-            },
+        // const testCommentList: comment[] = [
+        //     {
+        //         id: 1,
+        //         nickname: '개똥',
+        //         content: '잘 보고 갑니다~',
+        //         parentCommentId: 0,
+        //         createdAt: '2023-07-2',
+        //         likeState: false,
+        //         deleted: false,
+        //         writer: false,
+        //     },
 
-            {
-                id: 2,
-                nickname: '길동',
-                content: '좋아용',
-                parentCommentId: 0,
-                createdAt: '2023-07-2',
-                likeState: true,
-                deleted: false,
-                writer: true,
-            },
-        ]
+        //     {
+        //         id: 2,
+        //         nickname: '길동',
+        //         content: '좋아용',
+        //         parentCommentId: 0,
+        //         createdAt: '2023-07-2',
+        //         likeState: true,
+        //         deleted: false,
+        //         writer: true,
+        //     },
+        // ]
 
-        setCommentList(testCommentList)
-    }, [])
+        // setCommentList(testCommentList)
+    }, [postId])
 
     return (
         <>

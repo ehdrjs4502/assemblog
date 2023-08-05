@@ -68,69 +68,69 @@ export default function Navigation({ contentRef }: any) {
         }
 
         // 카테고리 리스트 가져오기
-        // const fetchCategoryList = async () => {
-        //     const list = await getCategoryList() // 카테고리 가져오는 함수
-        //     console.log(list)
-        //     setCategoryList(list)
-        // }
+        const fetchCategoryList = async () => {
+            const list = await getCategoryList() // 카테고리 가져오는 함수
+            console.log(list)
+            setCategoryList(list)
+        }
 
-        // fetchCategoryList()
+        fetchCategoryList()
 
-        const testList: CategoryItem[] = [
-            {
-                id: 1,
-                title: 'test1',
-                orderNum: 1,
-                useState: false,
-                boards: [
-                    {
-                        id: 1,
-                        title: 'board1',
-                        orderNum: 1,
-                        useState: true,
-                    },
-                ],
-            },
+        // const testList: CategoryItem[] = [
+        //     {
+        //         id: 1,
+        //         title: 'test1',
+        //         orderNum: 1,
+        //         useState: false,
+        //         boards: [
+        //             {
+        //                 id: 1,
+        //                 title: 'board1',
+        //                 orderNum: 1,
+        //                 useState: true,
+        //             },
+        //         ],
+        //     },
 
-            {
-                id: 2,
-                title: 'test2',
-                orderNum: 2,
-                useState: true,
-                boards: [
-                    {
-                        id: 1123,
-                        title: 'board2',
-                        orderNum: 1,
-                        useState: true,
-                    },
-                    {
-                        id: 2,
-                        title: 'board3',
-                        orderNum: 2,
-                        useState: false,
-                    },
-                ],
-            },
+        //     {
+        //         id: 2,
+        //         title: 'test2',
+        //         orderNum: 2,
+        //         useState: true,
+        //         boards: [
+        //             {
+        //                 id: 1123,
+        //                 title: 'board2',
+        //                 orderNum: 1,
+        //                 useState: true,
+        //             },
+        //             {
+        //                 id: 2,
+        //                 title: 'board3',
+        //                 orderNum: 2,
+        //                 useState: false,
+        //             },
+        //         ],
+        //     },
 
-            {
-                id: 3,
-                title: 'test3',
-                orderNum: 3,
-                useState: true,
-                boards: [],
-            },
+        //     {
+        //         id: 3,
+        //         title: 'test3',
+        //         orderNum: 3,
+        //         useState: true,
+        //         boards: [],
+        //     },
 
-            {
-                id: 4,
-                title: 'test4',
-                orderNum: 4,
-                useState: false,
-                boards: [],
-            },
-        ]
+        //     {
+        //         id: 4,
+        //         title: 'test4',
+        //         orderNum: 4,
+        //         useState: false,
+        //         boards: [],
+        //     },
+        // ]
 
-        setCategoryList(testList)
+        // setCategoryList(testList)
     }, [])
 
     // 페이지가 바껴도 Drawer가 계속 열려있어서 router 바뀌면 닫히게 함
@@ -143,7 +143,7 @@ export default function Navigation({ contentRef }: any) {
     return (
         <>
             <AppBar sx={isScrollPastContentTop ? changeStyle : originalStyle}>
-                <Toolbar sx={{justifyContent:'space-between'}}>
+                <Toolbar sx={{ justifyContent: 'space-between' }}>
                     <IconButton
                         onClick={() => setIsDrawerOpen(true)}
                         edge="start"
@@ -152,7 +152,7 @@ export default function Navigation({ contentRef }: any) {
                         sx={{ mr: 2 }}>
                         <Menu />
                     </IconButton>
-                    <div>
+                    <div className="btn-box">
                         <SearchBtn isScrollPastContentTop={isScrollPastContentTop} />
                         {isLogin && (
                             <>
@@ -173,7 +173,13 @@ export default function Navigation({ contentRef }: any) {
                 setCategoryList={setCategoryList}
             />
 
-            <style jsx> {``}</style>
+            <style jsx>
+                {`
+                    .btn-box {
+                        display: flex;
+                    }
+                `}
+            </style>
         </>
     )
 }

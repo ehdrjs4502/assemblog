@@ -1,9 +1,8 @@
 import { ArrowBackIosNew } from '@mui/icons-material'
 import { useRouter } from 'next/dist/client/router'
 
-export default function PrevPostBtn() {
+export default function PrevPostBtn({ prevPost }: any) {
     const router = useRouter()
-
     const onClickPost = (postID: number) => {
         router.push({
             pathname: `/post/${postID}`,
@@ -12,17 +11,21 @@ export default function PrevPostBtn() {
 
     return (
         <>
-            <button
-                className="prev-btn"
-                onClick={() => {
-                    onClickPost(1)
-                }}>
-                <ArrowBackIosNew />
-                <div className="post-navigation">
-                    <span className="label">이전 게시글</span>
-                    <span className="title">게시글의 제목</span>
-                </div>
-            </button>
+            {prevPost === null ? (
+                ''
+            ) : (
+                <button
+                    className="prev-btn"
+                    onClick={() => {
+                        onClickPost(prevPost.postId)
+                    }}>
+                    <ArrowBackIosNew />
+                    <div className="post-navigation">
+                        <span className="label">이전 게시글</span>
+                        <span className="title">{prevPost !== undefined && prevPost.title}</span>
+                    </div>
+                </button>
+            )}
 
             <style jsx>{`
                 .prev-btn {
@@ -39,7 +42,7 @@ export default function PrevPostBtn() {
                     word-wrap: break-word;
                     transition: transform 0.3s ease;
                     background-image: linear-gradient(rgba(0, 0, 0, 0.527), rgba(0, 0, 0, 0.5)),
-                        url('https://cdn.discordapp.com/attachments/1136307485398007878/1136642685155942521/2Q.png');
+                        url(${prevPost?.thumbnail});
                     background-size: cover;
                     background-position: center;
                 }

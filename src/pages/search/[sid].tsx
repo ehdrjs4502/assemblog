@@ -37,7 +37,7 @@ export default function searchList() {
         if (router.query.page !== undefined) {
             page = parseInt(router.query.page! as string)
         }
-        const response = await axios.get(`/server/lists/posts?searchWord=${title}&currentPage=${page}&pageSize=1`, {
+        const response = await axios.get(`/server/lists/posts?searchWord=${title}&currentPage=${page}&pageSize=6`, {
             headers: {
                 'ngrok-skip-browser-warning': '123456',
             },

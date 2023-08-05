@@ -33,8 +33,6 @@ export default function ReplyComment({
     const replyCommentList: comment[] = commentList?.filter(
         (comment: any) => comment.parentCommentId === parentCommentId
     )
-
-    console.log('replyCommentList : ',replyCommentList)
     return (
         <>
             {replyCommentList?.map(

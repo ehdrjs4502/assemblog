@@ -1,15 +1,31 @@
 import { ArrowForwardIos } from '@mui/icons-material'
+import { useRouter } from 'next/dist/client/router'
 
-export default function NextPostBtn() {
+export default function NextPostBtn({ nextPost }: any) {
+    const router = useRouter()
+    const onClickPost = (postID: number) => {
+        router.push({
+            pathname: `/post/${postID}`,
+        })
+    }
+
     return (
         <>
-            <button className="next-btn">
-                <div className="post-navigation">
-                    <span className="label">다음 게시글</span>
-                    <span className="title">게시글의 제목</span>
-                </div>
-                <ArrowForwardIos />
-            </button>
+            {nextPost === null ? (
+                ''
+            ) : (
+                <button
+                    className="next-btn"
+                    onClick={() => {
+                        onClickPost(nextPost.postId)
+                    }}>
+                    <div className="post-navigation">
+                        <span className="label">다음 게시글</span>
+                        <span className="title">{nextPost !== undefined && nextPost.title}</span>
+                    </div>
+                    <ArrowForwardIos />
+                </button>
+            )}
 
             <style jsx>{`
                 .next-btn {
@@ -29,7 +45,7 @@ export default function NextPostBtn() {
                     word-wrap: break-word;
                     transition: transform 0.3s ease;
                     background-image: linear-gradient(rgba(0, 0, 0, 0.527), rgba(0, 0, 0, 0.5)),
-                        url('https://cdn.discordapp.com/attachments/1136307485398007878/1136642685155942521/2Q.png');
+                        url(${nextPost?.thumbnail});
                     background-size: cover;
                     background-position: center;
                 }
