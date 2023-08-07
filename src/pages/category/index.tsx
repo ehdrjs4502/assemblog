@@ -4,10 +4,10 @@ import Navigation from '@/components/navigation/Navigation'
 import axios from 'axios'
 import { ChangeEvent, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
-import { Pagination } from '@mui/material'
 import PostListHeader from '@/components/posts/list/PostListHeader'
+import PaginationView from '@/components/posts/list/PaginationView'
 
-export default function allCategory({ postList, totalPage, currentPage }: any) {
+export default function AllCategory({ postList, totalPage, currentPage }: any) {
     const title = '전체 카테고리'
     const contentRef = useRef(null)
     const contentTitle = '분류 전체 보기'
@@ -28,7 +28,7 @@ export default function allCategory({ postList, totalPage, currentPage }: any) {
             <PostListHeader />
             <div ref={contentRef}>
                 <ContentView postList={postList} contentTitle={contentTitle} contentLabel={contentLabel} />
-                <Pagination count={totalPage} page={page} onChange={handleChange} />
+                <PaginationView totalPage={totalPage} page={page} setPage={setPage} router={router} />
             </div>
         </div>
     )
@@ -41,7 +41,7 @@ export async function getServerSideProps(context: any) {
         page = context.query.page
     }
     console.log(page)
-    const res: any = await axios.get(`${API_URL}lists/posts?currentPage=${page}&pageSize=${2}`, {
+    const res: any = await axios.get(`${API_URL}lists/posts?currentPage=${page}&pageSize=6`, {
         headers: {
             'ngrok-skip-browser-warning': '1234',
         },

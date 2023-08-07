@@ -27,7 +27,7 @@ type BoardItem = {
 
 export default function Navigation({ contentRef }: any) {
     const [scrollPosition, setScrollPosition] = useState<number>(0) // 현재 스크롤 위치
-    const [isDrawerOpen, setIsDrawerOpen] = useState(false) // 사이드바 열지말지 상태
+    const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false) // 사이드바 열지말지 상태
     const [isLogin, setIsLogin] = useState<boolean>(false) // 로그인 되어있는지 확인
     const [categoryList, setCategoryList] = useState<CategoryItem[]>([]) // 카테고리 목록
     const router = useRouter()
@@ -70,7 +70,6 @@ export default function Navigation({ contentRef }: any) {
         // 카테고리 리스트 가져오기
         const fetchCategoryList = async () => {
             const list = await getCategoryList() // 카테고리 가져오는 함수
-            console.log(list)
             setCategoryList(list)
         }
 
@@ -138,7 +137,7 @@ export default function Navigation({ contentRef }: any) {
         setIsDrawerOpen(false)
     }, [router.asPath])
 
-    const isScrollPastContentTop = scrollPosition + 50 >= contentTop // 스크롤이 콘텐츠 영역으로 왔는지 확인(boolean)
+    const isScrollPastContentTop: boolean = scrollPosition + 300 >= contentTop // 스크롤이 콘텐츠 영역으로 왔는지 확인(boolean)
 
     return (
         <>

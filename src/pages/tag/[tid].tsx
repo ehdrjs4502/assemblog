@@ -7,7 +7,7 @@ import ContentView from '@/components/content/ContentView'
 import PaginationView from '@/components/posts/list/PaginationView'
 import PostListHeader from '@/components/posts/list/PostListHeader'
 
-export default function tagPostList() {
+export default function TagPostList() {
     const [page, setPage] = useState<number>(1)
     const [postList, setPostList] = useState([])
     const [title, setTitle] = useState('')

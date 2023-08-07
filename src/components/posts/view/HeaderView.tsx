@@ -18,7 +18,7 @@ export default function ViewTitle({ data }: Props) {
     const formattedDate = `${date.getFullYear()}. ${
         // yyyy. MM. dd. hh:mm 으로 데이터 포맷하기
         date.getMonth() + 1
-    }. ${date.getDate()}. ${date.getHours()}:${date.getMinutes()}`
+    }. ${date.getDate()}`
 
     const onClickCategory = (category: string, board: string) => {
         // 해당 카테고리 포스트 보러가기
@@ -30,9 +30,9 @@ export default function ViewTitle({ data }: Props) {
     return (
         <>
             <div className="header-box">
-                <div className="thumbnail-box">
+                {/* <div className="thumbnail-box">
                     <img src={data.thumbnail} alt="헤더 이미지" />
-                </div>
+                </div> */}
                 <div className="box">
                     <div className="category-box" onClick={() => onClickCategory(data.categoryTitle, data.boradTitle)}>
                         <span>
@@ -43,9 +43,9 @@ export default function ViewTitle({ data }: Props) {
                         <span>{data.title}</span>
                     </div>
                     <div className="post-info-box">
-                        <span>작성자 : {data.writer}</span>
-                        <span>작성일 : {formattedDate}</span>
-                        <span>조회수 : {data.viewCount}</span>
+                        <span>by. {data.writer}</span>
+                        <span>·</span>
+                        <span>{formattedDate}</span>
                     </div>
                 </div>
             </div>
@@ -53,23 +53,26 @@ export default function ViewTitle({ data }: Props) {
             <style jsx>{`
                 .header-box {
                     width: 100%;
+                    height: 400px;
                     margin: 10px auto;
                     position: relative;
                     margin-bottom: 60px;
                     margin: 0;
+                    background-image: url(${data.thumbnail});
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    background-size: cover;
                 }
 
-                .thumbnail-box {
-                    width: 100%;
-                    height: 500px;
-                    background-color: gray;
-                }
-
-                .thumbnail-box img {
-                    width: 100%;
-                    height: 500px;
-                    vertical-align: middle;
-                    filter: brightness(65%);
+                .header-box::before {
+                    content: '';
+                    opacity: 0.6;
+                    position: absolute;
+                    top: 0px;
+                    left: 0px;
+                    right: 0px;
+                    bottom: 0px;
+                    background-color: #000;
                 }
 
                 .box {
@@ -104,7 +107,7 @@ export default function ViewTitle({ data }: Props) {
 
                 .post-info-box span {
                     color: whitesmoke;
-                    margin: 15px;
+                    margin-left: 10px;
                 }
 
                 @media (max-width: 950px) {

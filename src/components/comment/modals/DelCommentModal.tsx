@@ -49,6 +49,7 @@ export default function DelCommentModal({ id, postId, setCommentList, isPostComm
             const response = await axios.delete(`/server/${endpoint}?id=${id}&password=${password}`, {
                 headers: {
                     'ngrok-skip-browser-warning': '1234',
+                    Authorization: `Bearer undefined`
                 },
             })
             console.log(response)

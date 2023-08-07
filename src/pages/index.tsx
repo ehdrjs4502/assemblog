@@ -61,7 +61,7 @@ export async function getStaticProps() {
     })
 
     //인기 게시글 목록 가져오기 (최대 3개 가져옴)
-    const popularPostRes: any = await axios.get(`${API_URL}lists/posts?pageSize=3`, {
+    const popularPostRes: any = await axios.get(`${API_URL}lists/posts?order=view&pageSize=3`, {
         headers: {
             'ngrok-skip-browser-warning': '1234',
         },

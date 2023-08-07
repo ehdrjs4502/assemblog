@@ -22,7 +22,7 @@ type post = {
     viewCount: number
 }
 
-export default function searchList() {
+export default function SearchList() {
     const [page, setPage] = useState<number>(1)
     const [postList, setPostList] = useState<post[]>([])
     const [title, setTitle] = useState<string>('')
@@ -71,7 +71,7 @@ export default function searchList() {
             <PostListHeader />
             {postList.length === 0 ? (
                 <div className="no-search-box">
-                    <h4>'{title}'에 대한 검색 결과가 없습니다..</h4>
+                    <h4>&apos;{title}&apos;에 대한 검색 결과가 없습니다..</h4>
                 </div>
             ) : (
                 <>

@@ -2,7 +2,7 @@ import Navigation from '@/components/navigation/Navigation'
 import HeadTitle from '@/components/HeadTitle'
 import { useRouter } from 'next/router'
 import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import ContentView from '@/components/content/ContentView'
 import PaginationView from '@/components/posts/list/PaginationView'
 import PostListHeader from '@/components/posts/list/PostListHeader'
@@ -28,6 +28,7 @@ export default function Category() {
     const [title, setTitle] = useState<string>('')
     const [totalPage, setTotalPage] = useState<number>(10)
     const router = useRouter()
+    const contentRef = useRef(null)
     const categoryLabel = '게시판에 게시글들을 확인해보세요!'
 
     const getPostList = async () => {
@@ -67,10 +68,12 @@ export default function Category() {
     return (
         <>
             <HeadTitle title={title + ' 게시글 목록'} />
-            <Navigation contentRef={''} />
+            <Navigation contentRef={contentRef} />
             <PostListHeader />
+            <div ref={contentRef}>
             <ContentView postList={postList} contentTitle={title} contentLabel={categoryLabel} />
             <PaginationView totalPage={totalPage} page={page} setPage={setPage} router={router} />
+            </div>
         </>
     )
 }

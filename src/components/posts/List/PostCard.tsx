@@ -28,7 +28,7 @@ export default function PostCard({ post }: Props) {
     const formattedDate = `${date.getFullYear()}. ${
         // yyyy. MM. dd. hh:mm 으로 데이터 포맷하기
         date.getMonth() + 1
-    }. ${date.getDate()}. ${date.getHours()}:${date.getMinutes()}`
+    }. ${date.getDate()}`
 
     const onClickCategory = (category: string, board: string) => {
         // 해당 카테고리 포스트 보러가기
@@ -47,7 +47,8 @@ export default function PostCard({ post }: Props) {
         <Card
             sx={{
                 color: 'whitesmoke',
-                maxWidth: 330,
+                maxWidth: '100%',
+                minWidth: '300px',
                 height: 360,
                 borderRadius: 4,
                 backgroundColor: 'rgb(35,35,35)',
@@ -80,8 +81,8 @@ export default function PostCard({ post }: Props) {
                     <Typography variant="body2">{post.preview}</Typography>
                 </CardContent>
             </CardActionArea>
-            <Typography sx={{ marginLeft: 2, fontSize: 12 }} variant="body2">
-               {post.username} {formattedDate} 조회수 : {post.viewCount}
+            <Typography sx={{ marginRight: 2, fontSize: 12,textAlign:'right' }} variant="body2">
+               {post.username} · {formattedDate} · 조회수 : {post.viewCount}
             </Typography>
         </Card>
     )

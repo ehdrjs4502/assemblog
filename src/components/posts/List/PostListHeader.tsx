@@ -1,14 +1,17 @@
 import HeaderWave from '@/components/HeaderWave'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import { Fade } from 'react-awesome-reveal'
 
 export default function PostListHeader() {
+
     return (
         <>
             <div className="header-box">
                 <div className="box">
                     <div className="title-box">
                         <Fade cascade damping={0.05} triggerOnce>
-                            "프로그래머는 오류를 만든다. 그리고 그 오류를 찾는 것이 재미있다."
+                            &quot;프로그래머는 오류를 만든다. 그리고 그 오류를 찾는 것이 재미있다.&quot;
                         </Fade>
                     </div>
                     <div className="writer-box">

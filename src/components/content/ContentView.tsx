@@ -71,6 +71,7 @@ export default function ContentView({ postList, contentTitle, contentLabel }: Pr
                     .header {
                         margin-top: 20px;
                         margin-bottom: 40px;
+                        text-align: center;
                     }
 
                     .title {
@@ -83,8 +84,23 @@ export default function ContentView({ postList, contentTitle, contentLabel }: Pr
 
                     .card-box {
                         display: grid;
-                        grid-template-columns: repeat(3, 1fr);
-                        grid-gap: 20px;
+                        grid-template-columns: repeat(4, 1fr);
+                        grid-gap: 50px;
+                        place-items: center;
+                    }
+
+                    @media (min-width: 2300px) {
+                        .card-box {
+                            grid-template-columns: repeat(6,1fr);
+                            grid-gap: 30px;
+                        }
+                    }
+
+                    @media (max-width: 1600px) {
+                        .card-box {
+                            grid-template-columns: repeat(3, 1fr);
+                            grid-gap: 30px;
+                        }
                     }
 
                     @media (max-width: 1080px) {
