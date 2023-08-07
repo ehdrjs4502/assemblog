@@ -15,6 +15,8 @@ type post = {
     updatedAt: Date
     likeCount: number
     viewCount: number
+    profileImage: string
+
 }
 
 interface Props {
@@ -91,12 +93,12 @@ export default function ContentView({ postList, contentTitle, contentLabel }: Pr
 
                     @media (min-width: 2300px) {
                         .card-box {
-                            grid-template-columns: repeat(6,1fr);
+                            grid-template-columns: repeat(6, 1fr);
                             grid-gap: 30px;
                         }
                     }
 
-                    @media (max-width: 1600px) {
+                    @media (max-width: 1800px) {
                         .card-box {
                             grid-template-columns: repeat(3, 1fr);
                             grid-gap: 30px;

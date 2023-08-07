@@ -11,6 +11,7 @@ import { useRouter } from 'next/router'
 import CommentView from '@/components/comment/CommentView'
 import axios from 'axios'
 import PrevNextPostView from '@/components/posts/view/PrevNextPostView'
+import HeaderWave from '@/components/HeaderWave'
 
 interface Props {
     post: {
@@ -64,7 +65,6 @@ export default function Post({ post }: Props) {
                     viewCount: post.viewCount,
                 }}
             />
-
             {/* 게시글 내용 영역 */}
             <div className="box" ref={contentRef}>
                 <div className="content-box">

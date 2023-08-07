@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react'
 
 export default function GusetBookHeader() {
     const [windowWidth, setWindowWidth] = useState<number>(0)
+    const title = '블로그를 방문해주셔서 감사합니다.'
+    const label = '자유롭게 글을 남겨주세요.'
 
     useEffect(() => {
         const handleResize = () => {
@@ -25,7 +27,7 @@ export default function GusetBookHeader() {
     }
 
     const labelStyle: any = {
-        fontSize: windowWidth <= 950 ? '10px' : '18px',
+        fontSize: windowWidth <= 950 ? '18px' : '24px',
         fontWeight: 'bold',
         color: 'white',
     }
@@ -34,11 +36,11 @@ export default function GusetBookHeader() {
             <div className="header-box">
                 <div className="title-box">
                     <Fade cascade damping={0.05} style={titleStyle} triggerOnce>
-                        블로그를 방문해주셔서 감사합니다.
+                        {title}
                     </Fade>
                     <div style={{ marginTop: '40px' }}>
                         <Fade cascade damping={0.03} delay={1500} style={labelStyle} triggerOnce>
-                            블로그 방명록은 소중한 손님들과의 소통 창구입니다. 자유롭게 글을 남겨주세요.
+                            {label}
                         </Fade>
                     </div>
                 </div>

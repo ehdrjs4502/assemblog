@@ -20,6 +20,7 @@ type post = {
     updatedAt: Date
     likeCount: number
     viewCount: number
+    profileImage: string
 }
 
 export default function Category() {
@@ -71,8 +72,8 @@ export default function Category() {
             <Navigation contentRef={contentRef} />
             <PostListHeader />
             <div ref={contentRef}>
-            <ContentView postList={postList} contentTitle={title} contentLabel={categoryLabel} />
-            <PaginationView totalPage={totalPage} page={page} setPage={setPage} router={router} />
+                <ContentView postList={postList} contentTitle={title} contentLabel={categoryLabel} />
+                <PaginationView totalPage={totalPage} page={page} setPage={setPage} router={router} />
             </div>
         </>
     )

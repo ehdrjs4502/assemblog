@@ -19,14 +19,34 @@ type post = {
     updatedAt: Date
     likeCount: number
     viewCount: number
+    profileImage: string
+}
+
+type link = {
+    id: number
+    userId: number
+    linkDescription: string
+    linkImageURL: string
+    linkURL: string
+}
+
+type userIntro = {
+    username:string 
+    email: string
+    links: [link]
+    backgroundImageURL: string
+    introduction: string
+    profileImageURL: string
+    
 }
 
 interface Props {
     latestPostList: post[]
     popularPostList: post[]
+    userIntroList: userIntro[]
 }
 
-export default function Home({ latestPostList, popularPostList, userIntroList }: any) {
+export default function Home({ latestPostList, popularPostList, userIntroList }: Props) {
     const title = 'Main'
     const contentRef = useRef(null)
     const latestTitle = '최신 글'
@@ -34,6 +54,7 @@ export default function Home({ latestPostList, popularPostList, userIntroList }:
     const popularTitle = '인기 글'
     const popularLabel = '가장 인기 있는 게시글들을 확인해보세요!'
     console.log('latestPostList : ', latestPostList)
+    console.log(userIntroList)
 
     return (
         <div>

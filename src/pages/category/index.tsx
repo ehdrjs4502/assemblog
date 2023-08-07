@@ -15,12 +15,6 @@ export default function AllCategory({ postList, totalPage, currentPage }: any) {
     const [page, setPage] = useState(currentPage)
     const contentLabel = '전체 게시글을 확인해보세요!'
 
-    //페이지 이동하는 함수
-    const handleChange = (e: ChangeEvent<unknown>, value: number) => {
-        router.push({ pathname: router.pathname, query: { ...router.query, page: value } })
-        setPage(value)
-    }
-
     return (
         <div>
             <HeadTitle title={title} />

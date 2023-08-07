@@ -7,13 +7,28 @@ import ContentView from '@/components/content/ContentView'
 import PaginationView from '@/components/posts/list/PaginationView'
 import PostListHeader from '@/components/posts/list/PostListHeader'
 
+type post = {
+    postId: number
+    title: string
+    thumbnail: string
+    categoryTitle: string
+    boardTitle: string
+    preview: string
+    username: string
+    commentCount: number
+    createdAt: Date
+    updatedAt: Date
+    likeCount: number
+    viewCount: number
+    profileImage: string
+}
+
 export default function TagPostList() {
     const [page, setPage] = useState<number>(1)
-    const [postList, setPostList] = useState([])
+    const [postList, setPostList] = useState<post[]>([])
     const [title, setTitle] = useState('')
     const [totalPage, setTotalPage] = useState<number>(10)
     const router = useRouter()
-    const API_URL = process.env.API
     const tagLabel = '태그에 맞는 게시글을 확인해보세요!'
 
     const getPostList = async () => {

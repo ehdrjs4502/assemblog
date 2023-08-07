@@ -1,41 +1,17 @@
 import HeaderWave from '@/components/HeaderWave'
-import { Fade } from 'react-awesome-reveal'
+import FadingTextAnimation from '../FadingTextAnimation'
 
 export default function TagHeader() {
+    const title = '태그 저장소'
+    const label = '원하는 게시글을 태그로 확인해보세요!'
     return (
         <>
             <div className="header-box">
                 <div className="title-box">
-                    <Fade
-                        cascade
-                        damping={0.1}
-                        triggerOnce
-                        style={{
-                            fontSize: '38px',
-                            whiteSpace: 'pre-wrap',
-                            fontWeight: 'bold',
-                            color: 'white',
-                            textAlign: 'center',
-                        }}>
-                        태그 저장소
-                    </Fade>
-                    <br />
-                    <Fade
-                        triggerOnce
-                        cascade
-                        delay={1000}
-                        damping={0.05}
-                        direction={'down'}
-                        style={{
-                            fontSize: '18px',
-                            fontWeight: 'bold',
-                            color: 'white',
-                            textAlign: 'center',
-                            marginTop: '20px',
-                            marginRight: '10px',
-                        }}>
-                        태그로 게시물을 방문해보세요!
-                    </Fade>
+                    <FadingTextAnimation text={title} speed={80} delay={0} />
+                </div>
+                <div className="label-box">
+                    <FadingTextAnimation text={label} speed={50} delay={800} />
                 </div>
             </div>
             <HeaderWave />
@@ -48,11 +24,20 @@ export default function TagHeader() {
                     display: flex;
                     justify-content: center;
                     align-items: center;
+                    flex-direction: column;
                 }
 
                 .title-box {
-                    margin: 0;
-                    text-align: center;
+                    font-size: 52px;
+                    color: white;
+                    font-weight: bold;
+                    margin-bottom: 30px;
+                }
+
+                .label-box {
+                    font-size: 18px;
+                    color: white;
+                    font-weight: bold;
                 }
             `}</style>
         </>

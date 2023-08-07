@@ -20,6 +20,7 @@ type post = {
     updatedAt: Date
     likeCount: number
     viewCount: number
+    profileImage: string
 }
 
 export default function SearchList() {
