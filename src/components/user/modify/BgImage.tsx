@@ -6,7 +6,7 @@ import { ChangeEvent, useRef } from 'react'
 import { Cookies } from 'react-cookie'
 
 interface Props {
-    bgImgUrl: string
+    bgImgUrl: string | null
     setBgImgUrl: (bgImgUrl: string) => void
 }
 
@@ -54,7 +54,7 @@ export default function BgImage({ bgImgUrl, setBgImgUrl }: Props) {
             <input type="file" style={{ display: 'none' }} ref={inputRef} onChange={(e) => handleImageUpload(e)} />
             <button className="bgimg-btn" type="button" onClick={handleImageBtnClick}>
                 <Image
-                    src={bgImgUrl === '' ? '/img/defaultBgImg.png' : bgImgUrl}
+                    src={bgImgUrl === null ? '/img/defaultBgImg.png' : bgImgUrl}
                     width={160}
                     height={160}
                     alt="배경 이미지"

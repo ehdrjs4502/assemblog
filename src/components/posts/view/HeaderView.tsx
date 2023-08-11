@@ -87,7 +87,7 @@ export default function ViewTitle({ data }: Props) {
 
                 .category-box {
                     display: inline-block;
-                    background-color: tomato;
+                    background-color: #3994ff;
                     padding: 10px;
                     border-radius: 15px;
                     color: whitesmoke;
@@ -95,7 +95,7 @@ export default function ViewTitle({ data }: Props) {
 
                 .category-box:hover {
                     cursor: pointer;
-                    background-color: rgb(255, 38, 0);
+                    background-color: #0040FF;
                 }
 
                 .title-box {

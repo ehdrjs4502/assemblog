@@ -137,7 +137,7 @@ export default function Navigation({ contentRef }: any) {
         setIsDrawerOpen(false)
     }, [router.asPath])
 
-    const isScrollPastContentTop: boolean = scrollPosition + 300 >= contentTop // 스크롤이 콘텐츠 영역으로 왔는지 확인(boolean)
+    const isScrollPastContentTop: boolean = scrollPosition + 650 >= contentTop // 스크롤이 콘텐츠 영역으로 왔는지 확인(boolean)
 
     return (
         <>

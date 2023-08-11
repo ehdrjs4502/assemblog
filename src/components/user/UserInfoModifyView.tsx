@@ -15,7 +15,7 @@ interface Props {
 }
 
 export default function UserInfoModifyView({ value, index }: Props) {
-    const [profileImage, setProfileImage] = useState<string>('') // 프로필 이미지
+    const [profileImage, setProfileImage] = useState<string | null>(null) // 프로필 이미지
     const [name, setName] = useState<string>('') // 닉네임
     const [oldPw, setOldPw] = useState<string>('') // 기존 비밀번호
     const [newPw, setNewPw] = useState<string>('') // 기존 비밀번호

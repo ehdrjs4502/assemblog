@@ -14,9 +14,9 @@ interface Props {
 }
 
 export default function UserIntroModifyView({ value, index }: Props) {
-    const [introduction, setIntroduction] = useState<string>('') // 소개글
-    const [bgImgUrl, setBgImgUrl] = useState<string>('') // 배경 이미지
-    const [linkList, setLinkList] = useState() // 링크 목록
+    const [introduction, setIntroduction] = useState<string | null>(null) // 소개글
+    const [bgImgUrl, setBgImgUrl] = useState<string | null>(null) // 배경 이미지
+    const [linkList, setLinkList] = useState<null>(null) // 링크 목록
 
     const cookie = new Cookies()
     const router = useRouter()

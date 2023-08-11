@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
 export default function FadingTextAnimation({ text, speed, delay }: any) {
-    text = '  ' + text
+    text = '    ' + text
     const [activeIndex, setActiveIndex] = useState(0)
     const router = useRouter()
 
@@ -11,12 +11,14 @@ export default function FadingTextAnimation({ text, speed, delay }: any) {
     }, [router.asPath])
 
     useEffect(() => {
-        if (activeIndex < text.length) {
-            const timeout = setTimeout(() => {
-                setActiveIndex(activeIndex + 1)
-            }, speed) // 한 글자씩 fade 되는 시간 간격 (밀리초)
+        if (typeof window !== 'undefined') { // 클라이언트에서만 실행되도록 처리
+            if (activeIndex < text.length) {
+                const timeout = setTimeout(() => {
+                    setActiveIndex(activeIndex + 1)
+                }, speed) // 한 글자씩 fade 되는 시간 간격 (밀리초)
 
-            return () => clearTimeout(timeout)
+                return () => clearTimeout(timeout)
+            }
         }
     }, [activeIndex, text.length])
 
@@ -31,6 +33,7 @@ export default function FadingTextAnimation({ text, speed, delay }: any) {
                 .fading-text {
                     display: inline-block;
                 }
+                
                 .fade-in {
                     opacity: 0;
                     transition: opacity 0.5s ease-in-out;

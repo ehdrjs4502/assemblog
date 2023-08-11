@@ -93,7 +93,7 @@ export default function ContentView({ postList, contentTitle, contentLabel }: Pr
 
                     @media (min-width: 2300px) {
                         .card-box {
-                            grid-template-columns: repeat(6, 1fr);
+                            grid-template-columns: repeat(5, 1fr);
                             grid-gap: 30px;
                         }
                     }

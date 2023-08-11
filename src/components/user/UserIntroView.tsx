@@ -59,13 +59,13 @@ export default function UserIntroView({ userIntroList }: any) {
                     }
 
                     .box0 {
-                        border-right: 1px solid black;
+                        border-right: 1px solid rgb(255, 255, 255);
                     }
 
                     .info-box {
                         display: flex;
                         flex-direction: column;
-                        align-items: center;
+                        align-items: center;    
                     }
 
                     @media (max-width: 950px) {

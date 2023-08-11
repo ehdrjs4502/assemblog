@@ -10,18 +10,16 @@ export default function Introduction({ introduction, idx }: Props) {
     return (
         <>
             <div className="introduction-box">
-                <span>
-                    <Typewriter words={[introduction]} typeSpeed={60} />
-                </span>
+                <Typewriter words={[introduction]} typeSpeed={60} />
             </div>
             <style jsx>{`
                 .introduction-box {
-                    width: 450px;
                     max-height: 150px;
                     height: 100%;
                     word-break: break-all;
                     margin-top: 40px;
                     font-size: 20px;
+                    text-align: justify;
                 }
 
                 @media (max-width: 950px) {

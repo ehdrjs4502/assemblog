@@ -1,7 +1,7 @@
 import { TextField } from '@mui/material'
 
 interface Props {
-    introduction: string
+    introduction: string | null
     setIntroduction: (introduction: string) => void
 }
 

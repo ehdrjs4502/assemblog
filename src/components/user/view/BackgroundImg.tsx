@@ -23,7 +23,7 @@ export default function BackgroundImg({ bgImgURL }: Props) {
                     background-repeat: no-repeat;
                     background-size: cover;
                     background-position: center;
-                    filter: brightness(15%);
+                    filter: brightness(30%);
                     background-color: rgb(255, 255, 255);
                     z-index: -1; /* 가상 요소를 내용 뒤에 배치하도록 z-index를 설정합니다 */
                 }

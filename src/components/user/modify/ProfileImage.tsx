@@ -5,7 +5,7 @@ import { ChangeEvent, useRef } from 'react'
 import { Cookies } from 'react-cookie'
 
 interface Props {
-    profileImage: string
+    profileImage: string | null
     setProfileImage: (profileImage: string) => void
 }
 
@@ -54,7 +54,7 @@ export default function ProfileImage({ profileImage, setProfileImage }: Props) {
             <Tooltip title="프로필 이미지 변경" disableInteractive placement="top" arrow>
                 <Avatar
                     alt="Profile Image"
-                    src={profileImage}
+                    src={profileImage !== null ? profileImage : ''}
                     onClick={handleImageBtnClick}
                     sx={{
                         width: 100,

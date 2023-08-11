@@ -58,6 +58,7 @@ export default function Footer() {
                     display: flex;
                     padding-top: 30px;
                     padding-bottom: 30px;
+                    margin-top: 100px;
                 }
 
                 .title {
@@ -100,6 +101,10 @@ export default function Footer() {
 
                     .skill-box {
                         margin-top: 50px;
+                    }
+
+                    .title {
+                        margin-right: 0px;
                     }
                 }
             `}</style>

@@ -47,83 +47,87 @@ export default function PostCard({ post }: Props) {
         })
     }
 
-    return (
-        <Card
-            sx={{
-                color: 'whitesmoke',
-                maxWidth: '100%',
-                minWidth: '350px',
-                height: '100%',
-                borderRadius: 4,
-                backgroundColor: 'rgb(35,35,35)',
-                boxShadow: 10,
-                transition: 'transform 0.3s ease',
-                ':hover': { boxShadow: 20, backgroundColor: 'rgba(35,35,35, 0.9)', transform: 'translateY(-5px)' },
+    const cardStyle = {
+        color: 'whitesmoke',
+        maxWidth: '100%',
+        minWidth: '350px',
+        height: '100%',
+        borderRadius: 4,
+        backgroundColor: 'rgb(35,35,35)',
+        boxShadow: 10,
+        transition: 'transform 0.3s ease',
+        ':hover': { boxShadow: 20, backgroundColor: 'rgba(35,35,35, 0.9)', transform: 'translateY(-5px)' },
+        '@media (max-width: 1200px)': {
+            minWidth: '300px', // minWidth를 추가적으로 지정하거나 원하는 스타일 작성
+        },
+    }
 
-                // 미디어 쿼리에 해당하는 스타일 작성
-                '@media (max-width: 1200px)': {
-                    minWidth: '300px',
-                },
-            }}>
-            <CardActionArea onClick={() => onClickPost(post.postId)}>
-                <CardMedia component="img" height="160" image={post.thumbnail} alt="썸네일 이미지" />
-            </CardActionArea>
-            <CardActions sx={{ marginTop: 1 }}>
-                <Button
-                    sx={{
-                        backgroundColor: 'tomato',
-                        color: 'whitesmoke',
-                        textTransform: 'none',
-                        ':hover': { backgroundColor: 'red' },
-                    }}
-                    size="small"
-                    color="primary"
-                    onClick={() => onClickCategory(post.categoryTitle, post.boardTitle)}>
-                    {post.categoryTitle} / {post.boardTitle}
-                </Button>
-            </CardActions>
-            <CardActionArea onClick={() => onClickPost(post.postId)}>
-                <CardContent
-                    sx={{
-                        height: 90,
-                        // 미디어 쿼리에 해당하는 스타일 작성
-                        '@media (max-width: 1200px)': {
-                            height: 60,
-                        },
-                    }}>
-                    <Typography gutterBottom variant="h5" component="div">
-                        {post.title}
-                    </Typography>
-                    <Typography variant="body2">{post.preview}</Typography>
-                </CardContent>
-            </CardActionArea>
-            <div style={{ display: 'flex', width: '100%', justifyContent:'space-between', marginBottom:'15px'}}>
-                <CardHeader
-                    avatar={
-                        <Avatar
-                            alt={post.username}
-                            src={post.profileImage}
-                            sx={{ width: 38, height: 38, marginRight: '-5px' }}
-                        />
-                    }
-                    title={post.username}
-                    titleTypographyProps={{
-                        fontSize: 16,
-                        // 미디어 쿼리에 해당하는 스타일 작성
-                        '@media (max-width: 1200px)': {
-                            fontSize: 14,
-                        },
-                    }}
-                    subheader={<div style={{ color: 'white', fontSize: '12px' }}>{formattedDate}</div>}
-                />
-                <div style={{display:'flex', alignItems:'flex-end'}}>
-                    <Typography
-                        sx={{ marginRight: 2, fontSize: 12, textAlign: 'right', marginBottom:2 }}
-                        variant="body2">
-                        조회수 {post.viewCount} · 댓글 {post.commentCount}
-                    </Typography>
+    return (
+        <>
+            <Card sx={cardStyle}>
+                <CardActionArea onClick={() => onClickPost(post.postId)}>
+                    <CardMedia component="img" height="160" image={post.thumbnail} alt="썸네일 이미지" />
+                </CardActionArea>
+                <CardActions sx={{ marginTop: 1 }}>
+                    <Button
+                        sx={{
+                            backgroundColor: '#3994ff',
+                            color: 'whitesmoke',
+                            textTransform: 'none',
+                            ':hover': { backgroundColor: '#0040FF' },
+                        }}
+                        size="small"
+                        color="primary"
+                        onClick={() => onClickCategory(post.categoryTitle, post.boardTitle)}>
+                        {post.categoryTitle} / {post.boardTitle}
+                    </Button>
+                </CardActions>
+                <CardActionArea onClick={() => onClickPost(post.postId)}>
+                    <CardContent
+                        sx={{
+                            height: 90,
+                            // 미디어 쿼리에 해당하는 스타일 작성
+                            '@media (max-width: 1200px)': {
+                                height: 60,
+                            },
+                        }}>
+                        <Typography gutterBottom variant="h5" component="div">
+                            {post.title}
+                        </Typography>
+                        <Typography variant="body2">{post.preview}</Typography>
+                    </CardContent>
+                </CardActionArea>
+                <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between', marginBottom: '15px' }}>
+                    <CardHeader
+                        avatar={
+                            <Avatar
+                                alt={post.username}
+                                src={post.profileImage}
+                                sx={{ width: 38, height: 38, marginRight: '-5px' }}
+                            />
+                        }
+                        title={post.username}
+                        titleTypographyProps={{
+                            sx: {
+                                fontSize: {
+                                    xs: 14, // 화면이 작은 경우에 14px
+                                    md: 16, // 화면이 중간 정도 크기인 경우에 16px
+                                },
+                            },
+                        }}
+                        subheader={<div style={{ color: 'white', fontSize: '12px' }}>{formattedDate}</div>}
+                    />
+                    <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+                        <Typography
+                            sx={{ marginRight: 2, fontSize: 12, textAlign: 'right', marginBottom: 2 }}
+                            variant="body2">
+                            조회수 {post.viewCount} · 댓글 {post.commentCount}
+                        </Typography>
+                    </div>
                 </div>
-            </div>
-        </Card>
+            </Card>
+
+            <style jsx>{``}</style>
+        </>
     )
 }
