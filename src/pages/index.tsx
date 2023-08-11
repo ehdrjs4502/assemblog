@@ -163,6 +163,6 @@ export async function getStaticProps() {
 
     return {
         props: { latestPostList, popularPostList, userIntroList },
-        revalidate: 30,
+        revalidate: 10,
     }
 }

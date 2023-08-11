@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { IconButton, Box, Modal, TextField, Button, Typography, Tooltip } from '@mui/material'
 import RateReviewIcon from '@mui/icons-material/RateReview'
 import axios from 'axios'
@@ -45,17 +45,17 @@ const style = {
     boxShadow: 10,
     p: 4,
     borderRadius: 2,
-    '@media (max-width:950px)' : {
-        width:'70%',
-
-    }
+    '@media (max-width:950px)': {
+        width: '70%',
+    },
 }
 
 export default function EditReplyModal({ postId, parentId, setCommentList, isPostComment, isWriter }: Props) {
     const cookie = new Cookies()
     const [open, setOpen] = useState<boolean>(false)
-    const [nickname, setNickname] = useState<string>(isWriter ? cookie.get('email') : '')
+    const [nickname, setNickname] = useState<string>('')
     const [password, setPassword] = useState<string>('')
+    const [isDisabled, setIsDisabled] = useState<boolean>(true)
     const [content, setContent] = useState<string>('')
     const handleOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)
@@ -63,6 +63,18 @@ export default function EditReplyModal({ postId, parentId, setCommentList, isPos
     const nicknameRef = useRef<HTMLInputElement>(null)
     const passwordRef = useRef<HTMLInputElement>(null)
     const contentRef = useRef<HTMLInputElement>(null)
+
+    // 게시글 작성자이거나 방명록 페이지에 로그인한 사람인지
+    const isAdminOrWriter = !((!isWriter || !isPostComment) && !cookie.get('email'))
+
+    useEffect(() => {
+        if (isAdminOrWriter) {
+            setNickname(cookie.get('email'))
+        }
+
+        // 게시글 작성자거나 방명록페이지에 로그인한 사람이면 email 변경 못하게 boolean값 저장
+        setIsDisabled(typeof window !== 'undefined' && isAdminOrWriter ? true : false)
+    }, [])
 
     const onClickReplyBtn = async () => {
         let isSuccess = false
@@ -72,10 +84,12 @@ export default function EditReplyModal({ postId, parentId, setCommentList, isPos
             return alert('닉네임을 입력해주세요')
         }
 
-        if (!isWriter) {
+        // 게시글 작성자가 아니거나 방명록 페이지이면서 로그인 안 한 유저이면
+        if (!isAdminOrWriter) {
             if (!password) {
                 passwordRef.current?.focus()
-                return alert('비밀번호를 입력해주세요')
+                alert('비밀번호를 입력해주세요')
+                return
             }
         }
 
@@ -117,13 +131,13 @@ export default function EditReplyModal({ postId, parentId, setCommentList, isPos
                 const comments = await getGuestBook()
                 setCommentList!(comments)
             }
-            
-            if (!isWriter) {
+
+            if (!isAdminOrWriter) {
                 setNickname('')
             }
             setPassword('')
             setContent('')
-            
+
             handleClose()
 
             isSuccess = true
@@ -150,7 +164,7 @@ export default function EditReplyModal({ postId, parentId, setCommentList, isPos
                 aria-describedby="modal-modal-description">
                 <Box sx={style} component="form">
                     <Typography>답글 달기</Typography>
-                    <div className='info-box'>
+                    <div className="info-box">
                         <TextField
                             placeholder="닉네임"
                             variant="standard"
@@ -158,6 +172,9 @@ export default function EditReplyModal({ postId, parentId, setCommentList, isPos
                             onChange={(e) => setNickname(e.target.value)}
                             sx={{ flexGrow: 1, marginRight: 1 }}
                             inputRef={nicknameRef}
+                            InputProps={{
+                                disabled: isDisabled,
+                            }}
                         />
                         <TextField
                             autoComplete="off"
@@ -205,7 +222,7 @@ export default function EditReplyModal({ postId, parentId, setCommentList, isPos
 
             <style jsx>
                 {`
-                    .info-box {                        
+                    .info-box {
                         display: flex;
                         margin-top: 20px;
                     }

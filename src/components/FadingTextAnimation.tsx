@@ -11,7 +11,8 @@ export default function FadingTextAnimation({ text, speed, delay }: any) {
     }, [router.asPath])
 
     useEffect(() => {
-        if (typeof window !== 'undefined') { // 클라이언트에서만 실행되도록 처리
+        // 클라이언트에서만 실행되도록 처리
+        if (typeof window !== 'undefined') {
             if (activeIndex < text.length) {
                 const timeout = setTimeout(() => {
                     setActiveIndex(activeIndex + 1)
@@ -33,7 +34,7 @@ export default function FadingTextAnimation({ text, speed, delay }: any) {
                 .fading-text {
                     display: inline-block;
                 }
-                
+
                 .fade-in {
                     opacity: 0;
                     transition: opacity 0.5s ease-in-out;

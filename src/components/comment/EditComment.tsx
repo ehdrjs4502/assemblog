@@ -1,7 +1,7 @@
 import { RateReview } from '@mui/icons-material'
 import { Box, TextField, Button } from '@mui/material'
 import axios from 'axios'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { getComment } from '@/function/getComment'
 import { Cookies } from 'react-cookie'
 import { getGuestBook } from '@/function/getGuestBook'
@@ -35,12 +35,25 @@ interface Props {
 
 export default function EditComment({ postId, setCommentList, isWriter, isPostComment }: Props) {
     const cookie = new Cookies()
-    const [nickname, setNickname] = useState(isWriter ? cookie.get('email') : '')
+    const [nickname, setNickname] = useState('')
     const [password, setPassword] = useState('')
     const [content, setContent] = useState('')
+    const [isDisabled, setIsDisabled] = useState<boolean>(true)
     const nicknameRef = useRef<HTMLInputElement>(null)
     const passwordRef = useRef<HTMLInputElement>(null)
     const contentRef = useRef<HTMLInputElement>(null)
+
+    // 게시글 작성자이거나 방명록 페이지에 로그인한 사람인지
+    const isAdminOrWriter = !((!isWriter || !isPostComment) && !cookie.get('email'))
+
+    useEffect(() => {
+        if (isAdminOrWriter) {
+            setNickname(cookie.get('email'))
+        }
+
+        // 게시글 작성자거나 방명록페이지에 로그인한 사람이면 email 변경 못하게 boolean값 저장
+        setIsDisabled(typeof window !== 'undefined' && isAdminOrWriter ? true : false)
+    }, [])
 
     //**수정사항 :  로그인 돼있으면 headers에 액세스 토큰도 같이 보내서 작성자가 댓글 작성한지 백엔드에게 보내줌**!!
     const onClickEditBtn = async () => {
@@ -51,10 +64,12 @@ export default function EditComment({ postId, setCommentList, isWriter, isPostCo
             return alert('닉네임을 입력해주세요')
         }
 
-        if (!isWriter) {
+        // 게시글 작성자가 아니거나 방명록 페이지이면서 로그인 안 한 유저이면
+        if (!isAdminOrWriter) {
             if (!password) {
                 passwordRef.current?.focus()
-                return alert('비밀번호를 입력해주세요')
+                alert('비밀번호를 입력해주세요')
+                return
             }
         }
 
@@ -94,7 +109,7 @@ export default function EditComment({ postId, setCommentList, isWriter, isPostCo
                 setCommentList!(comments)
             }
 
-            if (!isWriter) {
+            if (!isAdminOrWriter) {
                 setNickname('')
             }
 
@@ -138,7 +153,7 @@ export default function EditComment({ postId, setCommentList, isWriter, isPostCo
                                 borderRadius: '10px',
                                 color: 'white',
                             },
-                            readOnly: isWriter ? true : false,
+                            disabled: isDisabled,
                         }}
                     />
                     <TextField

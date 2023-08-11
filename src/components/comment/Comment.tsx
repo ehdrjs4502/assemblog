@@ -4,6 +4,7 @@ import DelCommentModal from './modals/DelCommentModal'
 import EditReplyModal from './modals/EditReplyModal'
 import DelBtn from './buttons/DelBtn'
 import LikeBtn from './buttons/LikeBtn'
+import { Cookies } from 'react-cookie'
 
 type comment = {
     id: number
@@ -25,6 +26,7 @@ interface Props {
 }
 
 export default function Comment({ comment, postId, setCommentList, isWriter, isPostComment }: Props) {
+    const cookie = new Cookies()
     const boxStyle = {
         backgroundColor: 'lightpink',
         width: 'fit-content',
@@ -32,12 +34,11 @@ export default function Comment({ comment, postId, setCommentList, isWriter, isP
         marginTop: '30px',
         padding: '20px 20px 5px 20px',
         borderRadius: 4,
-        minWidth: '250px',
         maxWidth: '380px',
         paddingBottom: '15px',
         '@media (max-width:950px)': {
             minWidth: '150px',
-            maxWidth: '250px',
+            maxWidth: '280px',
         },
     }
 
@@ -48,12 +49,11 @@ export default function Comment({ comment, postId, setCommentList, isWriter, isP
         marginTop: '30px',
         padding: '20px 20px 5px 20px',
         borderRadius: 4,
-        minWidth: '250px',
         maxWidth: '380px',
         paddingBottom: '15px',
         '@media (max-width:950px)': {
             minWidth: '150px',
-            maxWidth: '250px',
+            maxWidth: '280px',
         },
     }
 
@@ -70,26 +70,66 @@ export default function Comment({ comment, postId, setCommentList, isWriter, isP
                             color: 'white',
                         }}
                     />
-                    <p style={{ wordBreak: 'break-word' }}>
+                    <p style={{ wordBreak: 'break-word', fontSize: '16px', }}>
                         {comment.deleted ? '삭제된 댓글입니다.' : `${comment.content}`}
                     </p>
                     <span className="date">{comment.createdAt}</span>
-                    {!comment.writer && !isWriter ? (
-                        // 일반 유저일때 댓글 삭제
+
+                    {isPostComment ? (
+                        !comment.writer && !isWriter ? (
+                            // 일반 유저일때 댓글 삭제
+                            <DelCommentModal
+                                id={comment.id}
+                                postId={postId}
+                                setCommentList={setCommentList}
+                                isPostComment={isPostComment}
+                            />
+                        ) : isWriter && !comment.writer ? (
+                            // 글 작성자이면서 일반 유저 댓글 삭제
+                            <DelBtn
+                                postId={postId}
+                                commentId={comment.id}
+                                setCommentList={setCommentList}
+                                isPostComment={isPostComment}
+                            />
+                        ) : (
+                            isWriter &&
+                            comment.writer && (
+                                // 글 작성자이면서 자신의 댓글 삭제
+                                <DelBtn
+                                    postId={postId}
+                                    commentId={comment.id}
+                                    setCommentList={setCommentList}
+                                    isPostComment={isPostComment}
+                                />
+                            )
+                        )
+                    ) : !comment.writer && !cookie.get('email') ? (
+                        // 일반 유저일때 방명록 삭제
                         <DelCommentModal
                             id={comment.id}
                             postId={postId}
                             setCommentList={setCommentList}
                             isPostComment={isPostComment}
                         />
-                    ) : isWriter && !comment.writer ? (
-                        // 글 작성자이면서 일반 유저 댓글 삭제
-                        <DelBtn postId={postId} commentId={comment.id} setCommentList={setCommentList} />
+                    ) : !comment.writer && cookie.get('email') ? (
+                        // 관리자면서 일반 유저 방명록 삭제
+                        <DelBtn
+                            postId={postId}
+                            commentId={comment.id}
+                            setCommentList={setCommentList}
+                            isPostComment={isPostComment}
+                        />
                     ) : (
-                        isWriter &&
-                        comment.writer && (
-                            // 글 작성자이면서 자신의 댓글 삭제
-                            <DelBtn postId={postId} commentId={comment.id} setCommentList={setCommentList} />
+                        comment.writer &&
+                        cookie.get('email') && (
+                            // 관리자면서 관리자 방명록 삭제
+                            <DelBtn
+                                postId={postId}
+                                commentId={comment.id}
+                                setCommentList={setCommentList}
+                                isPostComment={isPostComment}
+                            />
                         )
                     )}
 

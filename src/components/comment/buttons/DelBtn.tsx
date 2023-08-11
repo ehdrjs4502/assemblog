@@ -4,6 +4,7 @@ import axios from 'axios'
 import { Cookies } from 'react-cookie'
 import { getComment } from '@/function/getComment'
 import reissueAccToken from '@/function/reissueAccToken'
+import { getGuestBook } from '@/function/getGuestBook'
 
 type comment = {
     id: number
@@ -16,28 +17,37 @@ type comment = {
     writer: boolean
 }
 
-
 interface Props {
     postId?: number
     commentId: number
     setCommentList: (comment: comment[]) => void
+    isPostComment: boolean
 }
 
-export default function DelBtn({ postId, commentId, setCommentList }: Props) {
+export default function DelBtn({ postId, commentId, setCommentList, isPostComment }: Props) {
     const cookie = new Cookies()
     //글 작성자가 댓글 삭제할 때
     const onClickDelBtn = async (commentId: number) => {
+        const endpoint = isPostComment ? 'comments' : 'guestbooks' // 엔드 포인트 설정
         let isSuccess = false
         try {
-            const response = await axios.delete(`/server/comments?id=${commentId}&password=0`, {
+            const response = await axios.delete(`/server/${endpoint}?id=${commentId}&password=0`, {
                 headers: {
                     Authorization: `Bearer ${cookie.get('accessToken')}`,
                 },
             })
 
             console.log(response)
-            const comments = await getComment(postId!)
-            setCommentList(comments)
+
+            //성공하면
+            if (isPostComment) {
+                const comments = await getComment(postId as number)
+                setCommentList!(comments)
+            } else {
+                const comments = await getGuestBook()
+                setCommentList!(comments)
+            }
+
             isSuccess = true
         } catch (error: any) {
             console.log(error)

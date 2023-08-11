@@ -6,7 +6,8 @@ import { useRouter } from 'next/router'
 export default function PostListHeader() {
     const router = useRouter()
     const [num, setNum] = useState<number>(0)
-    
+    const [showHeaderBox, setShowHeaderBox] = useState(false)
+
     const famouseSaying = [
         `"프로그래머는 오류를 만든다. 그리고 그 오류를 찾는 것이 재미있다."`,
         `"코드가 완벽할 때가 아니라 더 수정할 때 프로젝트가 끝난다." `,
@@ -15,8 +16,9 @@ export default function PostListHeader() {
         `"코드를 짜기 위해 천재일 필요는 없다! 그냥 시작하라."`,
     ]
 
-    const wrtier = ['- 그레이스 호퍼','- 레이 호튼','- 마틴 파울러','- 헨리 포드','- 바네사 허스트']
+    const wrtier = ['- 그레이스 호퍼', '- 레이 호튼', '- 마틴 파울러', '- 헨리 포드', '- 바네사 허스트']
 
+    // 랜덤으로 인덱스 번호 뽑기
     const getRandomIndex = (length: number) => {
         setNum(Math.floor(Math.random() * length))
     }
@@ -25,23 +27,30 @@ export default function PostListHeader() {
         getRandomIndex(famouseSaying.length)
     }, [])
 
+    // 명언이 바뀌고 난 후에 애니메이션 실행돼서 딜레이를 줌
     useEffect(() => {
-        getRandomIndex(famouseSaying.length)
+        setShowHeaderBox(false)
+        const timer = setTimeout(() => {
+            setShowHeaderBox(true)
+            getRandomIndex(famouseSaying.length)
+        }, 1)
+
+        return () => clearTimeout(timer)
     }, [router.asPath])
-    
-    console.log(num)
 
     return (
         <>
             <div className="header-box">
-                <div className="box">
-                    <div className="title-box">
-                        <FadingTextAnimation text={famouseSaying[num]} speed={40} delay={0} />
+                {showHeaderBox && (
+                    <div className="box">
+                        <div className="title-box">
+                            <FadingTextAnimation text={famouseSaying[num]} speed={40} delay={0} />
+                        </div>
+                        <div className="writer-box">
+                            <FadingTextAnimation text={wrtier[num]} speed={100} delay={1500} />
+                        </div>
                     </div>
-                    <div className="writer-box">
-                        <FadingTextAnimation text={wrtier[num]} speed={100} delay={1500} />
-                    </div>
-                </div>
+                )}
             </div>
             <HeaderWave />
 

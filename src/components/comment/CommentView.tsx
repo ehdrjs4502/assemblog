@@ -25,25 +25,23 @@ export default function CommentView({ postId, isWriter, isPostComment }: Props) 
     const [commentList, setCommentList] = useState<comment[]>([]) // 댓글 목록
 
     useEffect(() => {
-            console.log('isPostComment : ', isPostComment)
-
-            if (isPostComment) {
-                // 댓글 가져오기
-                const fetchComments = async () => {
-                    const comments = await getComment(postId!)
-                    setCommentList(comments)
-                }
-
-                fetchComments()
-            } else {
-                // 방명록 가져오기
-                const fetchComments = async () => {
-                    const comments = await getGuestBook()
-                    setCommentList(comments)
-                }
-
-                fetchComments()
+        if (isPostComment) {
+            // 댓글 가져오기
+            const fetchComments = async () => {
+                const comments = await getComment(postId!)
+                setCommentList(comments)
             }
+
+            fetchComments()
+        } else {
+            // 방명록 가져오기
+            const fetchComments = async () => {
+                const comments = await getGuestBook()
+                setCommentList(comments)
+            }
+
+            fetchComments()
+        }
 
         // const testCommentList: comment[] = [
         //     {
