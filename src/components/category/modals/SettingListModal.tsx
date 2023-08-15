@@ -43,7 +43,7 @@ export default function SettingCateogryListModal({ list, setCategoryList, isCate
                     sx={{
                         color: 'gray',
                         '&:hover': {
-                            color: 'tomato',
+                            color: 'blue',
                         },
                     }}>
                     <Settings />

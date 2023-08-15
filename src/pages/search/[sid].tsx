@@ -6,6 +6,7 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import ContentView from '@/components/content/ContentView'
 import PaginationView from '@/components/posts/list/PaginationView'
+import OrderSelect from '@/components/posts/OrderSelect'
 
 type post = {
     postId: number
@@ -24,25 +25,30 @@ type post = {
 }
 
 export default function SearchList() {
-    const [page, setPage] = useState<number>(1)
-    const [postList, setPostList] = useState<post[]>([])
-    const [title, setTitle] = useState<string>('')
-    const [totalPage, setTotalPage] = useState<number>(10)
+    const [page, setPage] = useState<number>(1) // 페이지
+    const [postList, setPostList] = useState<post[]>([]) // 게시글 목록
+    const [title, setTitle] = useState<string>('') // 게시판 제목
+    const [totalPage, setTotalPage] = useState<number>(10) // 전체 페이지
+    const [order, setOrder] = useState('created_at') // 정렬 순서
+
     const router = useRouter()
     const searchLabel = '검색 결과에 맞는 게시글을 확인해보세요!'
 
-    const getPostList = async () => {
+    const getPostList = async (order: string) => {
         //검색 결과에 해당하는 게시글 페이징에 맞게 불러오기
         const title = router.query.sid
         let page = 1
         if (router.query.page !== undefined) {
             page = parseInt(router.query.page! as string)
         }
-        const response = await axios.get(`/server/lists/posts?searchWord=${title}&currentPage=${page}&pageSize=6`, {
-            headers: {
-                'ngrok-skip-browser-warning': '123456',
-            },
-        })
+        const response = await axios.get(
+            `/server/lists/posts?searchWord=${title}&currentPage=${page}&pageSize=6&order=${order}`,
+            {
+                headers: {
+                    'ngrok-skip-browser-warning': '123456',
+                },
+            }
+        )
         console.log(response)
         setPostList(response.data.postList)
         setTotalPage(response.data.totalPage)
@@ -59,7 +65,7 @@ export default function SearchList() {
     useEffect(() => {
         if (!router.isReady) return
         setTitle(router.query.sid as string)
-        getPostList()
+        getPostList(order)
         if (router.query.page === undefined) {
             setPage(1)
         }
@@ -76,6 +82,7 @@ export default function SearchList() {
                 </div>
             ) : (
                 <>
+                    <OrderSelect order={order} setOrder={setOrder} router={router} />
                     <ContentView postList={postList} contentTitle={title} contentLabel={searchLabel} />
                     <PaginationView totalPage={totalPage} page={page} setPage={setPage} router={router} />
                 </>

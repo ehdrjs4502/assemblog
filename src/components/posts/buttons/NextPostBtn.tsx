@@ -67,11 +67,15 @@ export default function NextPostBtn({ nextPost }: any) {
 
                 .label {
                     font-size: 12px;
+                    margin-bottom: 5px;
                 }
 
                 .title {
                     font-size: 18px;
                     font-weight: bold;
+                    display: inline-block;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
                 }
 
                 @media (max-width: 950px) {
@@ -84,7 +88,12 @@ export default function NextPostBtn({ nextPost }: any) {
                     }
 
                     .title {
-                        font-size: 12px;
+                        font-size: 10px;
+                        display: inline-block;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        width: 75px;
                     }
                 }
             `}</style>

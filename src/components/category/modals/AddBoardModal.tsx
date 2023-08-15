@@ -80,7 +80,7 @@ export default function AddBoardModal({ categoyID, categoryTitle, setCategoryLis
                 sx={{
                     color: 'gray',
                     '&:hover': {
-                        color: 'tomato',
+                        color: 'blue',
                     },
                 }}>
                 <Add />

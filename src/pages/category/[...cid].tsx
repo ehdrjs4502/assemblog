@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react'
 import ContentView from '@/components/content/ContentView'
 import PaginationView from '@/components/posts/list/PaginationView'
 import PostListHeader from '@/components/posts/list/PostListHeader'
+import OrderSelect from '@/components/posts/OrderSelect'
 
 type post = {
     postId: number
@@ -24,26 +25,31 @@ type post = {
 }
 
 export default function Category() {
-    const [page, setPage] = useState<number>(1)
-    const [postList, setPostList] = useState<post[]>([])
-    const [title, setTitle] = useState<string>('')
-    const [totalPage, setTotalPage] = useState<number>(10)
+    const [page, setPage] = useState<number>(1) // 페이지
+    const [postList, setPostList] = useState<post[]>([]) // 게시글 목록
+    const [title, setTitle] = useState<string>('') // 게시판 제목
+    const [totalPage, setTotalPage] = useState<number>(10) // 전체 페이지
+    const [order, setOrder] = useState('created_at') // 정렬 순서
+
     const router = useRouter()
     const contentRef = useRef(null)
     const categoryLabel = '게시판에 게시글들을 확인해보세요!'
 
-    const getPostList = async () => {
+    const getPostList = async (order: string) => {
         //게시판에 해당하는 게시글 페이징에 맞게 불러오기
         const title = router.query.cid![1]
         let page = 1
         if (router.query.page !== undefined) {
             page = parseInt(router.query.page! as string)
         }
-        const response = await axios.get(`/server/lists/posts?boardTitle=${title}&currentPage=${page}&pageSize=6`, {
-            headers: {
-                'ngrok-skip-browser-warning': '123456',
-            },
-        })
+        const response = await axios.get(
+            `/server/lists/posts?boardTitle=${title}&currentPage=${page}&pageSize=6&order=${order}`,
+            {
+                headers: {
+                    'ngrok-skip-browser-warning': '123456',
+                },
+            }
+        )
         console.log(response.data)
         setPostList(response.data.postList)
         setTotalPage(response.data.totalPage)
@@ -60,11 +66,11 @@ export default function Category() {
     useEffect(() => {
         if (!router.isReady) return
         setTitle(router.query.cid![1])
-        getPostList()
+        getPostList(order)
         if (router.query.page === undefined) {
             setPage(1)
         }
-    }, [router.isReady, router])
+    }, [router.isReady, router, order])
 
     return (
         <>
@@ -72,6 +78,7 @@ export default function Category() {
             <Navigation contentRef={contentRef} />
             <PostListHeader />
             <div ref={contentRef}>
+                <OrderSelect order={order} setOrder={setOrder} router={router} />
                 <ContentView postList={postList} contentTitle={title} contentLabel={categoryLabel} />
                 <PaginationView totalPage={totalPage} page={page} setPage={setPage} router={router} />
             </div>

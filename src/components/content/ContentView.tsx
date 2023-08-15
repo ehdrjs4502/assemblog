@@ -64,7 +64,6 @@ export default function ContentView({ postList, contentTitle, contentLabel }: Pr
                     }
 
                     .box {
-                        margin-top: 50px;
                         margin-bottom: 50px;
                         width: 80%;
                         flex-wrap: wrap;

@@ -88,7 +88,15 @@ export default function CategoryList({ list, isLogin, setCategoryList }: Props) 
                                             }>
                                             <ListItemButton
                                                 key={id}
-                                                sx={{ pl: 4, '&:hover': { color: 'rgb(21, 0, 255)' } }}
+                                                sx={
+                                                    isOpen // 카테고리 열면 배경색 추가
+                                                        ? {
+                                                              pl: 4,
+                                                              backgroundColor: '#EFF2FB',
+                                                              '&:hover': { color: 'rgb(21, 0, 255)' },
+                                                          }
+                                                        : { pl: 4, '&:hover': { color: 'rgb(21, 0, 255)' } }
+                                                }
                                                 onClick={() => onNestedClick(id)}>
                                                 {/* 카테고리 제목 */}
                                                 <ListItemText>
@@ -149,12 +157,20 @@ export default function CategoryList({ list, isLogin, setCategoryList }: Props) 
 
                 .count-box {
                     display: inline-block;
-                    margin-left: 7px;
+                    margin-left: 5px;
+                    padding: 0px 5px 0px 5px;
+                    font-size: 14px;
+                    font-weight: 100;
+                    color: blue;
                 }
 
                 /* .divWithAnimation 클래스는 hover시 애니메이션을 요소에 적용하는데 사용됩니다. */
                 .divWithAnimation {
                     position: relative; /* 요소의 위치를 상대적으로 설정하여 ::before 가상 요소에 절대 위치를 설정합니다. */
+                }
+
+                .divWithAnimation:hover {
+                    background-color: #eff2fb;
                 }
 
                 /* ::before 가상 요소를 사용하여 슬라이딩 애니메이션 효과를 생성합니다. */
@@ -165,7 +181,7 @@ export default function CategoryList({ list, isLogin, setCategoryList }: Props) 
                     bottom: 0; /* 가상 요소를 상위 요소의 하단에 배치합니다. */
                     width: 100%; /* 가상 요소의 너비를 상위 요소의 너비와 같게 설정합니다. */
                     height: 2px; /* 수평 라인을 만들기 위해 가상 요소의 높이를 2px로 설정합니다. */
-                    background-color: rgb(21, 0, 255); /* 가상 요소의 배경색을 토마토 색상으로 설정합니다. */
+                    background-color: rgb(21, 0, 255); /* 가상 요소의 배경색을 설정합니다. */
                     animation: slideInAndOut 1s; /* 'slideInAndOut' 애니메이션을 1초 동안 가상 요소에 적용합니다. */
                 }
 
