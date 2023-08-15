@@ -93,8 +93,6 @@ export async function getStaticProps() {
         },
     })
 
-    console.log(userIntroRes)
-
     const latestPostList = latestPostRes.data.postList || null
     const popularPostList = popularPostRes.data.postList || null
     const userIntroList = userIntroRes.data || null

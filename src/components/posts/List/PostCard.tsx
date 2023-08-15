@@ -4,8 +4,6 @@ import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import { Avatar, Button, CardActionArea, CardActions, CardHeader, Chip } from '@mui/material'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
-import axios from 'axios'
 
 interface Props {
     post: {
@@ -28,10 +26,16 @@ interface Props {
 export default function PostCard({ post }: Props) {
     const router = useRouter()
     const date = new Date(post.createdAt)
+    const defaultImg = '/img/bgimg.jpg' // 기본 이미지 경로
     const formattedDate = `${date.getFullYear()}. ${
         // yyyy. MM. dd. hh:mm 으로 데이터 포맷하기
         date.getMonth() + 1
     }. ${date.getDate()}`
+
+    // 이미지 경로 없으면 기본 이미지로 변경
+    const addDefaultImg = (e: any) => {
+        e.currentTarget.src = defaultImg
+    }
 
     const onClickCategory = (category: string, board: string) => {
         // 해당 카테고리 포스트 보러가기
@@ -66,7 +70,13 @@ export default function PostCard({ post }: Props) {
         <>
             <Card sx={cardStyle}>
                 <CardActionArea onClick={() => onClickPost(post.postId)}>
-                    <CardMedia component="img" height="160" image={post.thumbnail} alt="썸네일 이미지" />
+                    <CardMedia
+                        component="img"
+                        height="160"
+                        image={post.thumbnail}
+                        alt="썸네일 이미지"
+                        onError={addDefaultImg}
+                    />
                 </CardActionArea>
                 <CardActions sx={{ marginTop: 1 }}>
                     <Button

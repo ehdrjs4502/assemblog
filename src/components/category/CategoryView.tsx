@@ -61,7 +61,6 @@ export default function CategoryView({ isLogin, categoryList, setCategoryList }:
                         display: flex;
                         padding-left: 10px;
                         margin-top: 15px;
-                        margin-bottom: 15px;
                     }
 
                     .category-title {
