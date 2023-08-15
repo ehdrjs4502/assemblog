@@ -13,7 +13,7 @@ interface Props {
     index: number
 }
 
-export default function UserInfoModifyView({ value, index }: Props) {
+export default function UserPWView({ value, index }: Props) {
     const [oldPw, setOldPw] = useState<string>('') // 기존 비밀번호
     const [newPw, setNewPw] = useState<string>('') // 기존 비밀번호
     const cookie = new Cookies()
@@ -21,6 +21,22 @@ export default function UserInfoModifyView({ value, index }: Props) {
 
     const onClickModifyBtn = async () => {
         let isSuccess = false
+
+        if (oldPw === '') {
+            alert('기존 비밀번호를 입력해주세요.')
+            return
+        }
+
+        if (newPw === '') {
+            alert('새로운 비밀번호를 입력해주세요.')
+            return
+        }
+
+        if (oldPw === newPw) {
+            alert('기존 비밀번호와 새로운 비밀번호가 같습니다.')
+            return
+        }
+
         try {
             const email = cookie.get('email')
             const response = await axios.patch(
@@ -37,8 +53,15 @@ export default function UserInfoModifyView({ value, index }: Props) {
                     },
                 }
             )
-            console.log(response)
+            console.log('response: ', response)
             isSuccess = true
+            
+            //기존 비밀번호 틀리면
+            if (response.data === 'Not match password') {
+                alert('기존 비밀번호가 틀립니다')
+                return
+            }
+
             router.push('/')
         } catch (error: any) {
             if (error.response.status === 401) {

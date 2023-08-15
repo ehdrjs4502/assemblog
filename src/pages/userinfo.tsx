@@ -1,7 +1,7 @@
 import { Box, Tab, Tabs } from '@mui/material'
 import UserIntroModifyView from '@/components/user/UserIntroModifyView'
 import { SyntheticEvent, useState } from 'react'
-import UserInfoModifyView from '@/components/user/UserInfoModifyView'
+import UserPWModifyView from '@/components/user/UserPWModifyView'
 
 function a11yProps(index: number) {
     return {
@@ -27,7 +27,7 @@ export default function UserInfo() {
                     </Tabs>
                 </Box>
                 <UserIntroModifyView value={value} index={0} />
-                <UserInfoModifyView value={value} index={1} />
+                <UserPWModifyView value={value} index={1} />
             </Box>
         </>
     )
