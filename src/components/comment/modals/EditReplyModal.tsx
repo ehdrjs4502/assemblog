@@ -73,7 +73,7 @@ export default function EditReplyModal({ postId, parentId, setCommentList, isPos
         }
 
         // 게시글 작성자거나 방명록페이지에 로그인한 사람이면 email 변경 못하게 boolean값 저장
-        setIsDisabled(typeof window !== 'undefined' && isAdminOrWriter ? true : false)
+        setIsDisabled(isAdminOrWriter ? true : false)
     }, [])
 
     const onClickReplyBtn = async () => {

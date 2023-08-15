@@ -81,7 +81,6 @@ export default function Post({ post }: Props) {
                 </div>
                 {/* 댓글 영역 */}
                 <div className="comment-box">
-                    {}
                     <CommentView postId={post.postId} isWriter={isWriter} isPostComment={true} />
                 </div>
             </div>
@@ -99,6 +98,11 @@ export default function Post({ post }: Props) {
                     .content-box {
                         margin-top: 30px;
                         width: 60%;
+                    }
+                    
+                    .btn-box {
+                        display: flex;
+                        justify-content: flex-end;
                     }
 
                     .comment-box {

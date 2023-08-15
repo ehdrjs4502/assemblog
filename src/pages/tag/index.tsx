@@ -32,6 +32,8 @@ export default function Tag({ tagList }: Props) {
 
 export async function getStaticProps() {
     const API_URL = process.env.API
+
+    // 태그 목록 불러오기
     const res: any = await axios.get(`${API_URL}lists/tags`, {
         headers: {
             'ngrok-skip-browser-warning': '1234',
@@ -39,8 +41,6 @@ export async function getStaticProps() {
     })
 
     const tagList = res.data
-
-    console.log(res.data)
 
     // const tagList = ['태그', '뿅', '자바', '자바스크립트', '클라우드', 'Next.js', 'React.js']
 

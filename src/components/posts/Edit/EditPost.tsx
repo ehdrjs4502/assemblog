@@ -222,29 +222,42 @@ export default function EditPost() {
                     label="게시 여부"
                     labelPlacement="start"
                 />
-                <br />
-
                 {/* 버튼 요소 */}
-                <Button
-                    size="small"
-                    variant="outlined"
-                    onClick={() => {
-                        handleaddPostBtn(true)
-                    }}>
-                    임시 저장
-                </Button>
-                <Button size="small" variant="outlined" color="error" onClick={handleCancleBtn}>
-                    취소
-                </Button>
-                <Button
-                    size="small"
-                    variant="contained"
-                    onClick={() => {
-                        handleaddPostBtn(false)
-                    }}>
-                    게시
-                </Button>
+                <div className="btn-box">
+                    <Button
+                        size="small"
+                        variant="outlined"
+                        sx={{ marginRight: '18px' }}
+                        onClick={() => {
+                            handleaddPostBtn(true)
+                        }}>
+                        임시 저장
+                    </Button>
+                    <Button
+                        size="small"
+                        variant="outlined"
+                        sx={{ marginRight: '18px' }}
+                        color="error"
+                        onClick={handleCancleBtn}>
+                        취소
+                    </Button>
+                    <Button
+                        size="small"
+                        variant="contained"
+                        onClick={() => {
+                            handleaddPostBtn(false)
+                        }}>
+                        게시
+                    </Button>
+                </div>
             </Box>
+
+            <style jsx>{`
+                .btn-box {
+                    display: flex;
+                    justify-content: flex-end;
+                }
+            `}</style>
         </>
     )
 }

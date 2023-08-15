@@ -9,7 +9,7 @@ export default function ModifyBtn({ post }: any) {
     }
 
     return (
-        <Button variant="outlined" onClick={() => onClickModifyBtn()}>
+        <Button variant="outlined" sx={{marginRight:'18px'}} onClick={() => onClickModifyBtn()}>
             수정
         </Button>
     )

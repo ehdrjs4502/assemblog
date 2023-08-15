@@ -52,7 +52,7 @@ export default function EditComment({ postId, setCommentList, isWriter, isPostCo
         }
 
         // 게시글 작성자거나 방명록페이지에 로그인한 사람이면 email 변경 못하게 boolean값 저장
-        setIsDisabled(typeof window !== 'undefined' && isAdminOrWriter ? true : false)
+        setIsDisabled(isAdminOrWriter ? true : false)
     }, [])
 
     //**수정사항 :  로그인 돼있으면 headers에 액세스 토큰도 같이 보내서 작성자가 댓글 작성한지 백엔드에게 보내줌**!!

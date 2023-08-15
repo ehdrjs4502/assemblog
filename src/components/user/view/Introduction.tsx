@@ -16,6 +16,7 @@ export default function Introduction({ introduction, idx }: Props) {
                 .introduction-box {
                     max-height: 150px;
                     height: 100%;
+                    max-width: 80%;
                     word-break: break-all;
                     margin-top: 40px;
                     font-size: 20px;
