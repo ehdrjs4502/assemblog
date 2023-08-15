@@ -17,6 +17,7 @@ type CategoryItem = {
     title: string
     orderNum: number
     useState: boolean
+    boardCount: number
     boards: BoardItem[]
 }
 
@@ -25,6 +26,7 @@ type BoardItem = {
     title: string
     orderNum: number
     useState: boolean
+    postCount: number
 }
 
 export default function DrawerView({ isDrawerOpen, setIsDrawerOpen, isLogin, categoryList, setCategoryList }: Props) {

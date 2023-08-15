@@ -7,6 +7,8 @@ import { useRouter } from 'next/router'
 import { Button } from '@mui/material'
 import { Cookies } from 'react-cookie'
 import BgImage from './modify/BgImage'
+import ProfileImage from './modify/ProfileImage'
+import Name from './modify/Name'
 
 interface Props {
     value: number
@@ -14,6 +16,8 @@ interface Props {
 }
 
 export default function UserIntroModifyView({ value, index }: Props) {
+    const [profileImageURL, setProfileImageURL] = useState<string | null>(null) // 프로필 이미지
+    const [name, setName] = useState<string>('') // 닉네임
     const [introduction, setIntroduction] = useState<string | null>(null) // 소개글
     const [bgImgUrl, setBgImgUrl] = useState<string | null>(null) // 배경 이미지
     const [linkList, setLinkList] = useState<null>(null) // 링크 목록
@@ -31,13 +35,14 @@ export default function UserIntroModifyView({ value, index }: Props) {
                     'ngrok-skip-browser-warning': '1234',
                 },
             })
-            console.log(response.data[0])
+            setProfileImageURL(response.data[0].profileImageURL)
+            setName(response.data[0].username)
             setIntroduction(response.data[0].introduction)
             setLinkList(response.data[0].links)
             setBgImgUrl(response.data[0].backgroundImageURL)
             isSuccess = true
         } catch (error) {
-            await reissueAccToken()
+            console.log(error)
         }
     }
 
@@ -45,12 +50,13 @@ export default function UserIntroModifyView({ value, index }: Props) {
     const onClickModifyBtn = async () => {
         let isSuccess = false
         const email = cookie.get('email')
-        console.log('소개글 : ', introduction, ' 배경 : ', bgImgUrl, ' 링크 : ', linkList)
         try {
             const response = await axios.patch(
                 '/server/api/user-introductions',
                 {
                     email: email,
+                    profileImageURL: profileImageURL,
+                    username: name,
                     introduction: introduction ?? '',
                     backgroundImageURL: bgImgUrl ?? '',
                     links: linkList ?? [{}],
@@ -61,11 +67,13 @@ export default function UserIntroModifyView({ value, index }: Props) {
                     },
                 }
             )
-            console.log(response)
             isSuccess = true
             router.push('/')
-        } catch (error) {
-            // await reissueAccToken()
+        } catch (error: any) {
+            if (error.response.status === 401) {
+                await reissueAccToken()
+                !isSuccess && onClickModifyBtn()
+            }
         }
     }
 
@@ -78,6 +86,8 @@ export default function UserIntroModifyView({ value, index }: Props) {
             {value === index && (
                 <div className="userinfo-box">
                     <h4>유저 소개 수정</h4>
+                    <ProfileImage profileImage={profileImageURL} setProfileImage={setProfileImageURL} />
+                    <Name name={name} setName={setName} />
                     <Introduction introduction={introduction} setIntroduction={setIntroduction} />
                     <Link linkList={linkList} setLinkList={setLinkList} />
                     <BgImage bgImgUrl={bgImgUrl} setBgImgUrl={setBgImgUrl} />

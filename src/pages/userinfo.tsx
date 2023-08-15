@@ -22,12 +22,12 @@ export default function UserInfo() {
             <Box sx={{ width: '100%' }}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                        <Tab label="유저 정보 수정" {...a11yProps(0)} />
-                        <Tab label="유저 소개 수정" {...a11yProps(1)} />
+                        <Tab label="유저 소개 수정" {...a11yProps(0)} />
+                        <Tab label="유저 비밀번호 수정" {...a11yProps(1)} />
                     </Tabs>
                 </Box>
-                <UserInfoModifyView value={value} index={0} />
-                <UserIntroModifyView value={value} index={1} />
+                <UserIntroModifyView value={value} index={0} />
+                <UserInfoModifyView value={value} index={1} />
             </Box>
         </>
     )

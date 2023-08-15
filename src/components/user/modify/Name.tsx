@@ -13,6 +13,7 @@ export default function Name({ name, setName }: Props) {
             <OutlinedInput
                 size="small"
                 type="text"
+                placeholder='유저 네임'
                 startAdornment={
                     <InputAdornment position="start">
                         <IconButton aria-label="toggle password visibility" edge="start">
@@ -20,7 +21,7 @@ export default function Name({ name, setName }: Props) {
                         </IconButton>
                     </InputAdornment>
                 }
-                value={name}
+                value={name || ''}
                 onChange={(e) => {
                     setName(e.target.value)
                 }}

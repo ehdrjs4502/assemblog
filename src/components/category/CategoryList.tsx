@@ -10,6 +10,7 @@ type CategoryItem = {
     title: string
     orderNum: number
     useState: boolean
+    boardCount: number
     boards: BoardItem[]
 }
 
@@ -18,6 +19,7 @@ type BoardItem = {
     title: string
     orderNum: number
     useState: boolean
+    postCount: number
 }
 
 interface Props {
@@ -56,10 +58,11 @@ export default function CategoryList({ list, isLogin, setCategoryList }: Props) 
                 <List component="nav">
                     {list
                         .filter((item) => item.useState) // useState가 true인 카테고리만 불러옴
-                        .map(({ id, title, boards, useState }) => {
+                        .map(({ id, title, boards, boardCount }) => {
                             const isOpen = open[id] || false
                             return (
                                 <div key={id}>
+                                    {/* 카테고리 목록*/}
                                     <div className="divWithAnimation">
                                         <ListItem
                                             key={id}
@@ -87,7 +90,11 @@ export default function CategoryList({ list, isLogin, setCategoryList }: Props) 
                                                 key={id}
                                                 sx={{ pl: 4, '&:hover': { color: 'rgb(21, 0, 255)' } }}
                                                 onClick={() => onNestedClick(id)}>
-                                                <ListItemText primary={title} />
+                                                {/* 카테고리 제목 */}
+                                                <ListItemText>
+                                                    {title}
+                                                    <div className="count-box">{'(' + boardCount + ')'}</div>
+                                                </ListItemText>
                                                 {boards?.length === 0 ? (
                                                     ''
                                                 ) : isOpen ? (
@@ -98,12 +105,14 @@ export default function CategoryList({ list, isLogin, setCategoryList }: Props) 
                                             </ListItemButton>
                                         </ListItem>
                                     </div>
+
+                                    {/* 게시판 목록 */}
                                     {boards?.length !== 0 && (
                                         <Collapse in={isOpen} timeout="auto" unmountOnExit>
                                             <List component="div" sx={{ marginLeft: 2 }}>
                                                 {boards
                                                     ?.filter((item) => item.useState) // useState가 true인 게시판만 가져옴
-                                                    .map(({ id: id, title: boardTitle }) => (
+                                                    .map(({ id: id, title: boardTitle, postCount }) => (
                                                         <ListItem key={id} disablePadding>
                                                             <ListItemButton
                                                                 onClick={() => onClickBoard(id, title, boardTitle)}
@@ -112,7 +121,13 @@ export default function CategoryList({ list, isLogin, setCategoryList }: Props) 
                                                                     pl: 4,
                                                                     '&:hover': { color: 'rgb(21, 0, 255)' },
                                                                 }}>
-                                                                <ListItemText primary={boardTitle} />
+                                                                {/* 게시판 제목 */}
+                                                                <ListItemText>
+                                                                    {boardTitle}
+                                                                    <div className="count-box">
+                                                                        {'(' + postCount + ')'}
+                                                                    </div>
+                                                                </ListItemText>
                                                             </ListItemButton>
                                                         </ListItem>
                                                     ))}
@@ -130,6 +145,11 @@ export default function CategoryList({ list, isLogin, setCategoryList }: Props) 
                     display: flex;
                     margin-left: auto;
                     margin-right: 18px;
+                }
+
+                .count-box {
+                    display: inline-block;
+                    margin-left: 7px;
                 }
 
                 /* .divWithAnimation 클래스는 hover시 애니메이션을 요소에 적용하는데 사용됩니다. */

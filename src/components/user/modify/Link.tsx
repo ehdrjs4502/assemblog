@@ -6,7 +6,6 @@ interface Props {
 }
 
 export default function Link({ linkList, setLinkList }: Props) {
-    console.log(linkList)
     return (
         <>
             <h4>링크 수정</h4>
