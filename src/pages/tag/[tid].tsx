@@ -30,6 +30,7 @@ export default function TagPostList() {
     const [totalPage, setTotalPage] = useState<number>(10)
     const router = useRouter()
     const tagLabel = '태그에 맞는 게시글을 확인해보세요!'
+    const contentRef = useRef(null)
 
     const getPostList = async () => {
         //태그에 해당하는 게시글 페이징에 맞게 불러오기
@@ -71,7 +72,6 @@ export default function TagPostList() {
         }
     }, [router.isReady, router])
 
-    const contentRef = useRef(null)
     return (
         <>
             <HeadTitle title={title + ' 태그 목록'} />

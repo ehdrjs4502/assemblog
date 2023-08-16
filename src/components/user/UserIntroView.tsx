@@ -39,6 +39,7 @@ export default function UserIntroView({ userIntroList }: any) {
                         width: 100%;
                         height: 100%;
                         position: relative;
+                        margin-bottom: 100px;
                     }
 
                     .container {

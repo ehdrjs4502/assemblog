@@ -53,8 +53,8 @@ export default function PostCard({ post }: Props) {
 
     const cardStyle = {
         color: 'whitesmoke',
-        maxWidth: '100%',
-        minWidth: '350px',
+        maxWidth: '360px',
+        minWidth: '360px',
         height: '100%',
         borderRadius: 4,
         backgroundColor: 'rgb(35,35,35)',
@@ -62,7 +62,8 @@ export default function PostCard({ post }: Props) {
         transition: 'transform 0.3s ease',
         ':hover': { boxShadow: 20, backgroundColor: 'rgba(35,35,35, 0.9)', transform: 'translateY(-5px)' },
         '@media (max-width: 1200px)': {
-            minWidth: '300px', // minWidth를 추가적으로 지정하거나 원하는 스타일 작성
+            minWidth: '300px',
+            maxWidth: '300px',
         },
     }
 
