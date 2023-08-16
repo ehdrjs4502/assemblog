@@ -4,10 +4,18 @@ export default function MouseTracker() {
     const [eyeBallPosition, setEyeBallPosition] = useState({ left: '50%', top: '50%' })
 
     const handleMouseMove = (event: any) => {
-        const x = (event.clientX * 100) / window.innerWidth + '%'
-        const y = (event.clientY * 100) / window.innerHeight + '%'
-
-        setEyeBallPosition({ left: x, top: y })
+        let x = (event.clientX * 100) / window.innerWidth
+        let y = (window.innerHeight * event.clientY) / 0.9 / window.innerHeight
+        if (x < 20) {
+            x = 20
+        } else if (x > 80) {
+            x = 80
+        }
+        if (y > 80) {
+            y = 80
+        }
+        console.log((window.innerHeight * event.clientY) / 2, event.clientY * 500)
+        setEyeBallPosition({ left: x + '%', top: y + '%' })
     }
 
     const handleMouseOut = () => {
@@ -29,27 +37,45 @@ export default function MouseTracker() {
             <div id="eye">
                 <div id="eyeBall" style={{ left: eyeBallPosition.left, top: eyeBallPosition.top }}></div>
             </div>
+            <div id="eye2">
+                <div id="eyeBall" style={{ left: eyeBallPosition.left, top: eyeBallPosition.top }}></div>
+            </div>
 
             <style jsx>{`
                 #eye {
+                    border: 0.5px solid gray;
                     position: absolute;
                     top: 50%;
                     left: 50%;
                     transform: translate(-50%, -50%);
-                    height: 250px;
-                    width: 250px;
+                    height: 30px;
+                    width: 30px;
                     background: white;
                     border-radius: 50%;
                     overflow: hidden;
-                    box-shadow: 0 0 30px 1px #222236ad;
+                    margin-left: -30px;
+                }
+
+                #eye2 {
+                    border: 0.5px solid gray;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    height: 30px;
+                    width: 30px;
+                    background: white;
+                    border-radius: 50%;
+                    overflow: hidden;
+                    margin-left: 30px;
                 }
 
                 #eyeBall {
                     position: absolute;
                     top: 50%;
                     left: 50%;
-                    height: 70px;
-                    width: 70px;
+                    height: 15px;
+                    width: 15px;
                     transform: translate(-50%, -50%);
                     background: black;
                     border-radius: 50%;

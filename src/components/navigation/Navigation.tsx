@@ -9,6 +9,7 @@ import LogoutBtn from './buttons/LogoutBtn'
 import EditPostBtn from './buttons/EditPostBtn'
 import UserSettingBtn from './buttons/UserSettingBtn'
 import SearchBtn from './buttons/SearchBtn'
+import MouseTracker from './MouseTracker'
 
 type CategoryItem = {
     id: number
@@ -153,6 +154,7 @@ export default function Navigation({ contentRef }: any) {
                         sx={{ mr: 2 }}>
                         <Menu />
                     </IconButton>
+                    <MouseTracker/>
                     <div className="btn-box">
                         <SearchBtn isScrollPastContentTop={isScrollPastContentTop} />
                         {isLogin && (
