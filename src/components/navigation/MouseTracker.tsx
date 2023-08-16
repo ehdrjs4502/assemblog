@@ -2,7 +2,10 @@ import { useEffect, useState } from 'react'
 
 export default function MouseTracker() {
     const [eyeBallPosition, setEyeBallPosition] = useState({ left: '50%', top: '50%' })
+    const [innerWidth, setInnerWidth] = useState<number>(0)
+    const [summon, setSummon] = useState(false)
 
+    // 마우스 움직일 때 눈알 위치 변경 함수
     const handleMouseMove = (event: any) => {
         let x = (event.clientX * 100) / window.innerWidth
         let y = (window.innerHeight * event.clientY) / 0.9 / window.innerHeight
@@ -14,7 +17,6 @@ export default function MouseTracker() {
         if (y > 80) {
             y = 80
         }
-        console.log((window.innerHeight * event.clientY) / 2, event.clientY * 500)
         setEyeBallPosition({ left: x + '%', top: y + '%' })
     }
 
@@ -32,50 +34,87 @@ export default function MouseTracker() {
         }
     }, [])
 
+    // 현재 모니터 너비 구하는 함수
+    useEffect(() => {
+        const resizeListener = () => {
+            setInnerWidth(window.innerWidth)
+        }
+        window.addEventListener('resize', resizeListener)
+
+        console.log('innerWidth', innerWidth)
+    }, [innerWidth])
+
+    // 눈눈이 소환하는 함수
+    const onClickSummonBox = () => {
+        setSummon(!summon)
+        console.log(summon)
+    }
+
     return (
         <>
-            <div id="eye">
-                <div id="eyeBall" style={{ left: eyeBallPosition.left, top: eyeBallPosition.top }}></div>
-            </div>
-            <div id="eye2">
-                <div id="eyeBall" style={{ left: eyeBallPosition.left, top: eyeBallPosition.top }}></div>
-            </div>
+            {innerWidth > 900 &&
+                (summon ? (
+                    <div className="summon-box" onClick={onClickSummonBox}>
+                        <div className="eye">
+                            <div
+                                className="eyeBall"
+                                style={{ left: eyeBallPosition.left, top: eyeBallPosition.top }}></div>
+                        </div>
+                        <div className="eye2">
+                            <div
+                                className="eyeBall"
+                                style={{ left: eyeBallPosition.left, top: eyeBallPosition.top }}></div>
+                        </div>
+                    </div>
+                ) : (
+                    <div className="summon-box" onClick={onClickSummonBox}>
+                        <span>눈눈이 소환</span>
+                    </div>
+                ))}
 
             <style jsx>{`
-                #eye {
+                .summon-box {
+                    color: rgb(136, 136, 136);
+                    font-size: 10px;
+                }
+
+                .summon-box:hover {
+                    cursor: pointer;
+                }
+                .eye {
                     border: 0.5px solid gray;
                     position: absolute;
                     top: 50%;
                     left: 50%;
                     transform: translate(-50%, -50%);
-                    height: 30px;
-                    width: 30px;
+                    height: 20px;
+                    width: 20px;
                     background: white;
                     border-radius: 50%;
                     overflow: hidden;
-                    margin-left: -30px;
+                    margin-left: -25px;
                 }
 
-                #eye2 {
+                .eye2 {
                     border: 0.5px solid gray;
                     position: absolute;
                     top: 50%;
                     left: 50%;
                     transform: translate(-50%, -50%);
-                    height: 30px;
-                    width: 30px;
+                    height: 20px;
+                    width: 20px;
                     background: white;
                     border-radius: 50%;
                     overflow: hidden;
-                    margin-left: 30px;
+                    margin-left: 25px;
                 }
 
-                #eyeBall {
+                .eyeBall {
                     position: absolute;
                     top: 50%;
                     left: 50%;
-                    height: 15px;
-                    width: 15px;
+                    height: 12px;
+                    width: 12px;
                     transform: translate(-50%, -50%);
                     background: black;
                     border-radius: 50%;

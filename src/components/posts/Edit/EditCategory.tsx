@@ -37,7 +37,7 @@ export default function SetCategory({category, setCategory} : Props) {
     return (
         <>
         <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-                <InputLabel id="demo-simple-select-standard-label">카테고리</InputLabel>
+                <InputLabel className="demo-simple-select-standard-label">카테고리</InputLabel>
                 <Select
                     labelId="demo-simple-select-standard-label"
                     id="demo-simple-select-standard"
