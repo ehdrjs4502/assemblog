@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react'
 import ContentView from '@/components/content/ContentView'
 import PaginationView from '@/components/posts/list/PaginationView'
 import PostListHeader from '@/components/posts/list/PostListHeader'
+import OrderSelect from '@/components/posts/OrderSelect'
 
 type post = {
     postId: number
@@ -24,10 +25,12 @@ type post = {
 }
 
 export default function TagPostList() {
-    const [page, setPage] = useState<number>(1)
-    const [postList, setPostList] = useState<post[]>([])
-    const [title, setTitle] = useState('')
-    const [totalPage, setTotalPage] = useState<number>(10)
+    const [page, setPage] = useState<number>(1) // 페이지
+    const [postList, setPostList] = useState<post[]>([]) // 게시글 목록
+    const [title, setTitle] = useState<string>('') // 게시판 제목
+    const [totalPage, setTotalPage] = useState<number>(10) // 전체 페이지
+    const [order, setOrder] = useState('created_at') // 정렬 순서
+
     const router = useRouter()
     const tagLabel = '태그에 맞는 게시글을 확인해보세요!'
     const contentRef = useRef(null)
@@ -40,11 +43,14 @@ export default function TagPostList() {
         if (router.query.page !== undefined) {
             page = parseInt(router.query.page! as string)
         }
-        const response = await axios.get(`/server/lists/posts?tagName=${title}&currentPage=${page}&pageSize=6`, {
-            headers: {
-                'ngrok-skip-browser-warning': '123456',
-            },
-        })
+        const response = await axios.get(
+            `/server/lists/posts?tagName=${title}&currentPage=${page}&pageSize=6&order=${order}`,
+            {
+                headers: {
+                    'ngrok-skip-browser-warning': '123456',
+                },
+            }
+        )
         console.log(response.data)
         setPostList(response.data.postList)
         setTotalPage(response.data.totalPage)
@@ -76,9 +82,11 @@ export default function TagPostList() {
         <>
             <HeadTitle title={title + ' 태그 목록'} />
             <Navigation contentRef={contentRef} />
-            <PostListHeader />
-            <ContentView postList={postList} contentTitle={title} contentLabel={tagLabel} />
-            <PaginationView totalPage={totalPage} page={page} setPage={setPage} router={router} />
+            <div ref={contentRef}>
+                <OrderSelect order={order} setOrder={setOrder} router={router} />
+                <ContentView postList={postList} contentTitle={title} contentLabel={tagLabel} />
+                <PaginationView totalPage={totalPage} page={page} setPage={setPage} router={router} />
+            </div>
         </>
     )
 }

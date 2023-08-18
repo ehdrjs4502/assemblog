@@ -72,235 +72,108 @@ export async function getStaticProps() {
     const API_URL = process.env.API
 
     // //최신 게시글 목록 가져오기 (최대 6개 가져옴)
-    // const latestPostRes: any = await axios.get(`${API_URL}lists/posts?pageSize=6`, {
-    //     headers: {
-    //         'ngrok-skip-browser-warning': '1234',
+    const latestPostRes: any = await axios.get(`${API_URL}lists/posts?pageSize=6`, {
+        headers: {
+            'ngrok-skip-browser-warning': '1234',
+        },
+    })
+
+    //인기 게시글 목록 가져오기 (최대 3개 가져옴)
+    const popularPostRes: any = await axios.get(`${API_URL}lists/posts?order=view&pageSize=3`, {
+        headers: {
+            'ngrok-skip-browser-warning': '1234',
+        },
+    })
+
+    //유저 소개 정보 가져오기
+    const userIntroRes: any = await axios.get(`${API_URL}lists/user-introductions`, {
+        headers: {
+            'ngrok-skip-browser-warning': '1234',
+        },
+    })
+
+    const latestPostList = latestPostRes.data.postList || null
+    const popularPostList = popularPostRes.data.postList || null
+    const userIntroList = userIntroRes.data || null
+
+    // const latestPostList = [
+    //     {
+    //         postId: 1,
+    //         username: '동건',
+    //         profileImage: 'imageUrl',
+    //         title: '제목1',
+    //         thumbnail: 'url',
+    //         preview: 'ㅁㄴㅇㅁㄴㅇ',
+    //         createdAt: 'date',
+    //         updateAt: 'date',
+    //         categoryTitle: '카테 제목',
+    //         boardTitle: '게시판 제',
+    //         viewCount: 1,
+    //         likeCount: 3,
+    //         commentCount: 3,
     //     },
-    // })
+    // ]
 
-    // //인기 게시글 목록 가져오기 (최대 3개 가져옴)
-    // const popularPostRes: any = await axios.get(`${API_URL}lists/posts?order=view&pageSize=3`, {
-    //     headers: {
-    //         'ngrok-skip-browser-warning': '1234',
+    // const popularPostList = [{}]
+
+    // const userIntroList = [
+    //     {
+    //         username: 'ehdrjs',
+    //         email: 'ehdrjs@gmail.com',
+    //         introduction: `hello 안녕하세요 글을 길게 쓰면 div 넘어갈거같은데요?
+    // 하이요 글을 더 길게 쓰면 어떻게 될까요 글 엄청 길게 쓰자`,
+    //         profileImageURL: 'profile.png',
+    //         backgroundImageURL:
+    //             'https://cdn.discordapp.com/attachments/1136307485398007878/1136307555824582796/indo.png',
+    //         links: [
+    //             {
+    //                 id: 1,
+    //                 linkDescription: '깃허브',
+    //                 linkUrl: 'www.github.com',
+    //                 linkImageUrl: 'github.png',
+    //             },
+    //             {
+    //                 id: 2,
+    //                 linkDescription: '인스타그램',
+    //                 linkUrl: 'www.instagram.com',
+    //                 linkImageUrl: 'instagram.png',
+    //             },
+    //             {
+    //                 id: 3,
+    //                 linkDescription: '페이스북',
+    //                 linkUrl: 'www.facebook.com',
+    //                 linkImageUrl: 'facebook.png',
+    //             },
+    //         ],
     //     },
-    // })
-
-    // //유저 소개 정보 가져오기
-    // const userIntroRes: any = await axios.get(`${API_URL}lists/user-introductions`, {
-    //     headers: {
-    //         'ngrok-skip-browser-warning': '1234',
+    //     {
+    //         username: 'test',
+    //         email: 'test@gmail.com',
+    //         introduction: '안녕하세용',
+    //         profileImageURL: 'profile.png',
+    //         backgroundImageURL: 'https://cdn.discordapp.com/attachments/1136307485398007878/11363075558245896/indo.png',
+    //         links: [
+    //             {
+    //                 id: 1,
+    //                 linkDescription: '깃허브',
+    //                 linkUrl: 'www.github.com',
+    //                 linkImageUrl: 'github.png',
+    //             },
+    //             {
+    //                 id: 2,
+    //                 linkDescription: '인스타그램',
+    //                 linkUrl: 'www.instagram.com',
+    //                 linkImageUrl: 'instagram.png',
+    //             },
+    //             {
+    //                 id: 3,
+    //                 linkDescription: '페이스북',
+    //                 linkUrl: 'www.facebook.com',
+    //                 linkImageUrl: 'facebook.png',
+    //             },
+    //         ],
     //     },
-    // })
-
-    // const latestPostList = latestPostRes.data.postList || null
-    // const popularPostList = popularPostRes.data.postList || null
-    // const userIntroList = userIntroRes.data || null
-
-    const latestPostList = [
-        {
-            postId: 1,
-            username: '동건',
-            profileImage: 'imageUrl',
-            title: '제목1',
-            thumbnail: 'url',
-            preview: 'ㅁㄴㅇㅁㄴㅇ',
-            createdAt: 'date',
-            updateAt: 'date',
-            categoryTitle: '카테 제목',
-            boardTitle: '게시판 제',
-            viewCount: 1,
-            likeCount: 3,
-            commentCount: 3,
-        },
-
-        {
-            postId: 2,
-            username: '동건',
-            profileImage: 'imageUrl',
-            title: '제목1',
-            thumbnail: 'url',
-            preview: 'ㅁㄴㅇㅁㄴㅇ',
-            createdAt: 'date',
-            updateAt: 'date',
-            categoryTitle: '카테 제목',
-            boardTitle: '게시판 제',
-            viewCount: 1,
-            likeCount: 3,
-            commentCount: 3,
-        },
-
-        {
-            postId: 3,
-            username: '동건',
-            profileImage: 'imageUrl',
-            title: '제목1',
-            thumbnail: 'url',
-            preview: 'ㅁㄴㅇㅁㄴㅇ',
-            createdAt: 'date',
-            updateAt: 'date',
-            categoryTitle: '카테 제목',
-            boardTitle: '게시판 제',
-            viewCount: 1,
-            likeCount: 3,
-            commentCount: 3,
-        },
-
-        {
-            postId: 4,
-            username: '동건',
-            profileImage: 'imageUrl',
-            title: '제목1',
-            thumbnail: 'url',
-            preview: 'ㅁㄴㅇㅁㄴㅇ',
-            createdAt: 'date',
-            updateAt: 'date',
-            categoryTitle: '카테 제목',
-            boardTitle: '게시판 제',
-            viewCount: 1,
-            likeCount: 3,
-            commentCount: 3,
-        },
-
-        {
-            postId: 5,
-            username: '동건',
-            profileImage: 'imageUrl',
-            title: '제목1',
-            thumbnail: 'url',
-            preview: 'ㅁㄴㅇㅁㄴㅇ',
-            createdAt: 'date',
-            updateAt: 'date',
-            categoryTitle: '카테 제목',
-            boardTitle: '게시판 제',
-            viewCount: 1,
-            likeCount: 3,
-            commentCount: 3,
-        },
-
-        {
-            postId: 6,
-            username: '동건',
-            profileImage: 'imageUrl',
-            title: '제목1',
-            thumbnail: 'url',
-            preview: 'ㅁㄴㅇㅁㄴㅇ',
-            createdAt: 'date',
-            updateAt: 'date',
-            categoryTitle: '카테 제목',
-            boardTitle: '게시판 제',
-            viewCount: 1,
-            likeCount: 3,
-            commentCount: 3,
-        },
-
-        {
-            postId: 7,
-            username: '동건',
-            profileImage: 'imageUrl',
-            title: '제목1',
-            thumbnail: 'url',
-            preview: 'ㅁㄴㅇㅁㄴㅇ',
-            createdAt: 'date',
-            updateAt: 'date',
-            categoryTitle: '카테 제목',
-            boardTitle: '게시판 제',
-            viewCount: 1,
-            likeCount: 3,
-            commentCount: 3,
-        },
-
-        {
-            postId: 8,
-            username: '동건',
-            profileImage: 'imageUrl',
-            title: '제목1',
-            thumbnail: 'url',
-            preview: 'ㅁㄴㅇㅁㄴㅇ',
-            createdAt: 'date',
-            updateAt: 'date',
-            categoryTitle: '카테 제목',
-            boardTitle: '게시판 제',
-            viewCount: 1,
-            likeCount: 3,
-            commentCount: 3,
-        },
-
-        {
-            postId: 9,
-            username: '동건',
-            profileImage: 'imageUrl',
-            title: '제목1',
-            thumbnail: 'url',
-            preview: 'ㅁㄴㅇㅁㄴㅇ',
-            createdAt: 'date',
-            updateAt: 'date',
-            categoryTitle: '카테 제목',
-            boardTitle: '게시판 제',
-            viewCount: 1,
-            likeCount: 3,
-            commentCount: 3,
-        },
-    ]
-    const popularPostList = [{}]
-
-    const userIntroList = [
-        {
-            username: 'ehdrjs',
-            email: 'ehdrjs@gmail.com',
-            introduction: `hello 안녕하세요 글을 길게 쓰면 div 넘어갈거같은데요?
-    하이요 글을 더 길게 쓰면 어떻게 될까요 글 엄청 길게 쓰자`,
-            profileImageURL: 'profile.png',
-            backgroundImageURL:
-                'https://cdn.discordapp.com/attachments/1136307485398007878/1136307555824582796/indo.png',
-            links: [
-                {
-                    id: 1,
-                    linkDescription: '깃허브',
-                    linkUrl: 'www.github.com',
-                    linkImageUrl: 'github.png',
-                },
-                {
-                    id: 2,
-                    linkDescription: '인스타그램',
-                    linkUrl: 'www.instagram.com',
-                    linkImageUrl: 'instagram.png',
-                },
-                {
-                    id: 3,
-                    linkDescription: '페이스북',
-                    linkUrl: 'www.facebook.com',
-                    linkImageUrl: 'facebook.png',
-                },
-            ],
-        },
-        {
-            username: 'test',
-            email: 'test@gmail.com',
-            introduction: '안녕하세용',
-            profileImageURL: 'profile.png',
-            backgroundImageURL: 'https://cdn.discordapp.com/attachments/1136307485398007878/11363075558245896/indo.png',
-            links: [
-                {
-                    id: 1,
-                    linkDescription: '깃허브',
-                    linkUrl: 'www.github.com',
-                    linkImageUrl: 'github.png',
-                },
-                {
-                    id: 2,
-                    linkDescription: '인스타그램',
-                    linkUrl: 'www.instagram.com',
-                    linkImageUrl: 'instagram.png',
-                },
-                {
-                    id: 3,
-                    linkDescription: '페이스북',
-                    linkUrl: 'www.facebook.com',
-                    linkImageUrl: 'facebook.png',
-                },
-            ],
-        },
-    ]
+    // ]
 
     return {
         props: { latestPostList, popularPostList, userIntroList },

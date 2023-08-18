@@ -3,7 +3,7 @@ import PostListHeader from '@/components/posts/list/PostListHeader'
 import HeadTitle from '@/components/HeadTitle'
 import { useRouter } from 'next/router'
 import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import ContentView from '@/components/content/ContentView'
 import PaginationView from '@/components/posts/list/PaginationView'
 import OrderSelect from '@/components/posts/OrderSelect'
@@ -33,6 +33,7 @@ export default function SearchList() {
 
     const router = useRouter()
     const searchLabel = '검색 결과에 맞는 게시글을 확인해보세요!'
+    const contentRef = useRef(null)
 
     const getPostList = async (order: string) => {
         //검색 결과에 해당하는 게시글 페이징에 맞게 불러오기
@@ -74,18 +75,18 @@ export default function SearchList() {
     return (
         <>
             <HeadTitle title={title + ' 게시글 목록'} />
-            <Navigation contentRef={''} />
+            <Navigation contentRef={contentRef} />
             <PostListHeader />
             {postList.length === 0 ? (
                 <div className="no-search-box">
                     <h4>&apos;{title}&apos;에 대한 검색 결과가 없습니다..</h4>
                 </div>
             ) : (
-                <>
+                <div ref={contentRef}>
                     <OrderSelect order={order} setOrder={setOrder} router={router} />
                     <ContentView postList={postList} contentTitle={title} contentLabel={searchLabel} />
                     <PaginationView totalPage={totalPage} page={page} setPage={setPage} router={router} />
-                </>
+                </div>
             )}
 
             <style jsx>{`

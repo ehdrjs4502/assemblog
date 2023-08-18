@@ -25,6 +25,7 @@ export default function MouseTracker() {
     }
 
     useEffect(() => {
+        setInnerWidth(window.innerWidth)
         document.addEventListener('mousemove', handleMouseMove)
         document.addEventListener('mouseout', handleMouseOut)
 
