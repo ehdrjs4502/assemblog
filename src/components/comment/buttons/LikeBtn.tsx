@@ -36,13 +36,10 @@ export default function LikeBtn({ postId, commentId, likeState, setCommentList }
                     Authorization: `Bearer ${cookie.get('accessToken')}`,
                 },
             })
-
-            console.log(response)
             const comments = await getComment(postId!)
             setCommentList(comments)
             isSuccess = true
         } catch (error: any) {
-            console.log(error)
             if (error.response.status === 401) {
                 await reissueAccToken()
                 !isSuccess && onClickLikeBtn(commentId)

@@ -37,7 +37,6 @@ export default function DelBtn({ postId, commentId, setCommentList, isPostCommen
                 },
             })
 
-            console.log(response)
 
             //성공하면
             if (isPostComment) {
@@ -50,7 +49,6 @@ export default function DelBtn({ postId, commentId, setCommentList, isPostCommen
 
             isSuccess = true
         } catch (error: any) {
-            console.log(error)
             if (error.response.status === 401) {
                 await reissueAccToken()
                 !isSuccess && onClickDelBtn(commentId)

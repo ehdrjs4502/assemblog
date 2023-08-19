@@ -1,3 +1,4 @@
+import Image from 'next/image'
 interface Props {
     bgImgURL: string
 }
@@ -5,27 +6,29 @@ interface Props {
 export default function BackgroundImg({ bgImgURL }: Props) {
     return (
         <>
-            <div
-                className="background-image"
-                style={{
-                    backgroundImage: `url(${bgImgURL})`,
-                }}
-            />
+            <div className="background-image">
+                <Image src={bgImgURL} alt="bgImg" layout="fill" objectFit={'cover'} priority={true} />
+            </div>
             <style jsx>{`
-                .background-image::before {
+                .background-image {
                     content: '';
                     position: absolute;
+                    width: 100%;
+                    height: 100%;
                     top: 0;
                     left: 0;
+                    filter: brightness(30%);
+                    background-color: rgb(255, 255, 255);
+                    z-index: -1;
+                }
+
+                .background-image img {
                     width: 100%;
                     height: 100%;
                     background-image: inherit;
                     background-repeat: no-repeat;
                     background-size: cover;
                     background-position: center;
-                    filter: brightness(30%);
-                    background-color: rgb(255, 255, 255);
-                    z-index: -1; /* 가상 요소를 내용 뒤에 배치하도록 z-index를 설정합니다 */
                 }
             `}</style>
         </>

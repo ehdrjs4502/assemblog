@@ -22,7 +22,6 @@ interface Props {
 
 export default function CommentList({ commentList, postId, setCommentList, isWriter, isPostComment }: Props) {
 
-    console.log(commentList)
     // 부모id가 0인 댓글들 즉 답글이 아닌 것들만 가져오기
     const singleCommentList = commentList?.filter((comment) => comment.parentCommentId === 0)
     return (

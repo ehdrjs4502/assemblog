@@ -50,8 +50,6 @@ export default function AddBoardModal({ categoyID, categoryTitle, setCategoryLis
                 }
             )
 
-            console.log(response)
-
             if (response.data === 'Duplicate category title') {
                 alert('이미 추가된 게시판입니다.')
             } else {
@@ -61,7 +59,6 @@ export default function AddBoardModal({ categoyID, categoryTitle, setCategoryLis
             }
             isSuccess = true
         } catch (error: any) {
-            console.log(error)
             if (error.response.status === 401) {
                 await reissueAccToken()
                 !isSuccess && onClickAddBtn()

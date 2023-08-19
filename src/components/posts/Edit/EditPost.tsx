@@ -28,7 +28,6 @@ export default function EditPost() {
     const router = useRouter()
 
     useEffect(() => {
-        console.log(router.query)
         if (router.query.postId !== undefined) {
             setCategory(router.query.cateogry as string)
             setTitle(router.query.title as string)
@@ -125,8 +124,6 @@ export default function EditPost() {
                     headers,
                 })
 
-                console.log(response)
-
                 if (response.status === 200) {
                     alert('글 작성 완료')
                     router.push('/')
@@ -135,12 +132,9 @@ export default function EditPost() {
                 }
             } else {
                 postData['id'] = router.query.postId
-                console.log(postData)
                 const response = await axios.patch('/server/api/posts', postData, {
                     headers,
                 })
-
-                console.log(response)
 
                 if (response.status === 200) {
                     alert('글 수정 완료')

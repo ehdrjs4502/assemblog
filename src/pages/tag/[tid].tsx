@@ -82,6 +82,7 @@ export default function TagPostList() {
         <>
             <HeadTitle title={title + ' 태그 목록'} />
             <Navigation contentRef={contentRef} />
+            <PostListHeader />
             <div ref={contentRef}>
                 <OrderSelect order={order} setOrder={setOrder} router={router} />
                 <ContentView postList={postList} contentTitle={title} contentLabel={tagLabel} />

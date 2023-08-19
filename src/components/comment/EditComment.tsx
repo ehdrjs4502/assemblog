@@ -117,7 +117,6 @@ export default function EditComment({ postId, setCommentList, isWriter, isPostCo
             setContent('')
             isSuccess = true
         } catch (error: any) {
-            console.log(error)
             if (error.response.status === 401) {
                 await reissueAccToken()
                 !isSuccess && onClickEditBtn()

@@ -17,9 +17,7 @@ export default function DelBtn({ itemID, setCategoryList, isCategory }: Props) {
 
     //카테고리, 게시판 삭제하는 함수
     const onClickDelBtn = async () => {
-        console.log(itemID)
         const endpoint = isCategory ? 'categories' : 'boards';
-        console.log(endpoint)
         let isSuccess = false
         try {
             const response = await axios.delete(`/server/api/${endpoint}/${itemID}`, {

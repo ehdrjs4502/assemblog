@@ -25,7 +25,6 @@ export default function ActiveList({ list, setCategoryList, isCategory }: Props)
     // 바뀐 리스트 설정
     const changeList = async () => {
         const endpoint = isCategory ? 'categories' : 'boards'
-        console.log(activeList)
         let isSuccess = false
         try {
             const response = await axios.patch(`/server/api/${endpoint}`, activeList, {
@@ -34,13 +33,10 @@ export default function ActiveList({ list, setCategoryList, isCategory }: Props)
                 },
             })
 
-            console.log(response)
             const list = await getCategoryList() // 카테고리 가져오는 함수
-            console.log(list)
             setCategoryList(list)
             isSuccess = true
         } catch (error: any) {
-            console.log(error)
             if (error.response.status === 401) {
                 await reissueAccToken()
                 !isSuccess && changeList()

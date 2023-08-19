@@ -8,7 +8,6 @@ export const getGuestBook = async () => {
                 'ngrok-skip-browser-warning': '1234',
             },
         })
-        console.log(response)
         return response.data // 방명록 리스트를 리턴
     } catch (error) {
         console.log(error)

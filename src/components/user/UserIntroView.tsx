@@ -6,8 +6,6 @@ import Name from './view/Name'
 import ProfileImage from './view/ProfileImage'
 
 export default function UserIntroView({ userIntroList }: any) {
-    console.log(userIntroList)
-
     return (
         <>
             <div className="header">

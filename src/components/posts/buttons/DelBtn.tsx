@@ -21,8 +21,6 @@ export default function DelBtn({ id }: Props) {
                 },
             })
 
-            console.log(response)
-
             if (response.status === 200) {
                 alert('글 삭제 완료')
                 router.push('/')

@@ -1,9 +1,11 @@
+import Image from 'next/image'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import { Avatar, Button, CardActionArea, CardActions, CardHeader, Chip } from '@mui/material'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 
 interface Props {
     post: {
@@ -25,17 +27,13 @@ interface Props {
 
 export default function PostCard({ post }: Props) {
     const router = useRouter()
-    const date = new Date(post.createdAt)
+    const date = new Date(post.createdAt) // 게시글 생성 날짜
+    const [thumbnailURL, setThumbnailURL] = useState(post.thumbnail) // 썸네일 이미지 경로
     const defaultImg = '/img/bgimg.jpg' // 기본 이미지 경로
     const formattedDate = `${date.getFullYear()}. ${
         // yyyy. MM. dd. hh:mm 으로 데이터 포맷하기
         date.getMonth() + 1
     }. ${date.getDate()}`
-
-    // 이미지 경로 없으면 기본 이미지로 변경
-    const addDefaultImg = (e: any) => {
-        e.currentTarget.src = defaultImg
-    }
 
     const onClickCategory = (category: string, board: string) => {
         // 해당 카테고리 포스트 보러가기
@@ -71,13 +69,19 @@ export default function PostCard({ post }: Props) {
         <>
             <Card sx={cardStyle}>
                 <CardActionArea onClick={() => onClickPost(post.postId)}>
-                    <CardMedia
-                        component="img"
-                        height="160"
-                        image={post.thumbnail}
-                        alt="썸네일 이미지"
-                        onError={addDefaultImg}
-                    />
+                    <CardMedia sx={{ height: '160px' }}>
+                        <div>
+                            <Image
+                                src={thumbnailURL}
+                                alt="thumbnail"
+                                layout="fill"
+                                objectFit="cover"
+                                onError={() => {
+                                    setThumbnailURL(defaultImg)
+                                }}
+                            />
+                        </div>
+                    </CardMedia>
                 </CardActionArea>
                 <CardActions sx={{ marginTop: 1 }}>
                     <Button
@@ -105,7 +109,19 @@ export default function PostCard({ post }: Props) {
                         <Typography gutterBottom variant="h5" component="div">
                             {post.title}
                         </Typography>
-                        <Typography variant="body2">{post.preview}</Typography>
+                        <Typography
+                            sx={{
+                                // 내용 2줄이상일 때 자르기
+                                textOverflow: 'ellipsis', // ... 추가
+                                overflow: 'hidden',
+                                wordBreak: 'break-word',
+                                display: '-webkit-box',
+                                WebkitLineClamp: 2, // 라인 수
+                                WebkitBoxOrient: 'vertical',
+                            }}
+                            variant="body2">
+                            {post.preview}
+                        </Typography>
                     </CardContent>
                 </CardActionArea>
                 <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between', marginBottom: '15px' }}>

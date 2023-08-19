@@ -52,7 +52,6 @@ export default function DelCommentModal({ id, postId, setCommentList, isPostComm
                     Authorization: `Bearer undefined`
                 },
             })
-            console.log(response)
 
             //성공하면
             if (isPostComment) {
@@ -65,7 +64,6 @@ export default function DelCommentModal({ id, postId, setCommentList, isPostComm
 
             isSuccess = true
         } catch (error: any) {
-            console.log(error)
             if (error.response.status === 401) {
                 await reissueAccToken()
                 !isSuccess && onClickDelBtn()

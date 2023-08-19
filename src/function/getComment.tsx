@@ -8,7 +8,6 @@ export const getComment = async (postId: number) => {
                 'ngrok-skip-browser-warning': '1234',
             },
         })
-        console.log(response)
         return response.data // 카테고리 리스트를 리턴
     } catch (error) {
         console.log(error)

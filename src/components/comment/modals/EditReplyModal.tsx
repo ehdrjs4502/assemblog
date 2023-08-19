@@ -111,7 +111,6 @@ export default function EditReplyModal({ postId, parentId, setCommentList, isPos
             data.postId = postId // 만약 게시글 댓글이면 postId 추가
         }
 
-        console.log('data : ', data)
         try {
             const response = await axios.post(`/server/${endpoint}`, data, {
                 headers: {
@@ -119,8 +118,6 @@ export default function EditReplyModal({ postId, parentId, setCommentList, isPos
                     Authorization: `Bearer ${cookie.get('accessToken')}`,
                 },
             })
-
-            console.log('response : ', response)
 
             if (isPostComment) {
                 alert('댓글 작성 완료')

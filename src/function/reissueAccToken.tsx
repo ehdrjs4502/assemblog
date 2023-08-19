@@ -10,8 +10,6 @@ const reissueAccToken = async () => {
         },
     })
 
-    console.log('토큰 재발급 : ', response)
-
     cookie.set('accessToken', response.data.access_token, {
         path: '/',
         secure: true,

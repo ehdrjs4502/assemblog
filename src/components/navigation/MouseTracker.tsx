@@ -42,7 +42,6 @@ export default function MouseTracker() {
         }
         window.addEventListener('resize', resizeListener)
 
-        console.log('innerWidth', innerWidth)
     }, [innerWidth])
 
     // 눈눈이 소환하는 함수

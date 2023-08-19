@@ -57,7 +57,6 @@ export default function SettingCategoryModal({ itemID, itemTitle, itemOrderNum, 
     const onClickModifyBtn = async () => {
         let isSuccess = false
         const endpoint = isCategory ? 'categories' : 'boards'
-        console.log(isChecked, title, itemID, endpoint)
         try {
             const response = await axios.patch(
                 `/server/api/${endpoint}`,
@@ -75,14 +74,12 @@ export default function SettingCategoryModal({ itemID, itemTitle, itemOrderNum, 
                     },
                 }
             )
-            console.log(response)
 
             const list = await getCategoryList() // 카테고리 가져오는 함수
             setCategoryList(list)
             handleClose()
             isSuccess = true
         } catch (error: any) {
-            console.log(error)
             if (error.response.status === 401) {
                 await reissueAccToken()
                 !isSuccess && onClickModifyBtn()
@@ -126,7 +123,6 @@ export default function SettingCategoryModal({ itemID, itemTitle, itemOrderNum, 
                             <Checkbox
                                 onChange={(e) => {
                                     setIsChecked(!e.target.checked)
-                                    console.log(isChecked)
                                 }}
                             />
                         }
