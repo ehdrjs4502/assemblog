@@ -1,6 +1,5 @@
 import { IconButton, Tooltip } from '@mui/material'
 import { Clear } from '@mui/icons-material'
-import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Cookies } from 'react-cookie'
 import { getCategoryList } from '@/function/getCategory'
