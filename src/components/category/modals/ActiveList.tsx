@@ -3,7 +3,7 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import DelBtn from './buttons/DelBtn'
 import SettingModal from './ModifyModal'
 import { List, ListItem, ListItemText, Tooltip } from '@mui/material'
-import axios from 'axios'
+// import axios from 'axios'
 import reissueAccToken from '@/function/reissueAccToken'
 import { Cookies } from 'react-cookie'
 import { getCategoryList } from '@/function/getCategory'
@@ -23,26 +23,26 @@ export default function ActiveList({ list, setCategoryList, isCategory }: Props)
     }, [list])
 
     // 바뀐 리스트 설정
-    const changeList = async () => {
-        const endpoint = isCategory ? 'categories' : 'boards'
-        let isSuccess = false
-        try {
-            const response = await axios.patch(`/server/api/${endpoint}`, activeList, {
-                headers: {
-                    Authorization: `Bearer ${cookie.get('accessToken')}`,
-                },
-            })
+    // const changeList = async () => {
+    //     const endpoint = isCategory ? 'categories' : 'boards'
+    //     let isSuccess = false
+    //     try {
+    //         const response = await axios.patch(`/server/api/${endpoint}`, activeList, {
+    //             headers: {
+    //                 Authorization: `Bearer ${cookie.get('accessToken')}`,
+    //             },
+    //         })
 
-            const list = await getCategoryList() // 카테고리 가져오는 함수
-            setCategoryList(list)
-            isSuccess = true
-        } catch (error: any) {
-            if (error.response.status === 401) {
-                await reissueAccToken()
-                !isSuccess && changeList()
-            }
-        }
-    }
+    //         const list = await getCategoryList() // 카테고리 가져오는 함수
+    //         setCategoryList(list)
+    //         isSuccess = true
+    //     } catch (error: any) {
+    //         if (error.response.status === 401) {
+    //             await reissueAccToken()
+    //             !isSuccess && changeList()
+    //         }
+    //     }
+    // }
 
     //드래그로 리스트 바꿨을 때
     const handleChange = (result: any) => {
@@ -54,7 +54,7 @@ export default function ActiveList({ list, setCategoryList, isCategory }: Props)
             items[i].orderNum = i + 1
         }
         setActiveList(items)
-        changeList()
+        // changeList()
     }
 
     return (
