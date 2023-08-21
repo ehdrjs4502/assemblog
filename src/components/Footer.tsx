@@ -1,4 +1,5 @@
 import { Tooltip } from '@mui/material'
+import Image from 'next/image'
 import Link from 'next/link'
 
 export default function Footer() {
@@ -16,17 +17,17 @@ export default function Footer() {
                         <div className="img-box">
                             <Tooltip title="Next.js" placement="top" arrow>
                                 <Link href="https://nextjs.org/" target="_blank" style={linkStlye}>
-                                    <img src="/img/next.png" width="60px"></img>
+                                    <Image src="/img/next.png" alt="next.js" width="60" height="60"></Image>
                                 </Link>
                             </Tooltip>
                             <Tooltip title="React.js" placement="top" arrow>
                                 <Link href="https://ko.legacy.reactjs.org/" target="_blank" style={linkStlye}>
-                                    <img src="/img/react.png" width="60px"></img>
+                                    <Image src="/img/react.png" alt="react.js" width="65" height="60"></Image>
                                 </Link>
                             </Tooltip>
                             <Tooltip title="TypeScript" placement="top" arrow>
                                 <Link href="https://www.typescriptlang.org/" target="_blank" style={linkStlye}>
-                                    <img src="/img/ts.png" width="60px"></img>
+                                    <Image src="/img/ts.png" alt="TypeScript" width="60" height="60"></Image>
                                 </Link>
                             </Tooltip>
                         </div>
@@ -36,12 +37,12 @@ export default function Footer() {
                         <div className="img-box">
                             <Tooltip title="Spring Boot" placement="top" arrow>
                                 <Link href="https://spring.io/projects/spring-boot" target="_blank" style={linkStlye}>
-                                    <img src="/img/spring2.png" width="60px"></img>
+                                    <Image src="/img/spring2.png" alt="TypeScript" width="60" height="60"></Image>
                                 </Link>
                             </Tooltip>
                             <Tooltip title="MySQL" placement="top" arrow>
                                 <Link href="https://www.mysql.com/" target="_blank" style={linkStlye}>
-                                    <img src="/img/mysql.png" width="80px"></img>
+                                    <Image src="/img/mysql.png" alt="TypeScript" width="65" height="60"></Image>
                                 </Link>
                             </Tooltip>
                         </div>
