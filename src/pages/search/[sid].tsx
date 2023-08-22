@@ -50,7 +50,6 @@ export default function SearchList() {
                 },
             }
         )
-        console.log(response)
         setPostList(response.data.postList)
         setTotalPage(response.data.totalPage)
     }

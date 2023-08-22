@@ -50,7 +50,7 @@ export default function Category() {
                 },
             }
         )
-        console.log(response.data)
+
         setPostList(response.data.postList)
         setTotalPage(response.data.totalPage)
     }

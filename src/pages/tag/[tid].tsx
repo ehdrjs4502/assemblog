@@ -56,11 +56,6 @@ export default function TagPostList() {
         setTotalPage(response.data.totalPage)
     }
 
-    // useEffect(() => {
-    //     // 페이지 처음 마운팅 될 때 포스트 목록 가져오기
-    //     getPostList()
-    // }, [])
-
     useEffect(() => {
         // URL에 직접 페이지 접근할 때 정상적으로 작동하기 위함
         if (router.query.page) {

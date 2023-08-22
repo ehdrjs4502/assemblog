@@ -46,7 +46,7 @@ export default function AllCategory() {
                 'ngrok-skip-browser-warning': '123456',
             },
         })
-        console.log(response.data)
+
         setPostList(response.data.postList)
         setTotalPage(response.data.totalPage)
     }
@@ -65,7 +65,6 @@ export default function AllCategory() {
         }
     }, [router.isReady, router, order])
 
-    console.log(postList)
     return (
         <div>
             <HeadTitle title={title} />
