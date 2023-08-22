@@ -46,6 +46,6 @@ export async function getStaticProps() {
 
     return {
         props: { tagList },
-        revalidate: 120,
+        revalidate: 10,
     }
 }
