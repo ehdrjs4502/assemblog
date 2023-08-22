@@ -142,7 +142,7 @@ export default function PostCard({ post }: Props) {
                                 },
                             },
                         }}
-                        subheader={<div style={{ color: 'white', fontSize: '12px' }}>{post.createdAt.toString()}</div>}
+                        subheader={<div style={{ color: 'white', fontSize: '12px' }}>{formattedDate}</div>}
                     />
                     <div style={{ display: 'flex', alignItems: 'flex-end' }}>
                         <Typography
