@@ -6,43 +6,6 @@ import { useRef } from 'react'
 import axios from 'axios'
 import ShowMoreBtn from '@/components/ShowMoreBtn'
 
-// 게시글 목록 ssg 방식으로 가져오기
-export async function getStaticProps() {
-    const API_URL = process.env.API
-
-    // //최신 게시글 목록 가져오기 (최대 6개 가져옴)
-    const latestPostRes: any = await axios.get(`${API_URL}lists/posts?pageSize=6`, {
-        headers: {
-            'ngrok-skip-browser-warning': '1234',
-        },
-    })
-
-    //인기 게시글 목록 가져오기 (최대 3개 가져옴)
-    const popularPostRes: any = await axios.get(`${API_URL}lists/posts?order=view&pageSize=3`, {
-        headers: {
-            'ngrok-skip-browser-warning': '1234',
-        },
-    })
-
-    //유저 소개 정보 가져오기
-    const userIntroRes: any = await axios.get(`${API_URL}lists/user-introductions`, {
-        headers: {
-            'ngrok-skip-browser-warning': '1234',
-        },
-    })
-
-    const latestPostList = latestPostRes.data.postList || null
-    const popularPostList = popularPostRes.data.postList || null
-    const userIntroList = userIntroRes.data || null
-
-    console.log('ssg 실행')
-
-    return {
-        props: { latestPostList, popularPostList, userIntroList },
-        revalidate: 10,
-    }
-}
-
 type post = {
     postId: number
     title: string
@@ -102,4 +65,41 @@ export default function Home({ latestPostList, popularPostList, userIntroList }:
             </div>
         </div>
     )
+}
+
+// 게시글 목록 ssg 방식으로 가져오기
+export async function getStaticProps() {
+    const API_URL = process.env.API
+
+    // //최신 게시글 목록 가져오기 (최대 6개 가져옴)
+    const latestPostRes: any = await axios.get(`${API_URL}lists/posts?pageSize=6`, {
+        headers: {
+            'ngrok-skip-browser-warning': '1234',
+        },
+    })
+
+    //인기 게시글 목록 가져오기 (최대 3개 가져옴)
+    const popularPostRes: any = await axios.get(`${API_URL}lists/posts?order=view&pageSize=3`, {
+        headers: {
+            'ngrok-skip-browser-warning': '1234',
+        },
+    })
+
+    //유저 소개 정보 가져오기
+    const userIntroRes: any = await axios.get(`${API_URL}lists/user-introductions`, {
+        headers: {
+            'ngrok-skip-browser-warning': '1234',
+        },
+    })
+
+    const latestPostList = latestPostRes.data.postList || null
+    const popularPostList = popularPostRes.data.postList || null
+    const userIntroList = userIntroRes.data || null
+
+    console.log('ssg 실행')
+
+    return {
+        props: { latestPostList, popularPostList, userIntroList },
+        revalidate: 10,
+    }
 }
