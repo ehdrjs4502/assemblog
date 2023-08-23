@@ -97,5 +97,8 @@ export async function getStaticProps() {
     return {
         props: { latestPostList, popularPostList, userIntroList },
         revalidate: 120,
+        headers: {
+            'Cache-Control': 'public, max-age=120, stale-while-revalidate',
+        },
     }
 }
