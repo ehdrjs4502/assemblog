@@ -20,5 +20,6 @@ const nextConfig = {
 
 module.exports = removeImports({
   ...nextConfig,
+  assetPrefix: '.',
 });
 

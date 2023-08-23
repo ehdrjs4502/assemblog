@@ -71,7 +71,7 @@ export default function Home({ latestPostList, popularPostList, userIntroList }:
 export async function getStaticProps() {
     const API_URL = process.env.API
 
-    console.log('API_URL : ',API_URL)
+    console.log('API_URL : ', API_URL)
 
     // //최신 게시글 목록 가져오기 (최대 6개 가져옴)
     const latestPostRes: any = await axios.get(`${API_URL}lists/posts?pageSize=6`)
@@ -93,7 +93,6 @@ export async function getStaticProps() {
     const latestPostList = latestPostRes.data.postList || null
     const popularPostList = popularPostRes.data.postList || null
     const userIntroList = userIntroRes.data || null
-
 
     return {
         props: { latestPostList, popularPostList, userIntroList },
