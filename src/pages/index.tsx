@@ -96,6 +96,6 @@ export async function getStaticProps() {
 
     return {
         props: { latestPostList, popularPostList, userIntroList },
-        revalidate: 1,
+        revalidate: 20,
     }
 }
