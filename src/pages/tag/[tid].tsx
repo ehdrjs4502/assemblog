@@ -38,7 +38,6 @@ export default function TagPostList() {
     const getPostList = async () => {
         //태그에 해당하는 게시글 페이징에 맞게 불러오기
         const title = router.query.tid
-        console.log('title : ', title)
         let page = 1
         if (router.query.page !== undefined) {
             page = parseInt(router.query.page! as string)
@@ -51,7 +50,6 @@ export default function TagPostList() {
                 },
             }
         )
-        console.log(response.data)
         setPostList(response.data.postList)
         setTotalPage(response.data.totalPage)
     }

@@ -17,7 +17,7 @@ interface Props {
 export default function Tag({ tagList }: Props) {
     const title = '태그 목록'
     const contentRef = useRef(null)
-    console.log('tagList:', tagList)
+
     return (
         <div>
             <HeadTitle title={title} />
