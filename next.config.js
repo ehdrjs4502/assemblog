@@ -20,5 +20,8 @@ const nextConfig = {
 
 module.exports = removeImports({
   ...nextConfig,
+  env : {
+    API: process.env.API
+  }
 });
 
