@@ -76,8 +76,6 @@ export async function getStaticProps() {
     // //최신 게시글 목록 가져오기 (최대 6개 가져옴)
     const latestPostRes: any = await axios.get(`${API_URL}lists/posts?pageSize=6`)
 
-    console.log('데이터 바뀜', latestPostRes)
-
     //인기 게시글 목록 가져오기 (최대 3개 가져옴)
     const popularPostRes: any = await axios.get(`${API_URL}lists/posts?order=view&pageSize=3`)
 
