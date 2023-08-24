@@ -45,7 +45,7 @@ interface Props {
     userIntroList: userIntro[]
 }
 
-export default function Home({ latestPostList, popularPostList, userIntroList }: Props) {
+export default function Home({ latestPostList, userIntroList }: Props) {
     const title = 'Main'
     const contentRef = useRef(null)
     const latestTitle = '최신 글'
@@ -62,7 +62,7 @@ export default function Home({ latestPostList, popularPostList, userIntroList }:
             <UserIntroView userIntroList={userIntroList} />
             <div ref={contentRef}>
                 <ContentView postList={latestPostList} contentTitle={latestTitle} contentLabel={latestLabel} />
-                <ContentView postList={popularPostList} contentTitle={popularTitle} contentLabel={popularLabel} />
+                {/* <ContentView postList={popularPostList} contentTitle={popularTitle} contentLabel={popularLabel} /> */}
                 {latestPostList?.length > 0 && <ShowMoreBtn />}
             </div>
         </div>
@@ -77,17 +77,17 @@ export async function getStaticProps() {
     const latestPostRes: any = await axios.get(`${API_URL}lists/posts?pageSize=6`)
 
     //인기 게시글 목록 가져오기 (최대 3개 가져옴)
-    const popularPostRes: any = await axios.get(`${API_URL}lists/posts?order=view&pageSize=3`)
+    // const popularPostRes: any = await axios.get(`${API_URL}lists/posts?order=view&pageSize=3`)
 
     //유저 소개 정보 가져오기
     const userIntroRes: any = await axios.get(`${API_URL}lists/user-introductions`)
 
     const latestPostList = latestPostRes.data.postList || null
-    const popularPostList = popularPostRes.data.postList || null
+    // const popularPostList = popularPostRes.data.postList || null
     const userIntroList = userIntroRes.data || null
 
     return {
-        props: { latestPostList, popularPostList, userIntroList },
+        props: { latestPostList, userIntroList },
         revalidate: 10,
     }
 }
