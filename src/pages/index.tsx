@@ -52,6 +52,8 @@ export default function Home({ latestPostList, popularPostList, userIntroList }:
     const latestLabel = '최근에 올라온 게시글들을 확인해보세요!'
     const popularTitle = '인기 글'
     const popularLabel = '가장 인기 있는 게시글들을 확인해보세요!'
+    
+    console.log('최신글 목록 : ',latestPostList)
 
     return (
         <div>
