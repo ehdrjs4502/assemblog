@@ -52,8 +52,8 @@ export default function Home({ latestPostList, popularPostList, userIntroList }:
     const latestLabel = '최근에 올라온 게시글들을 확인해보세요!'
     const popularTitle = '인기 글'
     const popularLabel = '가장 인기 있는 게시글들을 확인해보세요!'
-    
-    console.log('최신글 목록 : ',latestPostList)
+
+    console.log('최신글 목록 : ', latestPostList)
 
     return (
         <div>
@@ -69,14 +69,39 @@ export default function Home({ latestPostList, popularPostList, userIntroList }:
     )
 }
 
-// 게시글 목록 ssg 방식으로 가져오기
-export async function getStaticProps() {
-    const API_URL = process.env.API
+// ssg 방식
+// export async function getStaticProps() {
+//     const API_URL = process.env.API
 
-    console.log('API_URL : ', API_URL)
+//     // //최신 게시글 목록 가져오기 (최대 6개 가져옴)
+//     const latestPostRes: any = await axios.get(`${API_URL}lists/posts?pageSize=6`)
+
+//     console.log('데이터 바뀜', latestPostRes)
+
+//     //인기 게시글 목록 가져오기 (최대 3개 가져옴)
+//     const popularPostRes: any = await axios.get(`${API_URL}lists/posts?order=view&pageSize=3`)
+
+//     //유저 소개 정보 가져오기
+//     const userIntroRes: any = await axios.get(`${API_URL}lists/user-introductions`)
+
+//     const latestPostList = latestPostRes.data.postList || null
+//     const popularPostList = popularPostRes.data.postList || null
+//     const userIntroList = userIntroRes.data || null
+
+//     return {
+//         props: { latestPostList, popularPostList, userIntroList },
+//         revalidate: 10,
+//     }
+// }
+
+// ssr 방식
+export const getServerSideProps = async () => {
+    const API_URL = process.env.API
 
     // //최신 게시글 목록 가져오기 (최대 6개 가져옴)
     const latestPostRes: any = await axios.get(`${API_URL}lists/posts?pageSize=6`)
+
+    console.log('데이터 바뀜', latestPostRes)
 
     //인기 게시글 목록 가져오기 (최대 3개 가져옴)
     const popularPostRes: any = await axios.get(`${API_URL}lists/posts?order=view&pageSize=3`)
@@ -89,7 +114,6 @@ export async function getStaticProps() {
     const userIntroList = userIntroRes.data || null
 
     return {
-        props: { latestPostList, popularPostList, userIntroList },
-        revalidate: 10,
+        props: { latestPostList, popularPostList, userIntroList }
     }
 }
