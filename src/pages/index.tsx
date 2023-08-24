@@ -77,18 +77,10 @@ export async function getStaticProps() {
     const latestPostRes: any = await axios.get(`${API_URL}lists/posts?pageSize=6`)
 
     //인기 게시글 목록 가져오기 (최대 3개 가져옴)
-    const popularPostRes: any = await axios.get(`${API_URL}lists/posts?order=view&pageSize=3`, {
-        headers: {
-            'ngrok-skip-browser-warning': '1234',
-        },
-    })
+    const popularPostRes: any = await axios.get(`${API_URL}lists/posts?order=view&pageSize=3`)
 
     //유저 소개 정보 가져오기
-    const userIntroRes: any = await axios.get(`${API_URL}lists/user-introductions`, {
-        headers: {
-            'ngrok-skip-browser-warning': '1234',
-        },
-    })
+    const userIntroRes: any = await axios.get(`${API_URL}lists/user-introductions`)
 
     const latestPostList = latestPostRes.data.postList || null
     const popularPostList = popularPostRes.data.postList || null
@@ -96,6 +88,6 @@ export async function getStaticProps() {
 
     return {
         props: { latestPostList, popularPostList, userIntroList },
-        revalidate: 15,
+        revalidate: 10,
     }
 }
