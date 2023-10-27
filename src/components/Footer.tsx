@@ -20,11 +20,6 @@ export default function Footer() {
                                     <Image src="/img/next.png" alt="next.js" width="60" height="60"></Image>
                                 </Link>
                             </Tooltip>
-                            <Tooltip title="React.js" placement="top" arrow>
-                                <Link href="https://ko.legacy.reactjs.org/" target="_blank" style={linkStlye}>
-                                    <Image src="/img/react.png" alt="react.js" width="65" height="60"></Image>
-                                </Link>
-                            </Tooltip>
                             <Tooltip title="TypeScript" placement="top" arrow>
                                 <Link href="https://www.typescriptlang.org/" target="_blank" style={linkStlye}>
                                     <Image src="/img/ts.png" alt="TypeScript" width="60" height="60"></Image>
