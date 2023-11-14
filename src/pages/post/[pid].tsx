@@ -69,12 +69,12 @@ export default function Post({ post }: Props) {
             <div className="box" ref={contentRef}>
                 <div className="content-box">
                     {/* 글 작성자와 로그인한 사용자가 일치하면 글 수정,삭제 버튼 보이도록 함  */}
-                    {mounted && isWriter ? (
+                    {mounted && isWriter && (
                         <div className="btn-box">
                             <ModifyBtn post={post} />
                             <DelBtn id={post.postId} />
                         </div>
-                    ) : null}
+                    )}
                     <PostView content={post.content} />
                     <TagView tagList={post.tagList} />
                     <PrevNextPostView title={post.boardTitle} postId={post.postId} />
@@ -99,7 +99,7 @@ export default function Post({ post }: Props) {
                         margin-top: 30px;
                         width: 60%;
                     }
-                    
+
                     .btn-box {
                         display: flex;
                         justify-content: flex-end;
